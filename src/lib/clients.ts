@@ -14,6 +14,7 @@ const getPostsAtCursor = async (cursor = "") => {
     gql`
       query allPosts {
         publication(host: "${myHashnodeURL}") {
+          id
           title
           posts(first: 10, after: "${cursor}") {
             pageInfo{
@@ -22,6 +23,7 @@ const getPostsAtCursor = async (cursor = "") => {
             }
             edges {
               node {
+                id
                 author{
                   name
                   profilePicture
@@ -92,6 +94,7 @@ export const getPreviewPosts = async (cursor = "") => {
     gql`
       query allPosts {
         publication(host: "${myHashnodeURL}") {
+          id
           title
           posts(first: 3) {
             pageInfo{
@@ -100,6 +103,7 @@ export const getPreviewPosts = async (cursor = "") => {
             }
             edges {
               node {
+                id
                 author{
                   name
                   profilePicture
@@ -151,7 +155,9 @@ export const getPost = async (slug: string) => {
     gql`
       query postDetails($slug: String!) {
         publication(host: "${myHashnodeURL}") {
+          id
           post(slug: $slug) {
+            id
             author{
               name
               profilePicture
