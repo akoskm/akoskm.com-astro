@@ -8,10 +8,12 @@ import Card from "@components/Card";
 import { GumroadSubscribe } from "@components/GumroadSubscribe";
 import Socials from "@components/Socials.astro";
 import { SITE, SOCIALS } from "@config";
-import {getPreviewPosts} from "lib/clients";
+import { getPreviewPosts } from "lib/clients";
 
 const data = await getPreviewPosts();
-const recentPosts = data.publication.posts.edges.slice(0, SITE.postPerIndex).map(({ node }) => node);
+const recentPosts = data.publication.posts.edges
+  .slice(0, SITE.postPerIndex)
+  .map(({ node }) => node);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
 ---
@@ -40,15 +42,18 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
       <p>
         Hi, I'm Ákos. I'm a <span class="font-black text-orange-600"
-        >software developer</span
-      > with a passion for building <span class="font-black text-orange-600"
-        >web applications</span
-      > and <span class="font-black text-orange-600">teaching</span>.
+          >software developer</span
+        > with a passion for building <span class="font-black text-orange-600"
+          >web applications</span
+        > and <span class="font-black text-orange-600">teaching</span>.
       </p>
       <p>
-        I've been coding since 2005 and working professionally since 2012. In the last four years, I've created hundreds of articles <span class="font-black text-orange-600">helping software developers</span> improve their skills.
-        </p>
-        <p>
+        I've been coding since 2005 and working professionally since 2012. In
+        the last four years, I've created hundreds of articles <span
+          class="font-black text-orange-600">helping software developers</span
+        > improve their skills.
+      </p>
+      <p>
         You can access my technical articles on the
         <LinkButton
           className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
@@ -61,29 +66,32 @@ const socialCount = SOCIALS.filter(social => social.active).length;
           className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
           href="https://akoskm.substack.com"
         >
-        newsletter</LinkButton>.
+          newsletter</LinkButton
+        >.
       </p>
       <p>
         <div class="prose">
-        <p>I've also created a few books and courses:</p>
-        <ul>
-          <li>
-            <LinkButton
-            href="/custom-react-hooks">
-            Custom React Hooks Crash Course: Learn Hooks Through 6 Apps</LinkButton>
-            </li>
+          <p>I've also created a few books and courses:</p>
+          <ul>
             <li>
               <LinkButton
-              href="/gen-ai"
-              >OpenAI Crash Course in One Hour: Build Generative AI Apps</LinkButton>
+                href="https://www.udemy.com/course/custom-react-hooks-crash-course"
+              >
+                Custom React Hooks Crash Course: Learn Hooks Through 6 Apps</LinkButton
+              >
             </li>
             <li>
-              <LinkButton
-              href="/pwa-example"
-              >Building Cloud-Based PWAs with Supabase, React & TypeScript</LinkButton>
+              <LinkButton href="https://a.co/d/9jnHQGe"
+                >OpenAI Crash Course in One Hour: Build Generative AI Apps</LinkButton
+              >
             </li>
-        </ul>
-      </div>
+            <li>
+              <LinkButton href="https://a.co/d/f2XsiSG"
+                >Building Cloud-Based PWAs with Supabase, React & TypeScript</LinkButton
+              >
+            </li>
+          </ul>
+        </div>
       </p>
       {
         // only display if at least one social link is enabled
@@ -105,10 +113,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
           <h2>Recent Posts</h2>
           <ul>
             {recentPosts.map(
-              (post, index) =>
-                index < SITE.postPerIndex && (
-                  <Card post={post} />
-                )
+              (post, index) => index < SITE.postPerIndex && <Card post={post} />
             )}
           </ul>
         </section>
