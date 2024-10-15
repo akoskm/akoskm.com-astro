@@ -26,11 +26,14 @@ if (tags.includes("nextjs") || tags.includes("supabase")) {
     "Learn how to create custom React hooks to manage state, handle side effects, and make API calls. Gain a type-safe approach by incorporating custom React hooks in TypeScript to build scalable and maintainable front-end applications.";
   link = "https://www.udemy.com/course/custom-react-hooks-crash-course";
 }
-console.log("title", title, description, link);
 ---
 
-<div class="card prose mt-8 border border-orange-600 p-4">
-  <h2 text="2xl">{title}</h2>
-  <p>{description}</p>
-  <a href={link}>Learn More</a>
-</div>
+{
+  title && (
+    <div class="card prose mt-8 border border-orange-600 p-4">
+      <h2 text="2xl">{title}</h2>
+      <p>{description}</p>
+      <a href={link}>Learn More</a>
+    </div>
+  )
+}
