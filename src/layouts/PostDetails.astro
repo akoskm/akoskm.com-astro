@@ -4,10 +4,10 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
-import { slugifyStr } from "@utils/slugify";
 import ShareLinks from "@components/ShareLinks.astro";
+import ProductOffer from "@components/ProductOffer.astro";
 import { SITE } from "@config";
-import type {Post} from "lib/schema";
+import type { Post } from "lib/schema";
 
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -33,14 +33,12 @@ const {
   updatedAt,
   tags,
   content,
-  slug
+  slug,
 } = post;
 
 const ogImageUrl = ogImage?.url ?? `${SITE.website}posts/${slug}.png`;
 
-const ogUrl = new URL(
-  ogImageUrl
-).href;
+const ogUrl = new URL(ogImageUrl).href;
 
 const layoutProps = {
   title: `${title} | ${SITE.title}`,
@@ -79,8 +77,9 @@ const layoutProps = {
       className="my-2"
     />
     <article id="article" class="prose mx-auto mt-8 max-w-3xl">
-      <Fragment set:html={content.html}></Fragment>
+      <Fragment set:html={content.html} />
     </article>
+    <ProductOffer tags={tags} />
 
     <ul class="my-8">
       {tags.map(tag => <Tag tag={tag.slug} />)}
