@@ -6,7 +6,7 @@ import Main from "@layouts/Main.astro";
 import Tag from "@components/Tag.astro";
 import getUniqueTags from "@utils/getUniqueTags";
 import { SITE } from "@config";
-import {fetchAllPosts} from "lib/clients";
+import { fetchAllPosts } from "lib/clients";
 
 const posts = await fetchAllPosts();
 let tags = getUniqueTags(posts);
