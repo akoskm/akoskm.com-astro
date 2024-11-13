@@ -43,5 +43,6 @@ export default defineConfig({
   },
   redirects: {
     "/all-series": "/series",
+    "/tag/[...slug]": "/tags/[...slug]",
   },
 });
