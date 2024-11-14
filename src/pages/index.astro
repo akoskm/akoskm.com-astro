@@ -9,6 +9,7 @@ import { GumroadSubscribe } from "@components/GumroadSubscribe";
 import Socials from "@components/Socials.astro";
 import { SITE, SOCIALS } from "@config";
 import { getPreviewPosts } from "lib/clients";
+import { Testimonials } from "@components/Testimonial";
 
 const data = await getPreviewPosts();
 const recentPosts = data.publication.posts.edges
@@ -130,6 +131,14 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         </svg>
       </LinkButton>
     </div>
+
+    {
+      (
+        <section id="testimonials">
+          <Testimonials />
+        </section>
+      )
+    }
   </main>
 
   <Footer />
@@ -161,11 +170,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
   /* ===== Featured & Recent Posts Sections ===== */
   #featured,
-  #recent-posts {
+  #recent-posts,
+  #testimonials {
     @apply pb-6 pt-12;
   }
   #featured h2,
-  #recent-posts h2 {
+  #recent-posts h2,
+  #testimonials h2 {
     @apply text-2xl font-semibold tracking-wide;
   }
   .all-posts-btn-wrapper {
