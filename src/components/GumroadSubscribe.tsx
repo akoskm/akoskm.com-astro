@@ -6,20 +6,6 @@ export function GumroadSubscribe() {
           <span className="font-bold">Stay in the loop</span> with future
           updates, blog posts, promotions:
         </p>
-
-        <div className="mr-5 h-10 w-10 animate-bounce rounded-full bg-white p-2 shadow-lg ring-1 ring-slate-900/5 dark:bg-slate-800 dark:ring-slate-200/20">
-          <svg
-            className="h-6 w-6 text-orange-600"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-          </svg>
-        </div>
       </div>
       <form
         action="https://app.gumroad.com/follow_from_embed_form"
