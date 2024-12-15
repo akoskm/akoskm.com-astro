@@ -34,7 +34,9 @@ const {
   tags,
   content,
   slug,
+  features
 } = post;
+
 
 const ogImageUrl = ogImage?.url ?? `${SITE.website}posts/${slug}.png`;
 
@@ -76,6 +78,23 @@ const layoutProps = {
       size="lg"
       className="my-2"
     />
+    <nav id="table-of-contents" class="my-8">
+      <h2 class="text-xl font-semibold">Table of Contents</h2>
+      <ul>
+        {features.tableOfContents.items.map(heading => (
+          <li class={[
+            heading.level === 1 ? 'ml-2' : '',
+            heading.level === 2 ? 'ml-4' : '',
+            heading.level === 3 ? 'ml-6' : '',
+            heading.level === 4 ? 'ml-8' : '',
+          ].join(' ')}>
+            <a href={`#heading-${heading.slug}`} class="hover:underline">
+              {heading.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
     <article id="article" class="prose mx-auto mt-8 max-w-3xl">
       <Fragment set:html={content.html} />
     </article>

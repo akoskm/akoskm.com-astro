@@ -186,6 +186,17 @@ export const getPost = async (slug: string) => {
             seo {
               description
             }
+            features {
+              tableOfContents {
+                items {
+                  id
+                  level
+                  slug
+                  title
+                  parentId
+                }
+              }
+            }
           }
         }
       }

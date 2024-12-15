@@ -33,6 +33,18 @@ export const PostSchema = z.object({
   seo: z.object({
     description: z.string(),
   }),
+  features: z.object({
+    tableOfContents: z.object({
+      items: z.array(
+        z.object({
+          id: z.string(),
+          level: z.number(),
+          title: z.string(),
+          slug: z.string(),
+        })
+      ),
+    }),
+  }),
 });
 
 export const PageInfo = z.object({
