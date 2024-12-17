@@ -1,0 +1,25 @@
+---
+import ProjectsLayout from "@layouts/ProjectsLayout.astro";
+import products from '../data/products.ts';
+
+---
+
+<ProjectsLayout frontmatter={{title:'Books'}}>
+  <div class="flex flex-col divide-y divide-dotted">
+    {Object.values(products).map(({ title, description, links, image}) => (
+      <div class="grid grid-cols-2 gap-6 p-10">
+        <div class="flex justify-center items-center">
+          {image && <img style="height: 400px;" src={image} alt={title} class="h-full w-full object-contain" />}
+        </div>
+        <div class="prose">
+          <h1>{title}</h1>
+          <p>{description}</p>
+          <div class="flex gap-2">
+          {links.map(({ href, text }) => (
+            <a href={href}>{text}</a>
+          ))}
+          </div>
+        </div>
+      </div>
+    ))}
+</ProjectsLayout>
