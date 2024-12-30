@@ -6,17 +6,13 @@ import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
 import { GumroadSubscribe } from "@components/GumroadSubscribe";
-import Socials from "@components/Socials.astro";
-import { SITE, SOCIALS } from "@config";
+import { SITE } from "@config";
 import { getPreviewPosts } from "lib/clients";
-import { Testimonials } from "@components/Testimonial";
 
 const data = await getPreviewPosts();
 const recentPosts = data.publication.posts.edges
   .slice(0, SITE.postPerIndex)
   .map(({ node }) => node);
-
-const socialCount = SOCIALS.filter(social => social.active).length;
 ---
 
 <Layout>
@@ -69,47 +65,17 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         >
           newsletter</LinkButton
         >.
+        <p>
+          I've also created a few
+          <LinkButton
+            className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+            href="/books"
+          >
+          books and courses
+          </LinkButton>.
+        </p>
       </p>
-      <p>
-        <div class="prose">
-          <p>I've also created a few books and courses:</p>
-          <ul>
-            <li class="text-xl p-2 border">
-              <LinkButton
-                href="https://a.co/d/hfqjkL4"
-              >
-              <span class="font-black text-orange-600">New Release 👉 </span>React Testing Library Crash Course</LinkButton
-              >
-            </li>
-            <li>
-              <LinkButton
-                href="https://www.udemy.com/course/custom-react-hooks-crash-course"
-              >
-                Custom React Hooks Crash Course: Learn Hooks Through 6 Apps</LinkButton
-              >
-            </li>
-            <li>
-              <LinkButton href="https://a.co/d/9jnHQGe"
-                >OpenAI Crash Course in One Hour: Build Generative AI Apps</LinkButton
-              >
-            </li>
-            <li>
-              <LinkButton href="https://a.co/d/f2XsiSG"
-                >Building Cloud-Based PWAs with Supabase, React & TypeScript</LinkButton
-              >
-            </li>
-          </ul>
-        </div>
-      </p>
-      {
-        // only display if at least one social link is enabled
-        socialCount > 0 && (
-          <div class="social-wrapper">
-            <div class="social-links">Find my on social media:</div>
-            <Socials />
-          </div>
-        )
-      }
+
       <GumroadSubscribe />
     </section>
 
@@ -138,14 +104,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         </svg>
       </LinkButton>
     </div>
-
-    {
-      (
-        <section id="testimonials">
-          <Testimonials />
-        </section>
-      )
-    }
   </main>
 
   <Footer />

@@ -26,7 +26,7 @@ export function GumroadSubscribe() {
           type="submit"
           id="gumroad-follow-form-embed-button"
         >
-          Follow
+          Subscribe
         </button>
       </form>
     </div>
