@@ -17,7 +17,7 @@ export default function Card({
   return (
     <li className="my-6">
       <a
-        href={`/${slug}`}
+        href={`/${slug}/`}
         className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
         <h3 {...headerProps}>{title}</h3>
