@@ -22,6 +22,16 @@ breadcrumbList[0] === "tags" &&
       Number(breadcrumbList[2]) === 1 ? "" : "(page " + breadcrumbList[2] + ")"
     }`
   );
+
+breadcrumbList[0] === "series" &&
+  !isNaN(Number(breadcrumbList[2])) &&
+    breadcrumbList.splice(
+      1,
+      3,
+      `${breadcrumbList[1]} ${
+        Number(breadcrumbList[2]) === 1 ? "" : "(page " + breadcrumbList[2] + ")"
+      }`
+    );
 ---
 
 <nav class="breadcrumb" aria-label="breadcrumb">
