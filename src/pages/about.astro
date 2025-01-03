@@ -1,0 +1,45 @@
+---
+import ProjectsLayout from "@layouts/ProjectsLayout.astro";
+import LinkButton from "@components/LinkButton.astro";
+---
+
+<ProjectsLayout frontmatter={{ title:'About me' }}>
+  <p>
+    Hi, I'm Ákos. I'm a <span class="font-black text-orange-600"
+      >software developer</span
+    > with a passion for building <span class="font-black text-orange-600"
+      >web applications</span
+    > and <span class="font-black text-orange-600">teaching</span>.
+  </p>
+  <p>
+    I've been coding since 2005 and working professionally since 2012. In
+    the last four years, I've created hundreds of articles <span
+      class="font-black text-orange-600">helping software developers</span
+    > improve their skills.
+  </p>
+  <p>
+    You can access my technical articles on the
+    <LinkButton
+      className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+      href="/posts"
+    >
+      blog
+    </LinkButton>
+    and my writings on career, software engineering and other things on my
+    <LinkButton
+      className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+      href="https://akoskm.substack.com"
+    >
+      newsletter</LinkButton
+    >.
+    <p>
+      I've also created a few
+      <LinkButton
+        className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+        href="/books"
+      >
+      books and courses
+      </LinkButton>.
+    </p>
+  </p>
+</ProjectsLayout>

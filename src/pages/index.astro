@@ -19,63 +19,7 @@ const recentPosts = data.publication.posts.edges
   <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>Welcome to my blog 👋</h1>
-      <a
-        target="_blank"
-        href="/rss.xml"
-        class="rss-link"
-        aria-label="rss feed"
-        title="RSS Feed"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon"
-          ><path
-            d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"
-          ></path><path
-            d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"
-          ></path><circle cx="6" cy="18" r="2"></circle>
-        </svg>
-        <span class="sr-only">RSS Feed</span>
-      </a>
-
-      <p>
-        Hi, I'm Ákos. I'm a <span class="font-black text-orange-600"
-          >software developer</span
-        > with a passion for building <span class="font-black text-orange-600"
-          >web applications</span
-        > and <span class="font-black text-orange-600">teaching</span>.
-      </p>
-      <p>
-        I've been coding since 2005 and working professionally since 2012. In
-        the last four years, I've created hundreds of articles <span
-          class="font-black text-orange-600">helping software developers</span
-        > improve their skills.
-      </p>
-      <p>
-        You can access my technical articles on the
-        <LinkButton
-          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
-          href="/posts"
-        >
-          blog
-        </LinkButton>
-        and my writings on career, software engineering and other things on my
-        <LinkButton
-          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
-          href="https://akoskm.substack.com"
-        >
-          newsletter</LinkButton
-        >.
-        <p>
-          I've also created a few
-          <LinkButton
-            className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
-            href="/books"
-          >
-          books and courses
-          </LinkButton>.
-        </p>
-      </p>
-
+      <h1>I help you speedrun web development with simple tutorials, books, and real-world lessons.</h1>
       <GumroadSubscribe />
     </section>
 
@@ -115,7 +59,7 @@ const recentPosts = data.publication.posts.edges
     @apply pb-6 pt-8;
   }
   #hero h1 {
-    @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
+    @apply inline-block text-xl font-bold sm:my-8 sm:text-3xl;
   }
   #hero .rss-link {
     @apply mb-6;
