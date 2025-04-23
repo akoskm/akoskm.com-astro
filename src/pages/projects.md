@@ -5,17 +5,18 @@ title: "Projects"
 
 ### Books
 
-- [React Testing Library Crash Course: Learn to Test React Components (Step-by-step guide with practical examples, Vitest, RTL queries, advanced techniques included)](/rtl-crash-course)
-- [OpenAI Crash Course in One Hour: Build Generative AI Apps](/gen-ai)
-- [Building Cloud-Based PWAs with Supabase, React & TypeScript](/pwa-example)
+- [React Testing Library Crash Course](/rtl-crash-course): Learn to Test React Components (Step-by-step guide with practical examples, Vitest, RTL queries, advanced techniques included)
+- [OpenAI Crash Course in One Hour](/gen-ai): Build Generative AI Apps
+- [Building Cloud-Based PWAs](/pwa-example): with Supabase, React & TypeScript
 
 ### Courses:
 
-- [Custom React Hooks Crash Course: Learn Hooks Through 6 Apps](/custom-react-hooks)
+- [Custom React Hooks Crash Course](/custom-react-hooks): Learn Hooks Through 6 Apps
 
 ### Apps:
 
-- Busy with writing short and useful books.
+- [One Task X](https://onetaskx.com/) - a simple task manager that requires no login. [#4 launch of the day on Product Hunt!](https://www.producthunt.com/products/one-task-x#one-task-x)
+- [Kid Care Cards](https://kidcarecards.com/) - Track solutions that helped your child. When the same issue comes up again, you'll know exactly what to do. It's open source so you can host it yourself.
 
 # Retired 🪦
 

@@ -4,22 +4,38 @@ import products from '../data/products.ts';
 
 ---
 
-<ProjectsLayout frontmatter={{ title:'Books' }}>
-  <div class="flex flex-col divide-y divide-dotted">
-    {Object.values(products).map(({ title, description, links, image}) => (
-      <div class="grid grid-cols-2 gap-6 p-10">
-        <div class="flex justify-center items-center">
-          {image && <img style="height: 400px;" src={image} alt={title} class="h-full w-full object-contain" />}
-        </div>
-        <div class="prose">
-          <h1>{title}</h1>
-          <p>{description}</p>
-          <div class="flex gap-2">
-          {links.map(({ href, text }) => (
-            <a href={href}>{text}</a>
-          ))}
+<ProjectsLayout frontmatter={{ title: 'Books' }}>
+  <main class="mx-auto max-w-6xl">
+    <div class="flex flex-col gap-12">
+      {Object.values(products).map(({ title, description, links, image }) => (
+        <article class="grid md:grid-cols-2 gap-8 p-6 rounded-lg bg-skin-card">
+          <div class="flex justify-center items-center">
+            {image && (
+              <img
+                src={image}
+                alt={`Cover of ${title}`}
+                class="max-h-[400px] w-auto object-contain shadow-lg rounded"
+              />
+            )}
           </div>
-        </div>
-      </div>
-    ))}
+          <div class="prose prose-lg max-w-none">
+            <h2 class="text-2xl font-semibold mb-4">{title}</h2>
+            <p class="text-skin-base">{description}</p>
+            <div class="flex gap-4 mt-6">
+              {links.map(({ href, text }) => (
+                <a
+                  href={href}
+                  class="inline-flex items-center px-4 py-2 bg-skin-accent text-skin-inverted rounded-lg hover:opacity-90 transition-opacity"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {text}
+                </a>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </main>
 </ProjectsLayout>
