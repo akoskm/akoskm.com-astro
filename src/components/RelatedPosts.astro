@@ -36,7 +36,7 @@ const hasRelatedPosts = relatedPosts.length > 0;
     <div class="flex flex-col gap-6">
       {relatedPosts.map(post => (
         <article class="flex flex-col">
-          <a href={`/${post.slug}`} class="group">
+          <a href={`/${post.slug}/`} class="group">
             <h3 class="text-lg font-medium text-skin-accent group-hover:text-skin-accent-hover">
               {post.title}
             </h3>
