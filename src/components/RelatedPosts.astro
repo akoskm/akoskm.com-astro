@@ -1,0 +1,57 @@
+---
+import type { Post } from "lib/schema";
+import Datetime from "./Datetime";
+
+interface Props {
+  currentPost: Post;
+  allPosts: Post[];
+}
+
+const { currentPost, allPosts } = Astro.props;
+
+// Get posts that share at least one tag with the current post
+const relatedPosts = allPosts
+  .filter(post =>
+    // Don't include the current post
+    post.slug !== currentPost.slug &&
+    // Check if posts share any tags
+    post.tags.some(tag =>
+      currentPost.tags.some(currentTag => currentTag.slug === tag.slug)
+    )
+  )
+  // Sort by publish date descending
+  .sort((a, b) =>
+    new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  )
+  // Take only the first 3 posts
+  .slice(0, 3);
+
+// Only show section if we have related posts
+const hasRelatedPosts = relatedPosts.length > 0;
+---
+
+{hasRelatedPosts && (
+  <section class="mt-16 bg-skin-card rounded-lg p-6">
+    <h2 class="text-2xl font-semibold mb-6 text-skin-accent">What to Read Next</h2>
+    <div class="flex flex-col gap-6">
+      {relatedPosts.map(post => (
+        <article class="flex flex-col">
+          <a href={`/${post.slug}`} class="group">
+            <h3 class="text-lg font-medium text-skin-accent group-hover:text-skin-accent-hover">
+              {post.title}
+            </h3>
+            <Datetime
+              pubDatetime={post.publishedAt}
+              modDatetime={post.updatedAt}
+              size="sm"
+              className="my-2"
+            />
+            <p class="text-skin-base line-clamp-2">
+              {post.brief}
+            </p>
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+)}

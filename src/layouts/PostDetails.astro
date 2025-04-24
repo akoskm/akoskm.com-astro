@@ -6,8 +6,10 @@ import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import ShareLinks from "@components/ShareLinks.astro";
 import ProductOffer from "@components/ProductOffer.astro";
+import RelatedPosts from "@components/RelatedPosts.astro";
 import { SITE } from "@config";
 import type { Post } from "lib/schema";
+import { fetchAllPosts } from "lib/clients";
 
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -37,6 +39,7 @@ const {
   features
 } = post;
 
+const allPosts = await fetchAllPosts();
 
 const ogImageUrl = ogImage?.url ?? `${SITE.website}posts/${slug}.png`;
 
@@ -99,6 +102,7 @@ const layoutProps = {
       <Fragment set:html={content.html} />
     </article>
     <ProductOffer tags={tags} />
+    <RelatedPosts currentPost={post} allPosts={allPosts} />
 
     <ul class="my-8">
       {tags.map(tag => <Tag tag={tag.slug} />)}
