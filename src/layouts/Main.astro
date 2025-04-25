@@ -21,17 +21,17 @@ const { props } = Astro;
 <main id="main-content">
   {
     "titleTransition" in props ? (
-      <h1 class="text-priority">
+      <h1>
         {props.pageTitle[0]}
         <span transition:name={props.titleTransition}>
           {props.pageTitle[1]}
         </span>
       </h1>
     ) : (
-      <h1 class="text-priority">{props.pageTitle}</h1>
+      <h1>{props.pageTitle}</h1>
     )
   }
-  {props.pageDesc && <p class="text-priority">{props.pageDesc}</p>}
+  <p>{props.pageDesc}</p>
   <slot />
 </main>
 
@@ -44,9 +44,5 @@ const { props } = Astro;
   }
   #main-content p {
     @apply mb-6 mt-2 italic;
-  }
-  .text-priority {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 500px;
   }
 </style>

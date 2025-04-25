@@ -123,23 +123,6 @@
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
-  .text-priority {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 500px;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .text-priority {
-      animation: fadeIn 0.5s ease-in;
-    }
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
 }
 
 @layer components {
