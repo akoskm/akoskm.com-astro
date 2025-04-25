@@ -11,19 +11,20 @@ export default function Card({
 }: Props) {
   const headerProps = {
     style: { viewTransitionName: slugifyStr(title) },
-    className: "text-lg font-medium decoration-dashed hover:underline",
+    className:
+      "text-lg font-medium decoration-dashed hover:underline text-priority",
   };
 
   return (
     <li className="my-6">
       <a
         href={`/${slug}/`}
-        className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
+        className="text-priority inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
         <h3 {...headerProps}>{title}</h3>
       </a>
       <Datetime pubDatetime={publishedAt} modDatetime={updatedAt} />
-      <p>{seo.description}</p>
+      <p className="text-priority">{seo.description}</p>
     </li>
   );
 }
