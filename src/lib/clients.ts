@@ -87,57 +87,24 @@ export const fetchAllPosts = async (): Promise<Post[]> => {
   return postList;
 };
 
-export const getPreviewPosts = async (cursor = "") => {
+export const getPreviewPosts = async () => {
   const client = getClient();
 
   const allPosts = await client.request<AllPostsData>(
     gql`
       query allPosts {
         publication(host: "${myHashnodeURL}") {
-          id
-          title
           posts(first: 3) {
-            pageInfo{
-              hasNextPage
-              endCursor
-            }
             edges {
               node {
-                id
-                author{
-                  name
-                  profilePicture
-                }
                 title
-                subtitle
-                brief
                 slug
-                canonicalUrl
-                coverImage {
-                  url
-                }
-                tags {
-                  name
-                  slug
-                }
-                series {
-                  name
-                  slug
-                }
                 publishedAt
                 updatedAt
-                readTimeInMinutes
-                content {
-                  html
-                }
                 seo {
                   description
                 }
               }
-            }
-            pageInfo {
-              endCursor
-              hasNextPage
             }
           }
         }

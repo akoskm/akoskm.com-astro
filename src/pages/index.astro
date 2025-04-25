@@ -8,11 +8,15 @@ import Card from "@components/Card";
 import { GumroadSubscribe } from "@components/GumroadSubscribe";
 import { SITE } from "@config";
 import { getPreviewPosts } from "lib/clients";
+import type { Post } from "lib/schema";
 
 const data = await getPreviewPosts();
 const recentPosts = data.publication.posts.edges
   .slice(0, SITE.postPerIndex)
   .map(({ node }) => node);
+
+// This ensures the page and all its data is generated at build time
+export const prerender = true;
 ---
 
 <Layout>
@@ -31,7 +35,7 @@ const recentPosts = data.publication.posts.edges
           <h2>Recent Posts</h2>
           <ul>
             {recentPosts.map(
-              (post, index) => index < SITE.postPerIndex && <Card post={post} />
+              (post: Post, index: number) => index < SITE.postPerIndex && <Card post={post} />
             )}
           </ul>
         </section>

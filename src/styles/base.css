@@ -30,6 +30,8 @@
   }
   body {
     @apply flex min-h-[100svh] flex-col bg-skin-fill font-mono text-skin-base selection:bg-skin-accent/70 selection:text-skin-inverted;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
   section,
   footer {
@@ -122,23 +124,6 @@
     font-style: var(--shiki-dark-font-style) !important;
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;
-  }
-  .text-priority {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 500px;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .text-priority {
-      animation: fadeIn 0.5s ease-in;
-    }
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
   }
 }
 
