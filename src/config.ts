@@ -6,7 +6,7 @@ export const SITE: Site = {
   profile: "https://satnaing.dev/",
   desc: "Explore web development tips, tutorials, and insights from Akos, a full-stack developer with over a decade of experience. Learn how to build, optimize, and deploy modern web applications, improve your coding skills, and stay up-to-date with the latest in tech.",
   title: "Akos Komuves",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "og_image.png",
   lightAndDarkMode: true,
   postPerIndex: 3,
   postPerPage: 6,
