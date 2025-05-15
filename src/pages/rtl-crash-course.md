@@ -35,4 +35,4 @@ You'll find a support email in this book. Unlike other books, I provide support 
 
 Ready to dive in? **Start building your AI-powered apps now.**
 
-For the full version, and step-by-step instructions, [buy the book](https://a.co/d/hfqjkL4).
+For the full version, and step-by-step instructions, buy the book on [Amazon](https://a.co/d/hfqjkL4) or on [Gumroad](https://akoskm.gumroad.com/l/rtl).
