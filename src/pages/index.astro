@@ -5,7 +5,6 @@ import Footer from "@components/Footer.astro";
 import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
-import { GumroadSubscribe } from "@components/GumroadSubscribe";
 import { SITE } from "@config";
 import { getPreviewPosts } from "lib/clients";
 
@@ -19,8 +18,36 @@ const recentPosts = data.publication.posts.edges
   <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>I help you speedrun web development with simple tutorials, books, and real-world lessons.</h1>
-      <GumroadSubscribe />
+      <h1>Hey 👋, I'm Ákos.</h1>
+      <div class="prose">
+        <p>
+          I'm a <span class="font-black text-orange-600"
+            >software developer</span
+          > with a passion for building <span class="font-black text-orange-600"
+            >great web applications</span
+          >, and <span class="font-black text-orange-600">sharing</span> what I learned with others.
+        </p>
+        <p>
+          Over the past years I've published many articles about
+          <a href="/tags/reactjs/">React</a>,
+          <a href="/tags/typescript/">TypeScript</a>,
+          <a href="/tags/nextjs/">Next.js</a>,
+          <a href="/tags/testing/">Testing</a>,
+          to share learnings with people I wish it existed when I run into these problems.
+        </p>
+        <p>The articles are written by me, they are well researched and contain practical examples or complete GitHub repositories.</p>
+        <p>
+          I'm also writing a weekly newsletter on all things that are interesting for software engineers these days
+          <LinkButton
+            className="inline-block rounded-md border border-skin-line bg-skin-card px-4 py-2 font-medium hover:bg-skin-card-muted hover:text-skin-accent"
+            href="https://akoskm.substack.com"
+          >
+            ✉️ Subscribe</LinkButton>.
+        </p>
+        <p>
+          Stay in the loop with what I'm working on and occasionally get discounts and free giveaways on my products. Sounds like a terrible deal, I know. 😄
+        </p>
+      </div>
     </section>
 
     <Hr />
