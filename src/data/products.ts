@@ -1,4 +1,16 @@
 export default {
+  "mcp-crash-course": {
+    title: "Model Context Protocol: Build MCP Servers with TypeScript",
+    description:
+      "Learn how to build and deploy your own MCP server. The book covers the fundamentals of MCP and how to build your own MCP server. Short coding examples that you can follow along.",
+    links: [
+      {
+        href: "https://a.co/d/3nPsjMM",
+        text: "Amazon",
+      },
+    ],
+    image: "/assets/covers/mcp-server.png",
+  },
   "rtl-crash-course": {
     title: "React Testing Library Crash Course",
     description:
