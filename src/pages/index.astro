@@ -21,31 +21,42 @@ const recentPosts = data.publication.posts.edges
       <h1>Hey 👋, I'm Ákos.</h1>
       <div class="prose">
         <p>
-          I'm a <span class="font-black text-orange-600"
-            >software developer</span
-          > with a passion for building <span class="font-black text-orange-600"
-            >great web applications</span
-          >, and <span class="font-black text-orange-600">sharing</span> what I learned with others.
+          I help startups and product teams <span class="font-black text-orange-600">build and ship AI-powered software</span>—from
+          <a href="/tags/llm/">LLM integrations</a> and
+          <a href="/tags/ai-tools/">MCP servers</a> to cutting-edge
+          <span class="font-black text-orange-600">Recursive Language Models</span>.
         </p>
         <p>
-          Over the past years I've published many articles about
+          18+ years building software. Author of 6 books. Now focused on turning AI capabilities into production-ready products.
+        </p>
+        <p>
+          <strong>Available for consulting, contracting, or fractional CTO roles.</strong>
+        </p>
+        <p>
+          📧 <a href="mailto:hello@akoskm.com">hello@akoskm.com</a>
+        </p>
+      </div>
+    </section>
+
+    <Hr />
+
+    <section id="educator">
+      <div class="prose">
+        <p>
+          I also write about what I learn—practical articles on
           <a href="/tags/reactjs/">React</a>,
           <a href="/tags/typescript/">TypeScript</a>,
-          <a href="/tags/nextjs/">Next.js</a>,
-          <a href="/tags/testing/">Testing</a>,
-          to share learnings with people I wish it existed when I run into these problems.
+          <a href="/tags/nextjs/">Next.js</a>, and
+          <a href="/tags/ai/">AI tooling</a>.
         </p>
-        <p>The articles are written by me, they are well researched and contain practical examples or complete GitHub repositories.</p>
         <p>
-          I'm also writing a weekly newsletter on all things that are interesting for software engineers these days
+          Weekly newsletter for developers:
           <LinkButton
             className="inline-block rounded-md border border-skin-line bg-skin-card px-4 py-2 font-medium hover:bg-skin-card-muted hover:text-skin-accent"
             href="https://akoskm.substack.com/welcome?utm_source=akoskm.com&utm_medium=website"
           >
-            ✉️ Subscribe</LinkButton>.
-        </p>
-        <p>
-          Stay in the loop with what I'm working on and occasionally get discounts and free giveaways on my products. Sounds like a terrible deal, I know. 😄
+            ✉️ Subscribe
+          </LinkButton>
         </p>
       </div>
     </section>
@@ -83,32 +94,40 @@ const recentPosts = data.publication.posts.edges
 <style>
   /* ===== Hero Section ===== */
   #hero {
-    @apply pb-6 pt-8;
+    @apply pb-4 pt-4;
   }
   #hero h1 {
-    @apply inline-block text-xl font-bold sm:my-8 sm:text-3xl;
+    @apply inline-block text-xl font-bold sm:my-4 sm:text-3xl;
   }
   #hero .rss-link {
-    @apply mb-6;
+    @apply mb-4;
   }
   #hero .rss-icon {
-    @apply mb-2 h-6 w-6 scale-110 fill-skin-accent sm:mb-3 sm:scale-125;
+    @apply mb-2 h-6 w-6 scale-110 fill-skin-accent sm:mb-2 sm:scale-125;
   }
   #hero p {
-    @apply my-2;
+    @apply my-1;
   }
   .social-wrapper {
-    @apply mt-4 flex flex-col sm:flex-row sm:items-center;
+    @apply mt-2 flex flex-col sm:flex-row sm:items-center;
   }
   .social-links {
     @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
+  }
+
+  /* ===== Educator Section ===== */
+  #educator {
+    @apply pb-4 pt-4;
+  }
+  #educator p {
+    @apply my-1;
   }
 
   /* ===== Featured & Recent Posts Sections ===== */
   #featured,
   #recent-posts,
   #testimonials {
-    @apply pb-6 pt-12;
+    @apply pb-4 pt-6;
   }
   #featured h2,
   #recent-posts h2,
@@ -116,6 +135,6 @@ const recentPosts = data.publication.posts.edges
     @apply text-2xl font-semibold tracking-wide;
   }
   .all-posts-btn-wrapper {
-    @apply my-8 text-center;
+    @apply my-4 text-center;
   }
 </style>
