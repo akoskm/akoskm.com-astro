@@ -10,13 +10,14 @@ export interface Props {
     title: string;
     description?: string;
   };
+  activeNav?: "books" | "portfolio";
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, activeNav = "books" } = Astro.props;
 ---
 
 <Layout title={`${frontmatter.title} | ${SITE.title}`}>
-  <Header activeNav="books" />
+  <Header activeNav={activeNav} />
   <Breadcrumbs />
   <main id="main-content">
     <section id="about" class="prose mb-28 max-w-3xl prose-img:border-0">

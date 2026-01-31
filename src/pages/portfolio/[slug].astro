@@ -1,0 +1,68 @@
+---
+import { SITE } from "@config";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import Footer from "@components/Footer.astro";
+import Header from "@components/Header.astro";
+import Layout from "@layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const portfolioItems = await getCollection("portfolio");
+  return portfolioItems.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+---
+
+<Layout title={`${item.data.title} | ${SITE.title}`}>
+  <Header activeNav="portfolio" />
+  <Breadcrumbs />
+  <main id="main-content">
+    <article class="prose mx-auto mb-28 max-w-3xl prose-img:border-0">
+      <h1 class="text-2xl tracking-wider sm:text-3xl">{item.data.title}</h1>
+      <p class="text-sm text-skin-base opacity-70 mb-4">
+        Client: {item.data.clientUrl ? (
+          <a href={item.data.clientUrl} target="_blank" rel="noopener noreferrer" class="text-skin-accent hover:underline">{item.data.client}</a>
+        ) : item.data.client}
+      </p>
+
+      <div class="flex flex-wrap gap-2 mb-6">
+        {item.data.technologies.map((tech) => (
+          <span class="px-2 py-1 text-xs rounded border border-skin-line text-skin-base">
+            {tech}
+          </span>
+        ))}
+      </div>
+
+      <div class="mb-8 p-4 rounded-lg bg-skin-card">
+        <h3 class="text-lg font-semibold mb-2">Key Results</h3>
+        <ul class="list-disc list-inside text-sm text-skin-base">
+          {item.data.results.map((result) => (
+            <li>{result}</li>
+          ))}
+        </ul>
+      </div>
+
+      <Content />
+
+      <div class="mt-12 p-6 rounded-lg bg-skin-card text-center">
+        <h3 class="text-lg font-semibold mb-2">Interested in working together?</h3>
+        <p class="text-sm text-skin-base mb-4">I'm available for consulting, contracting, or fractional CTO roles.</p>
+        <a href="mailto:hello@akoskm.com" class="inline-block px-6 py-2 bg-skin-accent text-skin-inverted rounded-lg hover:opacity-90 transition-opacity">
+          Get in touch
+        </a>
+      </div>
+
+      <div class="mt-8">
+        <a href="/portfolio" class="text-skin-accent hover:underline">
+          &larr; Back to Portfolio
+        </a>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>

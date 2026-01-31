@@ -8,6 +8,7 @@
       "@config": ["config.ts"],
       "@components/*": ["components/*"],
       "@content/*": ["content/*"],
+      "@data/*": ["data/*"],
       "@layouts/*": ["layouts/*"],
       "@pages/*": ["pages/*"],
       "@styles/*": ["styles/*"],
