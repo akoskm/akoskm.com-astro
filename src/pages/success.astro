@@ -1,0 +1,25 @@
+---
+import { SITE } from "@config";
+import Footer from "@components/Footer.astro";
+import Header from "@components/Header.astro";
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout title={`Message Sent | ${SITE.title}`}>
+  <Header />
+  <main id="main-content">
+    <section class="mx-auto mb-28 max-w-xl pt-12 text-center">
+      <h1 class="mb-4 text-2xl tracking-wider sm:text-3xl">Message sent!</h1>
+      <p class="mb-8 text-skin-base">
+        Thanks for reaching out. I'll get back to you within 24 hours.
+      </p>
+      <a
+        href="/"
+        class="hire-me-btn inline-block rounded-lg bg-skin-accent px-6 py-3 font-medium"
+      >
+        Back to home
+      </a>
+    </section>
+  </main>
+  <Footer />
+</Layout>

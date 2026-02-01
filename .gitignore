@@ -30,3 +30,7 @@ pnpm-debug.log*
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+# Local Netlify folder
+.netlify
+deno.lock

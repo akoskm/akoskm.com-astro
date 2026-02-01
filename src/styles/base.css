@@ -50,6 +50,18 @@
   .prose a {
     @apply break-words hover:!text-skin-accent;
   }
+  .prose a.hire-me-btn,
+  a.hire-me-btn {
+    color: #fff !important;
+    text-decoration: none !important;
+  }
+  .prose a.hire-me-btn:hover,
+  a.hire-me-btn:hover {
+    color: #fff !important;
+    text-decoration: underline !important;
+    text-decoration-style: dashed !important;
+    text-underline-offset: 6px;
+  }
   .prose thead th:first-child,
   tbody td:first-child,
   tfoot td:first-child {

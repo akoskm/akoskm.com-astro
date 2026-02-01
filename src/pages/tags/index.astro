@@ -4,12 +4,15 @@ import Footer from "@components/Footer.astro";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import Tag from "@components/Tag.astro";
+import Serie from "@components/Serie.astro";
 import getUniqueTags from "@utils/getUniqueTags";
+import getUniqueSeries from "@utils/getUniqueSeries";
 import { SITE } from "@config";
 import { fetchAllPosts } from "lib/clients";
 
 const posts = await fetchAllPosts();
 let tags = getUniqueTags(posts);
+let series = getUniqueSeries(posts);
 ---
 
 <Layout title={`Tags | ${SITE.title}`}>
@@ -17,6 +20,11 @@ let tags = getUniqueTags(posts);
   <Main pageTitle="Tags" pageDesc="All the tags used in posts.">
     <ul>
       {tags.map(({ tag }) => <Tag {tag} size="lg" />)}
+    </ul>
+
+    <h2 class="mt-12 mb-4 text-2xl font-semibold">Series</h2>
+    <ul>
+      {series.map(serie => <Serie serie={serie} size="lg" />)}
     </ul>
   </Main>
   <Footer />

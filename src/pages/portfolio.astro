@@ -14,27 +14,40 @@ const portfolioItems = await getCollection("portfolio");
     <div class="flex flex-col gap-6">
       {
         portfolioItems.map(({ slug, data }) => (
-          <article class="px-5 pt-3 pb-5 rounded-lg bg-skin-card transition-all hover:ring-2 hover:ring-skin-accent">
-            <h2 class="text-xl font-semibold mb-1 mt-0">{data.title}</h2>
-            <p class="text-sm opacity-70 mb-2">
-              Client: {data.clientUrl ? (
-                <a href={data.clientUrl} target="_blank" rel="noopener noreferrer" class="client-link">{data.client}</a>
-              ) : data.client}
+          <article class="hover:ring-skin-accent rounded-lg bg-skin-card px-5 pb-5 pt-3 transition-all hover:ring-2">
+            <h2 class="mb-1 mt-0 text-xl font-semibold">{data.title}</h2>
+            <p class="mb-2 text-sm opacity-70">
+              Client:{" "}
+              {data.clientUrl ? (
+                <a
+                  href={data.clientUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="client-link"
+                >
+                  {data.client}
+                </a>
+              ) : (
+                data.client
+              )}
             </p>
             <p class="mb-3">{data.description}</p>
-            <div class="flex flex-wrap gap-2 mb-3">
-              {data.technologies.map((tech) => (
-                <span class="tech-tag px-2 py-1 text-xs rounded border border-skin-line">
+            <div class="mb-3 flex flex-wrap gap-2">
+              {data.technologies.map(tech => (
+                <span class="tech-tag rounded border border-skin-line px-2 py-1 text-xs">
                   {tech}
                 </span>
               ))}
             </div>
-            <ul class="list-disc list-inside text-sm mb-3">
-              {data.results.map((result) => (
+            <ul class="mb-3 list-inside list-disc text-sm">
+              {data.results.map(result => (
                 <li>{result}</li>
               ))}
             </ul>
-            <a href={`/portfolio/${slug}`} class="read-more text-sm">
+            <a
+              href={`/portfolio/${slug}`}
+              class="read-more inline-block rounded-lg bg-skin-accent px-4 py-2"
+            >
               Read case study &rarr;
             </a>
           </article>
@@ -57,13 +70,14 @@ const portfolioItems = await getCollection("portfolio");
   .tech-tag {
     color: rgb(var(--color-text-base));
   }
-  .read-more {
-    color: rgb(var(--color-text-base));
-    text-decoration: underline;
-    text-decoration-style: dashed;
-    text-underline-offset: 4px;
+  a.read-more {
+    color: #fff !important;
+    text-decoration: none !important;
   }
-  .read-more:hover {
-    color: rgb(var(--color-accent));
+  a.read-more:hover {
+    color: #fff !important;
+    text-decoration: underline !important;
+    text-decoration-style: dashed !important;
+    text-underline-offset: 6px;
   }
 </style>
