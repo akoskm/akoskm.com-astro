@@ -8,6 +8,10 @@ tags:
     slug: "typescript"
   - name: "Astro"
     slug: "astro"
+  - name: "Hashnode"
+    slug: "hashnode"
+  - name: "GraphQL"
+    slug: "graphql"
 series: null
 draft: false
 ---
