@@ -266,3 +266,7 @@ html[data-theme="dark"] pre.astro-code span {
 - Create a [custom remark plugin](/writing-remark-plugin-reading-time-astro/) for more accurate reading time
 - Set up image optimization presets for consistent cover image sizes
 - Consider adding [MDX support](https://docs.astro.build/en/guides/integrations-guide/mdx/) for posts that need interactive components
+
+## Code
+
+See the full implementation in [this commit](https://github.com/akoskm/akoskm.com-astro/commit/a167275).
