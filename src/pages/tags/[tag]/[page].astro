@@ -4,8 +4,8 @@ import getUniqueTags from "@utils/getUniqueTags";
 import getPostsByTag from "@utils/getPostsByTag";
 import getPageNumbers from "@utils/getPageNumbers";
 import getPagination from "@utils/getPagination";
-import {fetchAllPosts} from "lib/clients";
-import type {Post} from "lib/schema";
+import { getAllPosts } from "lib/getAllPosts";
+import type { Post } from "lib/schema";
 
 export interface Props {
   tag: string;
@@ -14,7 +14,7 @@ export interface Props {
 }
 
 export async function getStaticPaths() {
-  const posts = await fetchAllPosts();
+  const posts = await getAllPosts();
 
   const tags = getUniqueTags(posts);
 

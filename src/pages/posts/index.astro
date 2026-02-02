@@ -2,9 +2,9 @@
 import Posts from "@layouts/Posts.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import getPagination from "@utils/getPagination";
-import {fetchAllPosts} from "lib/clients";
+import { getAllPosts } from "lib/getAllPosts";
 
-const posts = await fetchAllPosts();
+const posts = await getAllPosts();
 
 const sortedPosts = getSortedPosts(posts);
 

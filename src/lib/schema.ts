@@ -26,7 +26,7 @@ export const PostSchema = z.object({
     html: z.string(),
   }),
   tags: z.array(TagSchema),
-  series: SerieSchema,
+  series: SerieSchema.nullable().optional(),
   coverImage: z.object({
     url: z.string(),
   }),
@@ -45,6 +45,7 @@ export const PostSchema = z.object({
       ),
     }),
   }),
+  draft: z.boolean().optional(),
 });
 
 export const PageInfo = z.object({

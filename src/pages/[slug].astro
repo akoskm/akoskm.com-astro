@@ -1,14 +1,14 @@
 ---
 import PostDetails from "@layouts/PostDetails.astro";
-import {fetchAllPosts, getPost} from "lib/clients";
-import type {Post} from "lib/schema";
+import { getAllPosts, getPostBySlug } from "lib/getAllPosts";
+import type { Post } from "lib/schema";
 
 export interface Props {
   post: Post;
 }
 
 export async function getStaticPaths() {
-  const posts = await fetchAllPosts();
+  const posts = await getAllPosts();
   return posts.map((post: Post) => {
     return {
       params: { slug: post.slug },
@@ -16,7 +16,7 @@ export async function getStaticPaths() {
   });
 }
 const { slug } = Astro.params;
-const post = await getPost(slug);
+const post = await getPostBySlug(slug);
 ---
 
 <PostDetails post={post} />

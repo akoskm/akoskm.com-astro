@@ -6,12 +6,11 @@ import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
 import { SITE } from "@config";
-import { getPreviewPosts } from "lib/clients";
+import { getAllPosts } from "lib/getAllPosts";
+import getSortedPosts from "@utils/getSortedPosts";
 
-const data = await getPreviewPosts();
-const recentPosts = data.publication.posts.edges
-  .slice(0, SITE.postPerIndex)
-  .map(({ node }) => node);
+const allPosts = await getAllPosts();
+const recentPosts = getSortedPosts(allPosts).slice(0, SITE.postPerIndex);
 ---
 
 <Layout>

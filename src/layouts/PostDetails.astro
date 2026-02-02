@@ -9,7 +9,7 @@ import ProductOffer from "@components/ProductOffer.astro";
 import RelatedPosts from "@components/RelatedPosts.astro";
 import { SITE } from "@config";
 import type { Post } from "lib/schema";
-import { fetchAllPosts } from "lib/clients";
+import { getAllPosts } from "lib/getAllPosts";
 
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -20,10 +20,11 @@ hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("typescript", typescript);
 
 export interface Props {
-  post: Post;
+  post: Post & { _ContentComponent?: any };
 }
 
 const { post } = Astro.props;
+const ContentComponent = (post as any)._ContentComponent;
 
 const {
   title,
@@ -39,11 +40,17 @@ const {
   features,
 } = post;
 
-const allPosts = await fetchAllPosts();
+const allPosts = await getAllPosts();
 
 const ogImageUrl = ogImage?.url ?? `${SITE.website}posts/${slug}.png`;
 
-const ogUrl = new URL(ogImageUrl).href;
+// For display: use URL as-is (works for both Hashnode URLs and local paths)
+const displayImageUrl = ogImageUrl;
+
+// For og:image meta: convert relative paths to absolute URLs
+const ogUrl = ogImageUrl.startsWith("http")
+  ? ogImageUrl
+  : `${SITE.website}${ogImageUrl.replace(/^\//, "")}`;
 
 const layoutProps = {
   title: `${title} | ${SITE.title}`,
@@ -73,7 +80,7 @@ const layoutProps = {
     </button>
   </div>
   <main id="main-content">
-    <img src={ogUrl} alt={title} />
+    <img src={displayImageUrl} alt={title} />
     <h1 transition:name={post.slug} class="post-title">{title}</h1>
     <Datetime
       pubDatetime={publishedAt}
@@ -96,7 +103,7 @@ const layoutProps = {
                     heading.level === 4 ? "ml-8" : "",
                   ].join(" ")}
                 >
-                  <a href={`#heading-${heading.slug}`} class="hover:underline">
+                  <a href={ContentComponent ? `#${heading.slug}` : `#heading-${heading.slug}`} class="hover:underline">
                     {heading.title}
                   </a>
                 </li>
@@ -107,7 +114,7 @@ const layoutProps = {
       }
     </nav>
     <article id="article" class="prose mx-auto mt-8 max-w-3xl">
-      <Fragment set:html={content.html} />
+      {ContentComponent ? <ContentComponent /> : <Fragment set:html={content.html} />}
     </article>
     <ProductOffer tags={tags} />
     <RelatedPosts currentPost={post} allPosts={allPosts} />

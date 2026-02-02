@@ -3,10 +3,10 @@ import SeriePosts from "@layouts/SeriePosts.astro";
 import getPostsBySerieSlug from "@utils/getPostsBySerieSlug";
 import getPagination from "@utils/getPagination";
 import getUniqueSeries from "@utils/getUniqueSeries";
-import { fetchAllPosts } from "lib/clients";
+import { getAllPosts } from "lib/getAllPosts";
 
 export async function getStaticPaths() {
-  const posts = await fetchAllPosts();
+  const posts = await getAllPosts();
 
   const series = getUniqueSeries(posts);
 

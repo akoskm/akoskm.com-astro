@@ -4,7 +4,7 @@ import getUniqueSeries from "@utils/getUniqueSeries";
 import getPostsBySerieSlug from "@utils/getPostsBySerieSlug";
 import getPageNumbers from "@utils/getPageNumbers";
 import getPagination from "@utils/getPagination";
-import { fetchAllPosts } from "lib/clients";
+import { getAllPosts } from "lib/getAllPosts";
 import type { Post } from "lib/schema";
 
 export interface Props {
@@ -14,7 +14,7 @@ export interface Props {
 }
 
 export async function getStaticPaths() {
-  const posts = await fetchAllPosts();
+  const posts = await getAllPosts();
 
   const series = getUniqueSeries(posts);
 
