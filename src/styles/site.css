@@ -264,3 +264,16 @@ svg.icon-x-logo {
   align-items: center;
   gap: 0.35rem;
 }
+
+/* Class beats Tailwind preflight `h1 { font-size: inherit }`. A scoped
+   `h1` rule ties that selector and loses on a full load, when the shared
+   sheet is linked after inlined page CSS. View transitions append the
+   page style later, so the large size only showed up after in-site nav. */
+.page-title {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.page-title.page-title-lg {
+  font-size: 3rem;
+}
