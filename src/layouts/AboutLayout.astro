@@ -27,7 +27,7 @@ const { frontmatter, nameHeading, pronunciation } = Astro.props;
         <ProfilePhoto size={96} />
         <div>
           <h1
-            class="text-2xl sm:text-3xl"
+            class="text-2xl text-skin-base sm:text-3xl"
             lang={nameHeading ? "hu" : undefined}
           >
             {nameHeading || frontmatter.title}
@@ -66,5 +66,6 @@ const { frontmatter, nameHeading, pronunciation } = Astro.props;
   }
   .about-identity h1 {
     margin: 0;
+    color: rgb(var(--color-text-base));
   }
 </style>

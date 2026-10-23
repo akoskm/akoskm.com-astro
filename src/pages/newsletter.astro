@@ -9,10 +9,13 @@ const issues = await loadBitsyFeed();
 const items = newsletterEntries(issues);
 ---
 
-<Layout title={`Bitsy | ${SITE.title}`} description={BITSY_TAGLINE}>
+<Layout
+  title={`Newsletter | ${SITE.title}`}
+  description={`Bitsy newsletter. ${BITSY_TAGLINE}`}
+>
   <main id="main-content">
     <section>
-      <h1>Bitsy</h1>
+      <h1>Newsletter</h1>
       <p class="lede">{BITSY_TAGLINE}</p>
       <StreamList items={items} />
     </section>
