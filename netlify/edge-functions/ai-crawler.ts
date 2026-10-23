@@ -160,10 +160,12 @@ export async function trackCrawler(
 
 export default trackCrawler;
 
+// `excludedPattern` is only applied when `pattern` is set, not `path`.
+// The manifest validator rejects HEAD in `method` (GET, POST, PUT, PATCH,
+// DELETE, OPTIONS). Leave method unset so crawler HEAD requests still run;
+// trackCrawler records only GET and HEAD.
 export const config = {
-  path: "/*",
-  excludedPath: "/_astro/*",
-  excludedPattern: ["^/_astro(?:/|$)", `\\.(?:${ASSET_EXT})$`],
-  method: ["GET", "HEAD"],
+  pattern: ".*",
+  excludedPattern: ["/_astro(?:/.*)?", `/.*\\.(?:${ASSET_EXT})`],
   onError: "bypass",
 } as const;

@@ -122,11 +122,13 @@ describe("isTrackablePath", () => {
   });
 
   it("uses the same skip rules in the edge config", () => {
-    const patterns = config.excludedPattern.map(pattern => new RegExp(pattern, "i"));
-    const skipped = (path: string) =>
-      path === "/_astro" ||
-      path.startsWith("/_astro/") ||
-      patterns.some(pattern => pattern.test(path));
+    assert.equal(config.pattern, ".*");
+    assert.equal("method" in config, false);
+    const patterns = config.excludedPattern.map(pattern => {
+      const source = `${pattern.startsWith("^") ? "" : "^"}${pattern}${pattern.endsWith("$") ? "" : "$"}`;
+      return new RegExp(source, "i");
+    });
+    const skipped = (path: string) => patterns.some(pattern => pattern.test(path));
     assert.equal(skipped("/llms.txt"), false);
     assert.equal(skipped("/robots.txt"), false);
     assert.equal(skipped("/rss.xml"), false);
