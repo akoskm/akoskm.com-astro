@@ -87,14 +87,28 @@ async function openDrawer(page) {
   }
   await page.waitForFunction(() => {
     const button = document.querySelector("[data-menu-button]");
-    const close = document.querySelector("[data-drawer-close]");
-    if (!button || !close) return false;
+    if (!button) return false;
     if (button.getAttribute("aria-expanded") !== "true") return false;
-    const box = close.getBoundingClientRect();
-    return box.x >= 0 && box.width >= 44 && box.height >= 44;
+    if (button.getAttribute("aria-label") !== "Close menu") return false;
+    const menu = button.querySelector(".icon-menu");
+    const close = button.querySelector(".icon-close");
+    if (!menu || !close) return false;
+    const menuBox = menu.getBoundingClientRect();
+    const closeBox = close.getBoundingClientRect();
+    if (menuBox.width > 0 || closeBox.width < 12) return false;
+    const box = button.getBoundingClientRect();
+    const topbar = document.querySelector(".site-topbar");
+    const topbarBox = topbar ? topbar.getBoundingClientRect() : null;
+    return (
+      box.x >= 0 &&
+      box.width >= 44 &&
+      box.height >= 44 &&
+      topbarBox &&
+      box.top >= topbarBox.top - 1 &&
+      box.bottom <= topbarBox.bottom + 1
+    );
   });
-  const close = page.locator("[data-drawer-close]");
-  const box = await close.boundingBox();
+  const box = await button.boundingBox();
   const vp = page.viewportSize();
   if (!box || box.width < 44 || box.height < 44) {
     fail(`close button too small on ${page.url()} ${JSON.stringify(box)}`);
@@ -108,28 +122,55 @@ async function openDrawer(page) {
   ) {
     fail(`close button outside viewport on ${page.url()} ${JSON.stringify(box)}`);
   }
-  return close;
+  const chrome = await page.evaluate(() => {
+    const visible = el => {
+      if (!el) return false;
+      const box = el.getBoundingClientRect();
+      return box.width > 0 && box.height > 0;
+    };
+    return {
+      closeRow: visible(document.querySelector(".drawer-head")),
+      closeButton: visible(document.querySelector("[data-drawer-close]")),
+      avatars: [...document.querySelectorAll(".topbar-brand, .rail-avatar")].filter(
+        visible
+      ).length,
+      headers: [...document.querySelectorAll(".site-topbar")].filter(visible)
+        .length,
+    };
+  });
+  if (chrome.closeRow || chrome.closeButton) {
+    fail(`separate close row still visible on ${page.url()}`);
+  }
+  if (chrome.avatars !== 1 || chrome.headers !== 1) {
+    fail(`duplicated header chrome on ${page.url()} ${JSON.stringify(chrome)}`);
+  }
+  return button;
 }
 
 async function assertCloseStaysPut(page) {
-  await page.locator("[data-site-drawer]").evaluate(el => {
+  await page.locator(".panel-scroll").evaluate(el => {
     el.scrollTop = el.scrollHeight;
   });
   const close = await openDrawer(page);
   const box = await close.boundingBox();
-  if (!box || box.y > 120) {
+  if (!box || box.y > 16) {
     fail(`close button scrolled away on ${page.url()} ${JSON.stringify(box)}`);
   }
 }
 
 async function closeWithButton(page) {
-  await page.locator("[data-drawer-close]").click();
-  await page.waitForFunction(
-    () =>
-      document
-        .querySelector("[data-menu-button]")
-        ?.getAttribute("aria-expanded") === "false"
-  );
+  const button = page.locator("[data-menu-button]");
+  if ((await button.getAttribute("aria-expanded")) !== "true") {
+    fail(`menu button is not the close control on ${page.url()}`);
+  }
+  await button.click();
+  await page.waitForFunction(() => {
+    const button = document.querySelector("[data-menu-button]");
+    return (
+      button?.getAttribute("aria-expanded") === "false" &&
+      button?.getAttribute("aria-label") === "Open menu"
+    );
+  });
   await assertDrawerClosed(page);
 }
 
