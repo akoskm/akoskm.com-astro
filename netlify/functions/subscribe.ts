@@ -1,5 +1,9 @@
 import { BITSY_REFERRAL } from "../../src/data/promos.ts";
 
+// The signup form does not call this. Substack blocks the server-side
+// request, so the form sends the reader straight to the subscribe page.
+// Kept so it can be wired back if that block is lifted.
+
 const SUBSTACK_FREE_URL = "https://akoskm.substack.com/api/v1/free";
 const SUBSTACK_REFERER = `https://akoskm.substack.com/embed?r=${BITSY_REFERRAL}`;
 const WINDOW_MS = 10 * 60 * 1000;
