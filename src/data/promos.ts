@@ -1,7 +1,6 @@
-export const BITSY_URL = "https://akoskm.substack.com/?r=twgob";
-export const BITSY_FORM_ACTION =
-  "https://akoskm.substack.com/api/v1/free?nojs=true";
 export const BITSY_REFERRAL = "twgob";
+export const BITSY_URL = `https://akoskm.substack.com/?r=${BITSY_REFERRAL}`;
+export const BITSY_EMBED_URL = `https://akoskm.substack.com/embed?r=${BITSY_REFERRAL}`;
 
 export type PromoKind = "app" | "book" | "newsletter";
 
