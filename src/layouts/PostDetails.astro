@@ -6,10 +6,15 @@ import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import ShareLinks from "@components/ShareLinks.astro";
 import ProductOffer from "@components/ProductOffer.astro";
+import PostPromos from "@components/PostPromos.astro";
+import NewsletterSignup from "@components/NewsletterSignup.astro";
 import RelatedPosts from "@components/RelatedPosts.astro";
 import { SITE } from "@config";
+import { promosForSlug } from "@data/promos";
 import { resolveDescription } from "lib/postMeta";
+import { splitPostHtml } from "lib/promoPlacement";
 import { getAllPosts, type PostWithContent } from "lib/getAllPosts";
+import { experimental_AstroContainer as AstroContainer } from "astro/container";
 
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -52,6 +57,20 @@ const displayImageUrl = ogImageUrl;
 const ogUrl = ogImageUrl.startsWith("http")
   ? ogImageUrl
   : `${SITE.website}${ogImageUrl.replace(/^\//, "")}`;
+
+const promos = promosForSlug(slug);
+let beforeHtml = "";
+let afterHtml = "";
+if (promos.length > 0) {
+  let html = content.html || "";
+  if (!html && ContentComponent) {
+    const container = await AstroContainer.create();
+    html = await container.renderToString(ContentComponent);
+  }
+  const split = splitPostHtml(html);
+  beforeHtml = split.before;
+  afterHtml = split.after;
+}
 
 const layoutProps = {
   title: `${title} | ${SITE.title}`,
@@ -123,21 +142,31 @@ const layoutProps = {
         )
       }
     </nav>
-    <article id="article" class="prose mx-auto mt-8 max-w-3xl">
+    <article id="article" class="mx-auto mt-8 max-w-3xl">
       {
-        ContentComponent ? (
-          <ContentComponent />
+        promos.length > 0 ? (
+          <>
+            <div class="prose max-w-none" set:html={beforeHtml} />
+            <PostPromos slug={slug} />
+            <div class="prose max-w-none" set:html={afterHtml} />
+          </>
+        ) : ContentComponent ? (
+          <div class="prose max-w-none">
+            <ContentComponent />
+          </div>
         ) : (
-          <Fragment set:html={content.html} />
+          <div class="prose max-w-none" set:html={content.html} />
         )
       }
     </article>
-    <ProductOffer tags={tags} />
+    <ProductOffer tags={tags} slug={slug} />
     <RelatedPosts currentPost={post} allPosts={allPosts} />
 
     <ul class="my-8">
       {tags.map(tag => <Tag tag={tag.slug} />)}
     </ul>
+
+    <NewsletterSignup slug={slug} />
 
     <div
       class="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
@@ -219,6 +248,7 @@ const layoutProps = {
       document.querySelectorAll("h2, h3, h4, h5, h6")
     );
     for (const heading of headings) {
+      if (heading.closest("aside")) continue;
       heading.classList.add("group");
       const link = document.createElement("a");
       link.className =

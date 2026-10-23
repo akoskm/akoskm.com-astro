@@ -1,0 +1,62 @@
+---
+import type { Promo } from "@data/promos";
+
+export interface Props {
+  promo: Promo;
+  post: string;
+}
+
+const { promo, post } = Astro.props;
+const [primary, ...rest] = promo.links;
+const kindLabel =
+  promo.kind === "app" ? "App" : promo.kind === "book" ? "Book" : "Newsletter";
+---
+
+<aside
+  class="my-8 flex flex-col gap-4 rounded-lg border border-skin-line bg-skin-card p-4 sm:flex-row sm:items-center"
+>
+  <div class="min-w-0 flex-1">
+    <p class="text-xs uppercase tracking-wide opacity-70">{kindLabel}</p>
+    <h2 class="mt-1 text-lg font-semibold">{promo.title}</h2>
+    <p class="mt-2 text-sm">{promo.body}</p>
+    {
+      primary && (
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+          <a
+            href={primary.href}
+            class="hire-me-btn inline-block rounded-lg bg-skin-accent px-4 py-2 text-sm font-medium text-skin-inverted"
+            data-promo-card={promo.id}
+            data-promo-post={post}
+            data-promo-destination={primary.destination}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {primary.label}
+          </a>
+          {rest.map(link => (
+            <a
+              href={link.href}
+              class="text-sm underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+              data-promo-card={promo.id}
+              data-promo-post={post}
+              data-promo-destination={link.destination}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+  {
+    promo.image && (
+      <img
+        src={promo.image}
+        alt={promo.title}
+        class="h-32 w-auto max-w-[8rem] shrink-0 self-center object-contain"
+      />
+    )
+  }
+</aside>

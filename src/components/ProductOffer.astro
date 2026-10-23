@@ -1,7 +1,10 @@
 ---
-const { tags: tagsOjbect } = Astro.props;
+import { hasPostPromos } from "@data/promos";
+
+const { tags: tagsOjbect, slug } = Astro.props;
 
 const tags = tagsOjbect.map(tag => tag.slug);
+const skip = typeof slug === "string" && hasPostPromos(slug);
 
 let title,
   description,
@@ -48,7 +51,7 @@ if (tags.includes("testing")) {
 ---
 
 {
-  title && (
+  !skip && title && (
     <div class="card mt-8 border border-orange-600 p-4 flex flex-row">
       <div class="prose flex flex-col">
         <h2 class="2xl">{title}</h2>
