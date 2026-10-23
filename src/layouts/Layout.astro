@@ -1,67 +1,81 @@
 ---
-import { LOCALE, SITE } from "@config";
+import { LOCALE, SAME_AS, SITE } from "@config";
+import { toIso } from "lib/postMeta";
 import "@styles/base.css";
 import { ViewTransitions } from "astro:transitions";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
-export const formatDate = (pubDate?: string) => {
-  if (!pubDate) return;
-
-  var options: Intl.DateTimeFormatOptions = {
-    weekday: "short",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
-  return new Date(pubDate).toLocaleDateString("en-US", options);
-};
-
 export interface Props {
   title?: string;
   author?: string;
-  profile?: string;
   description?: string;
   ogImage?: string;
   canonicalURL?: string;
   pubDatetime?: string;
   modDatetime?: string | null;
   scrollSmooth?: boolean;
+  /** Post pages are BlogPosting. Everything else is a WebPage. */
+  schema?: "BlogPosting" | "WebPage";
+  /** Article headline without the site-name suffix. */
+  headline?: string;
+  robots?: string;
 }
 
 const {
   title = SITE.title,
   author = SITE.author,
-  profile = SITE.profile,
   description = SITE.desc,
   ogImage = SITE.ogImage,
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
   pubDatetime,
   modDatetime,
   scrollSmooth = false,
+  schema = "WebPage",
+  headline,
+  robots,
 } = Astro.props;
 
+const metaDescription = description?.trim() || SITE.desc;
+const metaAuthor = author?.trim() || SITE.author;
+
 const socialImageURL = new URL(
-  ogImage ?? SITE.ogImage ?? "og.png",
+  ogImage || SITE.ogImage || "og.png",
   Astro.url.origin
 ).href;
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  headline: `${title}`,
-  image: `${socialImageURL}`,
-  datePublished: formatDate(pubDatetime),
-  ...(modDatetime && { dateModified: formatDate(modDatetime) }),
-  author: [
-    {
-      "@type": "Person",
-      name: `${author}`,
-      url: `${profile}`,
-    },
-  ],
+const published = toIso(pubDatetime);
+const modified = toIso(modDatetime) || published;
+
+const person = {
+  "@type": "Person",
+  name: SITE.author,
+  url: SITE.profile,
+  sameAs: SAME_AS,
 };
+
+const structuredData =
+  schema === "BlogPosting"
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: headline || title,
+        description: metaDescription,
+        image: socialImageURL,
+        datePublished: published,
+        dateModified: modified,
+        author: person,
+        url: canonicalURL,
+        mainEntityOfPage: canonicalURL,
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        description: metaDescription,
+        url: canonicalURL,
+        author: person,
+      };
 ---
 
 <!doctype html>
@@ -79,39 +93,30 @@ const structuredData = {
     <!-- General Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
-    <meta name="description" content={description} />
-    <meta name="author" content={author} />
+    <meta name="description" content={metaDescription} />
+    <meta name="author" content={metaAuthor} />
+    {robots && <meta name="robots" content={robots} />}
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={metaDescription} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={socialImageURL} />
 
     <!-- Article Published/Modified time -->
     {
-      pubDatetime && (
-        <meta
-          property="article:published_time"
-          content={formatDate(pubDatetime)}
-        />
+      published && (
+        <meta property="article:published_time" content={published} />
       )
     }
-    {
-      modDatetime && (
-        <meta
-          property="article:modified_time"
-          content={formatDate(modDatetime)}
-        />
-      )
-    }
+    {modified && <meta property="article:modified_time" content={modified} />}
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
+    <meta property="twitter:description" content={metaDescription} />
     <meta property="twitter:image" content={socialImageURL} />
 
     <!-- Google JSON-LD Structured data -->

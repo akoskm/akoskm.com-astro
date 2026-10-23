@@ -5,7 +5,14 @@ import { getCollection } from "astro:content";
 const portfolioItems = await getCollection("portfolio");
 ---
 
-<ProjectsLayout frontmatter={{ title: "Portfolio" }} activeNav="portfolio">
+<ProjectsLayout
+  frontmatter={{
+    title: "Portfolio",
+    description:
+      "Client projects built by Ákos K, from architecture through deployment.",
+  }}
+  activeNav="portfolio"
+>
   <main class="mx-auto max-w-3xl">
     <p class="mb-6 text-skin-base">
       A selection of projects I've built for clients. Each involved taking

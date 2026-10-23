@@ -8,8 +8,8 @@ import ShareLinks from "@components/ShareLinks.astro";
 import ProductOffer from "@components/ProductOffer.astro";
 import RelatedPosts from "@components/RelatedPosts.astro";
 import { SITE } from "@config";
-import type { Post } from "lib/schema";
-import { getAllPosts } from "lib/getAllPosts";
+import { resolveDescription } from "lib/postMeta";
+import { getAllPosts, type PostWithContent } from "lib/getAllPosts";
 
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -20,15 +20,14 @@ hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("typescript", typescript);
 
 export interface Props {
-  post: Post & { _ContentComponent?: any };
+  post: PostWithContent;
 }
 
 const { post } = Astro.props;
-const ContentComponent = (post as any)._ContentComponent;
+const ContentComponent = post._ContentComponent;
 
 const {
   title,
-  author,
   seo: { description },
   coverImage: ogImage,
   canonicalUrl,
@@ -42,7 +41,9 @@ const {
 
 const allPosts = await getAllPosts();
 
-const ogImageUrl = ogImage?.url ?? `${SITE.website}posts/${slug}.png`;
+const ogImageUrl = ogImage?.url
+  ? ogImage.url
+  : `${SITE.website}posts/${slug}.png`;
 
 // For display: use URL as-is (works for both Hashnode URLs and local paths)
 const displayImageUrl = ogImageUrl;
@@ -54,13 +55,15 @@ const ogUrl = ogImageUrl.startsWith("http")
 
 const layoutProps = {
   title: `${title} | ${SITE.title}`,
-  author: author.name,
-  description,
-  pubDateTime: publishedAt,
-  modDatetime: updatedAt,
-  canonicalUrl,
+  headline: title,
+  author: SITE.author,
+  description: resolveDescription(slug, description, post.brief),
+  pubDatetime: publishedAt,
+  modDatetime: updatedAt || publishedAt,
+  canonicalURL: canonicalUrl || `${SITE.website}${slug}/`,
   ogImage: ogUrl,
   scrollSmooth: true,
+  schema: "BlogPosting" as const,
 };
 ---
 
@@ -103,7 +106,14 @@ const layoutProps = {
                     heading.level === 4 ? "ml-8" : "",
                   ].join(" ")}
                 >
-                  <a href={ContentComponent ? `#${heading.slug}` : `#heading-${heading.slug}`} class="hover:underline">
+                  <a
+                    href={
+                      ContentComponent
+                        ? `#${heading.slug}`
+                        : `#heading-${heading.slug}`
+                    }
+                    class="hover:underline"
+                  >
                     {heading.title}
                   </a>
                 </li>
@@ -114,7 +124,13 @@ const layoutProps = {
       }
     </nav>
     <article id="article" class="prose mx-auto mt-8 max-w-3xl">
-      {ContentComponent ? <ContentComponent /> : <Fragment set:html={content.html} />}
+      {
+        ContentComponent ? (
+          <ContentComponent />
+        ) : (
+          <Fragment set:html={content.html} />
+        )
+      }
     </article>
     <ProductOffer tags={tags} />
     <RelatedPosts currentPost={post} allPosts={allPosts} />

@@ -4,7 +4,7 @@ import getSortedPosts from "@utils/getSortedPosts";
 import getPageNumbers from "@utils/getPageNumbers";
 import getPagination from "@utils/getPagination";
 import { fetchAllPosts } from "lib/clients";
-import type { PageInfo , Post} from "lib/schema";
+import type { PageInfo, Post } from "lib/schema";
 
 export interface Props {
   posts: Post[];
@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 
   const pagePaths = getPageNumbers(posts.length).map(pageNum => ({
     params: { slug: String(pageNum) },
-    props: { posts }
+    props: { posts },
   }));
 
   return [...pagePaths];

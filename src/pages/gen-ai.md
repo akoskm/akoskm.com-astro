@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/ProjectsLayout.astro
 title: "Generative AI with React JS: Build and Deploy Powerful AI Apps"
+description: "What Ákos K's OpenAI crash course covers: generating text, speech post-processing, a social companion app, and deploying generative AI with React."
 ---
 
 Generative AI is transforming app development, and with React JS, you can create cutting-edge, production-ready AI applications. In my book, "OpenAI Crash Course in One Hour: Build Production-Ready Generative AI Apps with React, TypeScript & Remix", you'll learn step-by-step how to leverage the <span class="font-black text-orange-600">OpenAI API in React</span> to create advanced apps.

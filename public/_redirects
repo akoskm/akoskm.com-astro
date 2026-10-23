@@ -1,0 +1,9 @@
+# Legacy akoskm.com URLs. Netlify applies these as 301s.
+# Paths that only existed on thatamazingprogrammer.com are intentionally absent.
+
+/blog/twitter-sign-in-for-web-apps    /twitter-sign-in-for-web-apps/    301
+/blog/twitter-sign-in-for-web-apps/   /twitter-sign-in-for-web-apps/    301
+/talks                                /about/                           301
+/talks/                               /about/                           301
+/2020/01/22/mocha-jest-react-testing.html  /mocha-to-jest-migration/  301
+/2016/07/01/node-js-unit-testing-stripe-api-tutorial.html  /node-js-unit-testing-stripe-api-tutorial/  301

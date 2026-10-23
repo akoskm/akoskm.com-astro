@@ -20,7 +20,10 @@ const { currentPage, totalPages, paginatedPosts, serie, serieName } =
   Astro.props;
 ---
 
-<Layout title={`Series: ${serieName} | ${SITE.title}`}>
+<Layout
+  title={`Series: ${serieName} | ${SITE.title}`}
+  description={`Articles in the ${serieName} series by Ákos K.`}
+>
   <Header activeNav="series" />
   <Main
     pageTitle={[`Series:`, `${serieName}`]}
