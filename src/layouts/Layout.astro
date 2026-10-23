@@ -3,6 +3,8 @@ import { AUTHOR_IMAGE, LOCALE, SAME_AS, SITE } from "@config";
 import { toIso } from "lib/postMeta";
 import SiteSidebar from "@components/SiteSidebar.astro";
 import SiteTopbar from "@components/SiteTopbar.astro";
+import geistSansWoff2 from "../../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2?url";
+import geistMonoWoff2 from "../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2?url";
 import "@styles/fonts.css";
 import "@styles/base.css";
 import "@styles/site.css";
@@ -139,7 +141,14 @@ const structuredData =
 
     <link
       rel="preload"
-      href="/fonts/switzer-400.woff2"
+      href={geistSansWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={geistMonoWoff2}
       as="font"
       type="font/woff2"
       crossorigin

@@ -1,5 +1,6 @@
 ---
 import type { Promo } from "@data/promos";
+import Icon from "./Icon.astro";
 
 export interface Props {
   promo: Promo;
@@ -24,7 +25,7 @@ const kindLabel =
         <div class="mt-4 flex flex-wrap items-center gap-3">
           <a
             href={primary.href}
-            class="hire-me-btn inline-block rounded-lg bg-skin-accent px-4 py-2 text-sm font-medium text-skin-inverted"
+            class="hire-me-btn inline-flex items-center gap-1.5 rounded-lg bg-skin-accent px-4 py-2 text-sm font-medium text-skin-inverted"
             data-promo-card={promo.id}
             data-promo-post={post}
             data-promo-destination={primary.destination}
@@ -32,11 +33,12 @@ const kindLabel =
             target="_blank"
           >
             {primary.label}
+            <Icon name="arrow-up-right" size={16} />
           </a>
           {rest.map(link => (
             <a
               href={link.href}
-              class="text-sm underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+              class="with-icon text-sm underline decoration-dashed underline-offset-4 hover:text-skin-accent"
               data-promo-card={promo.id}
               data-promo-post={post}
               data-promo-destination={link.destination}
@@ -44,6 +46,7 @@ const kindLabel =
               target="_blank"
             >
               {link.label}
+              <Icon name="arrow-up-right" size={16} />
             </a>
           ))}
         </div>

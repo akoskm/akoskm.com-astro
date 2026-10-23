@@ -1,23 +1,35 @@
 @font-face {
-  font-family: Switzer;
-  src: url("/fonts/switzer-400.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Geist Sans";
+  src: url("../../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2")
+    format("woff2");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: Switzer;
-  src: url("/fonts/switzer-500.woff2") format("woff2");
-  font-weight: 500;
+  font-family: "Geist Sans";
+  src: url("../../node_modules/geist/dist/fonts/geist-sans/Geist-Italic[wght].woff2")
+    format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2")
+    format("woff2");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: Switzer;
-  src: url("/fonts/switzer-600.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
+  font-family: "Geist Mono";
+  src: url("../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Italic[wght].woff2")
+    format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
   font-display: swap;
 }

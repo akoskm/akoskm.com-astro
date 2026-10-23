@@ -1,5 +1,6 @@
 ---
 import { BITSY_REFERRAL } from "@data/promos";
+import Icon from "./Icon.astro";
 
 export interface Props {
   post: string;
@@ -31,10 +32,11 @@ const subscribeAction = "https://akoskm.substack.com/subscribe";
   <input type="hidden" name="r" value={BITSY_REFERRAL} />
   <p data-bitsy-status class="mt-2 min-h-[1.25rem] text-sm" role="status"></p>
   <button
-    class="hire-me-btn mt-1 w-full rounded-lg bg-skin-accent px-4 py-2 text-sm font-medium text-skin-inverted disabled:opacity-60"
+    class="hire-me-btn mt-1 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-skin-accent px-4 py-2 text-sm font-medium text-skin-inverted disabled:opacity-60"
     type="submit"
     data-bitsy-button
   >
+    <Icon name="send" size={16} />
     Subscribe
   </button>
 </form>

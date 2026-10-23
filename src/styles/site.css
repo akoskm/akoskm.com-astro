@@ -36,29 +36,9 @@
   justify-content: center;
 }
 
-.menu-button span,
-.menu-button span::before,
-.menu-button span::after {
-  display: block;
-  width: 1.1rem;
-  height: 1.5px;
-  background: rgb(var(--color-text-base));
-  position: relative;
-}
-
-.menu-button span::before,
-.menu-button span::after {
-  content: "";
-  position: absolute;
-  left: 0;
-}
-
-.menu-button span::before {
-  top: -6px;
-}
-
-.menu-button span::after {
-  top: 6px;
+.menu-button svg {
+  width: 18px;
+  height: 18px;
 }
 
 .theme-toggle {
@@ -70,9 +50,10 @@
 }
 
 .theme-toggle svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  fill: rgb(var(--color-text-base));
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
 }
 
 .icon-sun,
@@ -176,4 +157,38 @@ html[data-theme="dark"] .icon-sun {
   max-width: none;
   margin-left: 0;
   margin-right: 0;
+}
+
+svg.lucide {
+  fill: none;
+  stroke: currentColor;
+  flex: none;
+}
+
+svg.lucide[width="18"] {
+  width: 18px;
+  height: 18px;
+}
+
+svg.lucide[width="16"] {
+  width: 16px;
+  height: 16px;
+}
+
+.phonetic {
+  margin-left: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.55em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: rgb(var(--color-text-muted));
+  white-space: nowrap;
+}
+
+.with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }

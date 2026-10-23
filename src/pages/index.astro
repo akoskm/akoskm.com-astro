@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import BitsyForm from "@components/BitsyForm.astro";
+import Icon from "@components/Icon.astro";
 import ProjectStrip from "@components/ProjectStrip.astro";
 import StreamList from "@components/StreamList.astro";
 import { getAllPosts } from "lib/getAllPosts";
@@ -27,23 +28,29 @@ const articles = posts.slice(0, 8).map(post => ({
       <ProjectStrip />
     </section>
     <section class="home-newsletter">
-      <h1>Newsletter</h1>
+      <h1><Icon name="newspaper" /> Newsletter</h1>
       <p class="lede">
         {BITSY_TAGLINE}
       </p>
       <StreamList items={newsletters} />
       <p class="stream-more">
-        <a href="/newsletter/">All issues →</a>
+        <a class="with-icon" href="/newsletter/">
+          All issues
+          <Icon name="arrow-up-right" size={16} />
+        </a>
       </p>
       <div class="home-signup">
         <BitsyForm post="/" id="bitsy-email-home" compact />
       </div>
     </section>
     <section class="home-posts">
-      <h2>Posts</h2>
+      <h2><Icon name="pen-line" /> Posts</h2>
       <StreamList items={articles} showKind={false} />
       <p class="stream-more">
-        <a href="/posts/">All articles →</a>
+        <a class="with-icon" href="/posts/">
+          All articles
+          <Icon name="arrow-up-right" size={16} />
+        </a>
       </p>
     </section>
   </main>
@@ -59,6 +66,9 @@ const articles = posts.slice(0, 8).map(post => ({
   }
   .home-newsletter h1,
   .home-posts h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
     font-size: 2.15rem;
     line-height: 1.05;
   }

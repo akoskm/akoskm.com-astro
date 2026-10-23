@@ -57,7 +57,7 @@ module.exports = {
         transparent: "transparent",
       },
       fontFamily: {
-        sans: ["Switzer", "Avenir Next", "Segoe UI", "sans-serif"],
+        sans: ["Geist Sans", "Avenir Next", "Segoe UI", "sans-serif"],
         serif: [
           "Iowan Old Style",
           "Palatino",
@@ -66,6 +66,7 @@ module.exports = {
           "serif",
         ],
         mono: [
+          "Geist Mono",
           "ui-monospace",
           "SFMono-Regular",
           "Menlo",

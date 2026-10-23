@@ -3,20 +3,26 @@ import { LISTED_APPS } from "@data/apps";
 import products from "@data/products";
 import { BITSY_TAGLINE, BITSY_URL } from "@data/promos";
 import BitsyForm from "./BitsyForm.astro";
+import Icon from "./Icon.astro";
 import ProfilePhoto from "./ProfilePhoto.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
 const path = Astro.url.pathname;
 
 const nav = [
-  { href: "/", label: "Home", card: "home" },
-  { href: "/posts/", label: "Writing", card: "writing" },
-  { href: "/newsletter/", label: "Newsletter", card: "newsletter" },
-  { href: "/apps/", label: "Apps", card: "apps" },
-  { href: "/books/", label: "Books", card: "books" },
-  { href: "/about/", label: "About", card: "about" },
-  { href: "/search/", label: "Search", card: "search" },
-];
+  { href: "/", label: "Home", card: "home", icon: "home" },
+  { href: "/posts/", label: "Writing", card: "writing", icon: "pen-line" },
+  {
+    href: "/newsletter/",
+    label: "Newsletter",
+    card: "newsletter",
+    icon: "newspaper",
+  },
+  { href: "/apps/", label: "Apps", card: "apps", icon: "blocks" },
+  { href: "/books/", label: "Books", card: "books", icon: "book-open" },
+  { href: "/about/", label: "About", card: "about", icon: "user" },
+  { href: "/search/", label: "Search", card: "search", icon: "search" },
+] as const;
 
 function current(href: string): boolean {
   if (href === "/") return path === "/";
@@ -39,8 +45,12 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     >
       <ProfilePhoto size={64} />
       <span>
-        <span class="site-name" lang="hu">Ákos Kőműves</span>
-        <span class="name-pronounce" lang="en">pronounced AH-kosh</span>
+        <span class="site-name" lang="hu"
+          >Ákos Kőműves
+          <span class="phonetic" lang="en" aria-label="pronounced AH-kosh"
+            >(AH-kosh)</span
+          ></span
+        >
         <span class="bio">I build apps and write Bitsy.</span>
       </span>
     </a>
@@ -50,14 +60,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
       data-drawer-close
       aria-label="Close menu"
     >
-      <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
-        <path
-          d="M6 6l12 12M18 6L6 18"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"></path>
-      </svg>
+      <Icon name="x" />
     </button>
   </div>
 
@@ -73,6 +76,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
               data-promo-post={path}
               data-promo-destination="nav"
             >
+              <Icon name={item.icon} />
               {item.label}
             </a>
           </li>
@@ -97,6 +101,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
       target="_blank"
     >
       Read it on Substack
+      <Icon name="arrow-up-right" size={16} />
     </a>
   </div>
 
@@ -171,6 +176,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
       data-promo-post={path}
       data-promo-destination="email"
     >
+      <Icon name="mail" size={16} />
       hello@akoskm.com
     </a>
     <p class="socials">
@@ -182,6 +188,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
         rel="noopener noreferrer"
         target="_blank"
       >
+        <Icon name="x" size={16} />
         X @akoskm
       </a>
       <a
@@ -192,6 +199,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
         rel="noopener noreferrer"
         target="_blank"
       >
+        <Icon name="github" size={16} />
         GitHub
       </a>
     </p>
@@ -222,7 +230,6 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     display: none;
   }
   .site-name,
-  .name-pronounce,
   .bio {
     display: block;
   }
@@ -230,12 +237,6 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     font-family: var(--font-serif);
     font-size: 1.7rem;
     line-height: 1.15;
-  }
-  .name-pronounce {
-    margin-top: 0.15rem;
-    color: rgb(var(--color-text-muted));
-    font-size: 0.75rem;
-    line-height: 1.2;
   }
   .bio {
     margin-top: 0.25rem;
@@ -248,7 +249,9 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     padding: 0;
   }
   nav a {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
     padding: 0.28rem 0 0.28rem 0.7rem;
     border-left: 2px solid transparent;
     text-decoration: none;
@@ -276,7 +279,9 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     line-height: 1.4;
   }
   .side-inline {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
     margin-top: 0.35rem;
     font-size: 0.85rem;
     text-underline-offset: 3px;
@@ -331,11 +336,22 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     font-weight: 600;
     text-decoration: none;
   }
+  .side-contact > a[href^="mailto:"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
   .socials {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.9rem;
     margin-top: 0.45rem;
     font-size: 0.9rem;
+  }
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
   }
   .theme-toggle {
     margin-top: 0.8rem;
@@ -362,8 +378,8 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
       color: rgb(var(--color-text-base));
     }
     .drawer-close svg {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 18px;
+      height: 18px;
       fill: none;
       stroke: currentColor;
     }

@@ -1,5 +1,6 @@
 ---
 import type { StreamEntry } from "lib/bitsyFeed";
+import Icon from "./Icon.astro";
 
 export interface Props {
   items: StreamEntry[];
@@ -36,10 +37,16 @@ function formatDate(value: string): string {
               </span>
             )}
             <time datetime={item.publishedAt}>
+              <Icon name="calendar" size={16} />
               {formatDate(item.publishedAt)}
             </time>
           </span>
-          <span class="stream-title">{item.title}</span>
+          <span class="stream-title">
+            {item.title}
+            {item.kind === "newsletter" && (
+              <Icon name="arrow-up-right" size={16} />
+            )}
+          </span>
           {item.summary && <span class="stream-summary">{item.summary}</span>}
         </a>
       </li>
@@ -67,10 +74,16 @@ function formatDate(value: string): string {
   .stream-meta {
     display: flex;
     gap: 0.75rem;
-    align-items: baseline;
+    align-items: center;
+    font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+  }
+  .stream-meta time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
   }
   .stream-kind.newsletter {
     color: rgb(var(--color-accent));
@@ -82,7 +95,9 @@ function formatDate(value: string): string {
     letter-spacing: 0;
   }
   .stream-title {
-    display: block;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
     margin-top: 0.2rem;
     font-family: var(--font-serif);
     font-size: 1.45rem;

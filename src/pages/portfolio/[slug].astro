@@ -1,6 +1,7 @@
 ---
 import { SITE } from "@config";
 import Breadcrumbs from "@components/Breadcrumbs.astro";
+import Icon from "@components/Icon.astro";
 import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
@@ -31,9 +32,10 @@ const { Content } = await item.render();
               href={item.data.clientUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-skin-accent hover:underline"
+              class="with-icon text-skin-accent hover:underline"
             >
               {item.data.client}
+              <Icon name="arrow-up-right" size={16} />
             </a>
           ) : (
             item.data.client
@@ -44,7 +46,7 @@ const { Content } = await item.render();
       <div class="mb-6 flex flex-wrap gap-2">
         {
           item.data.technologies.map(tech => (
-            <span class="rounded border border-skin-line px-2 py-1 text-xs text-skin-base">
+            <span class="rounded border border-skin-line px-2 py-1 font-mono text-xs text-skin-base">
               {tech}
             </span>
           ))

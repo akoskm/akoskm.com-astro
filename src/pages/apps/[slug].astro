@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import Icon from "@components/Icon.astro";
 import { AUTHOR_IMAGE, SITE } from "@config";
 import { APPS, type AppInfo } from "@data/apps";
 
@@ -67,9 +68,16 @@ const schema = {
           target="_blank"
         >
           App Store
+          <Icon name="arrow-up-right" size={16} />
         </a>
-        <a href={app.site} rel="noopener noreferrer" target="_blank">
+        <a
+          class="with-icon"
+          href={app.site}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           {app.siteLabel}
+          <Icon name="arrow-up-right" size={16} />
         </a>
       </p>
     </article>
@@ -127,7 +135,9 @@ const schema = {
     align-items: center;
   }
   .hire-me-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     border-radius: 999px;
     background: rgb(var(--color-accent-fill));
     padding: 0.55rem 1rem;

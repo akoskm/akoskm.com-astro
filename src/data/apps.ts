@@ -91,7 +91,7 @@ export const LISTED_APPS: ListedApp[] = [
   {
     name: "Geordi Scan",
     summary:
-      "See what your documents hide. Upload contracts and legal documents and get scenario flowcharts, key dates, and obligations, each linked to the page and quote in the PDF. EU-hosted storage.",
+      "See what your contracts hide, with every claim linked to the PDF.",
     href: "https://geordiscan.com",
     icon: "/assets/apps/geordi.png",
     external: true,

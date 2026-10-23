@@ -31,14 +31,18 @@ const { frontmatter, nameHeading, pronunciation } = Astro.props;
             lang={nameHeading ? "hu" : undefined}
           >
             {nameHeading || frontmatter.title}
+            {
+              pronunciation && (
+                <span
+                  class="phonetic"
+                  lang="en"
+                  aria-label={`pronounced ${pronunciation}`}
+                >
+                  ({pronunciation})
+                </span>
+              )
+            }
           </h1>
-          {
-            pronunciation && (
-              <p class="name-pronounce" lang="en">
-                pronounced {pronunciation}
-              </p>
-            )
-          }
         </div>
       </div>
       <slot />
@@ -55,14 +59,5 @@ const { frontmatter, nameHeading, pronunciation } = Astro.props;
   }
   .about-identity h1 {
     margin: 0;
-  }
-  .name-pronounce {
-    margin-top: 0.35rem;
-    margin-bottom: 0;
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    line-height: 1.3;
-    letter-spacing: 0;
-    color: rgb(var(--color-text-muted));
   }
 </style>

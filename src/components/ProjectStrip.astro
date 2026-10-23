@@ -1,22 +1,29 @@
 ---
-import { APPS } from "@data/apps";
+import { LISTED_APPS } from "@data/apps";
 import products from "@data/products";
+import Icon from "./Icon.astro";
 
 const path = Astro.url.pathname;
-const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
-  key => products[key as keyof typeof products]
-);
+const books = [
+  "mcp-crash-course",
+  "rtl-crash-course",
+  "pwa",
+  "openAi",
+  "portfolio",
+].map(key => products[key as keyof typeof products]);
 ---
 
 <div class="project-strip lg:hidden">
-  <h2>Apps</h2>
+  <h2><Icon name="blocks" size={16} /> Apps</h2>
   <ul>
     {
-      APPS.map(app => (
+      LISTED_APPS.map(app => (
         <li>
           <a
-            href={`/apps/${app.slug}/`}
-            data-promo-card={`sidebar-${app.slug}`}
+            href={app.href}
+            target={app.external ? "_blank" : undefined}
+            rel={app.external ? "noopener noreferrer" : undefined}
+            data-promo-card={`sidebar-${app.name.toLowerCase().replace(/\s+/g, "-")}`}
             data-promo-post={path}
             data-promo-destination="app"
           >
@@ -30,7 +37,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
       ))
     }
   </ul>
-  <h2>Books</h2>
+  <h2><Icon name="book-open" size={16} /> Books</h2>
   <ul class="book-strip">
     {
       books.map(book => (
@@ -54,6 +61,9 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     margin: 1.5rem 0 0.5rem;
   }
   .project-strip h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
     margin: 1rem 0 0.5rem;
     font-family: var(--font-sans);
     font-size: 0.75rem;
@@ -103,6 +113,6 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
   .project-strip span span {
     margin-top: 0.15rem;
     font-size: 0.85rem;
-    opacity: 0.75;
+    color: rgb(var(--color-text-muted));
   }
 </style>

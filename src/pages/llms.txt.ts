@@ -36,7 +36,7 @@ export const GET: APIRoute = async () => {
     `- [Apps](${SITE.website}apps/): Nummy, SubSub, Geordi Scan, and One Task X.`,
     `- [Nummy](${SITE.website}apps/nummy/): Nursing tracker. Log a feed on your Watch, then see the week on iPhone.`,
     `- [SubSub](${SITE.website}apps/subsub/): Subscription tracker for iPhone and Mac. No bank login.`,
-    `- [Geordi Scan](https://geordiscan.com): See what your documents hide. Upload contracts and legal documents and get scenario flowcharts, key dates, and obligations, each linked to the page and quote in the PDF. EU-hosted storage.`,
+    `- [Geordi Scan](https://geordiscan.com): See what your contracts hide, with every claim linked to the PDF.`,
     `- [One Task X](https://onetaskx.com): A minimalist todo application.`,
     `- [Books](${SITE.website}books/): React testing, hooks, generative AI, and PWA books and courses.`,
     `- [Portfolio](${SITE.website}portfolio/): Client project case studies.`,

@@ -14,10 +14,11 @@
     --color-card-muted: 232, 224, 208;
     --color-border: 129, 123, 117;
     --color-on-accent: 23, 25, 30;
-    --font-sans: Switzer, "Avenir Next", "Segoe UI", sans-serif;
+    --font-sans: "Geist Sans", "Avenir Next", "Segoe UI", sans-serif;
     --font-serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia,
       serif;
-    --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas,
+      monospace;
   }
   html[data-theme="dark"] {
     --color-fill: 23, 25, 30;
@@ -32,6 +33,8 @@
   }
   body {
     @apply flex min-h-[100svh] flex-col bg-skin-fill font-sans text-skin-base;
+    font-size: 17px;
+    line-height: 1.6;
   }
   h1,
   h2,
@@ -183,6 +186,19 @@ html pre .hljs-quote {
 html[data-theme="light"] pre.astro-code span[style*="#E36209"],
 html[data-theme="light"] pre.astro-code span[style*="#e36209"] {
   color: #c2410c !important;
+}
+
+.prose {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.prose :where(p, li) {
+  line-height: 1.65;
+}
+
+.prose-lg {
+  font-size: 18px;
 }
 
 @layer components {
