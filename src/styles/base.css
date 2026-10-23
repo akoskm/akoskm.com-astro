@@ -82,17 +82,15 @@
   .prose a {
     @apply break-words hover:!text-skin-accent;
   }
-  .prose a.hire-me-btn,
-  a.hire-me-btn,
   .prose a.bg-skin-accent,
-  a.bg-skin-accent {
+  a.bg-skin-accent,
+  button.bg-skin-accent {
     color: rgb(var(--color-on-accent)) !important;
     text-decoration: none !important;
   }
-  .prose a.hire-me-btn:hover,
-  a.hire-me-btn:hover,
   .prose a.bg-skin-accent:hover,
-  a.bg-skin-accent:hover {
+  a.bg-skin-accent:hover,
+  button.bg-skin-accent:hover {
     color: rgb(var(--color-on-accent)) !important;
     text-decoration: underline !important;
     text-decoration-style: dashed !important;

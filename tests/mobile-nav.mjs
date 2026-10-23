@@ -21,7 +21,7 @@ const freshRoutes = [
 
 const nav = [
   ["Home", /^\/$/],
-  ["Writing", /\/posts\/?$/],
+  ["Posts", /\/posts\/?$/],
   ["Newsletter", /\/newsletter\/?$/],
   ["Apps", /\/apps\/?$/],
   ["Books", /\/books\/?$/],
@@ -169,7 +169,7 @@ try {
 
   await page.goto(base + "/", { waitUntil: "load" });
   await openDrawer(page);
-  await page.locator("[data-site-drawer] nav a", { hasText: "Writing" }).click();
+  await page.locator("[data-site-drawer] nav a", { hasText: "Posts" }).click();
   await page.waitForURL(url => /\/posts\/?$/.test(new URL(url).pathname));
   await assertDrawerClosed(page);
   await page.goBack({ waitUntil: "load" });

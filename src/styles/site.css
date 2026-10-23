@@ -7,19 +7,32 @@
   align-items: center;
   justify-content: space-between;
   height: 3.5rem;
-  padding: 0 0.9rem;
-  background: rgb(var(--color-card));
+  padding: 0 0.65rem 0 0.85rem;
+  background: rgba(var(--color-card), 0.86);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid rgb(var(--color-border));
   position: sticky;
   top: 0;
   z-index: 50;
 }
 
-.site-topbar a {
-  font-family: var(--font-serif);
-  font-size: 1.45rem;
-  line-height: 1;
+.topbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  color: rgb(var(--color-text-base));
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.1;
   text-decoration: none;
+}
+
+.topbar-brand span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .topbar-actions {
@@ -30,10 +43,21 @@
 
 .menu-button {
   display: none;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 44px;
+  height: 44px;
   align-items: center;
   justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  padding: 0;
+  color: rgb(var(--color-text-base));
+  cursor: pointer;
+  transition: transform 160ms ease;
+}
+
+.menu-button:active {
+  transform: scale(0.95);
 }
 
 .menu-button svg {
@@ -42,11 +66,28 @@
 }
 
 .theme-toggle {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 40px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  padding: 0;
+  color: rgb(var(--color-text-base));
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(var(--color-text-base), 0.08);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
 }
 
 .theme-toggle svg {
@@ -112,8 +153,10 @@ html[data-theme="dark"] .icon-sun {
     top: 3.5rem;
     bottom: 0;
     left: 0;
-    width: min(20rem, calc(100vw - 2.5rem));
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    width: min(348px, calc(100vw - 2.5rem));
+    overflow: hidden;
     transform: translateX(-105%);
   }
 
@@ -127,22 +170,26 @@ html[data-theme="dark"] .icon-sun {
 }
 
 @media (min-width: 1024px) {
-  .site-shell {
-    display: grid;
-    grid-template-columns: 19rem minmax(0, 1fr);
-  }
-
   .site-topbar,
   .site-backdrop {
     display: none;
   }
 
   .site-sidebar {
-    position: sticky;
+    position: fixed;
+    z-index: 30;
     top: 0;
+    left: 0;
+    display: flex;
+    width: 348px;
     height: 100svh;
-    overflow: auto;
+    overflow: hidden;
+    transform: none;
     border-right: 1px solid rgb(var(--color-border));
+  }
+
+  .site-content {
+    margin-left: 348px;
   }
 }
 

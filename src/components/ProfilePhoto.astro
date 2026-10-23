@@ -4,16 +4,21 @@ import avatar from "../assets/akoskm.jpg";
 
 interface Props {
   size?: number;
+  shape?: "circle" | "square";
+  alt?: string;
 }
 
-const { size = 64 } = Astro.props;
+const { size = 64, shape = "circle", alt = "Ákos Kőműves" } = Astro.props;
 ---
 
-<span class="profile-photo" style={`width: ${size}px; height: ${size}px`}>
+<span
+  class:list={["profile-photo", shape === "square" && "is-square"]}
+  style={`width: ${size}px; height: ${size}px`}
+>
   <Picture
     src={avatar}
     formats={["avif", "webp"]}
-    alt="Ákos Kőműves"
+    alt={alt}
     width={size}
     height={size}
     densities={[1, 2]}
@@ -37,5 +42,8 @@ const { size = 64 } = Astro.props;
     border-radius: 999px;
     object-fit: cover;
     box-shadow: 0 0 0 2px rgb(var(--color-accent-fill));
+  }
+  .is-square :global(img) {
+    border-radius: 0.7rem;
   }
 </style>
