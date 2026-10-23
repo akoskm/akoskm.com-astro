@@ -348,14 +348,21 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     .theme-toggle {
       display: none;
     }
-    :global(html.js) .drawer-close {
+    .drawer-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      margin: -1.25rem -1.1rem 0;
+      padding: 0.85rem 0.7rem 0.75rem 1.1rem;
+      background: rgb(var(--color-card));
+    }
+    .drawer-close {
       display: inline-flex;
       flex: none;
       align-items: center;
       justify-content: center;
       width: 44px;
       height: 44px;
-      margin: -0.4rem -0.35rem 0 0;
       color: rgb(var(--color-text-base));
     }
     .drawer-close svg {

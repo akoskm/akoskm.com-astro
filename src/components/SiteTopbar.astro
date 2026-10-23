@@ -1,0 +1,21 @@
+---
+import { SITE } from "@config";
+import ThemeToggle from "./ThemeToggle.astro";
+---
+
+<header class="site-topbar">
+  <a href="/" lang="hu">{SITE.author}</a>
+  <div class="topbar-actions">
+    <ThemeToggle />
+    <button
+      class="menu-button focus-outline"
+      type="button"
+      data-menu-button
+      aria-expanded="false"
+      aria-controls="site-drawer"
+      aria-label="Open menu"
+    >
+      <span></span>
+    </button>
+  </div>
+</header>

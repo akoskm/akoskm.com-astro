@@ -30,14 +30,10 @@
 
 .menu-button {
   display: none;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   align-items: center;
   justify-content: center;
-}
-
-html.js .menu-button {
-  display: inline-flex;
 }
 
 .menu-button span,
@@ -125,7 +121,11 @@ html[data-theme="dark"] .icon-sun {
 }
 
 @media (max-width: 1023px) {
-  html.js .site-sidebar {
+  .menu-button {
+    display: inline-flex;
+  }
+
+  .site-sidebar {
     position: fixed;
     z-index: 40;
     top: 3.5rem;
@@ -136,11 +136,11 @@ html[data-theme="dark"] .icon-sun {
     transform: translateX(-105%);
   }
 
-  html.js .site-sidebar.is-open {
+  .site-sidebar.is-open {
     transform: translateX(0);
   }
 
-  html.js body.menu-open {
+  body.menu-open {
     overflow: hidden;
   }
 }
@@ -166,7 +166,7 @@ html[data-theme="dark"] .icon-sun {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html.js .site-sidebar {
+  .site-sidebar {
     transition: transform 180ms ease;
   }
 }

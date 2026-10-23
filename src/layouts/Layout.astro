@@ -2,7 +2,7 @@
 import { LOCALE, SAME_AS, SITE } from "@config";
 import { toIso } from "lib/postMeta";
 import SiteSidebar from "@components/SiteSidebar.astro";
-import ThemeToggle from "@components/ThemeToggle.astro";
+import SiteTopbar from "@components/SiteTopbar.astro";
 import "@styles/fonts.css";
 import "@styles/base.css";
 import "@styles/site.css";
@@ -85,10 +85,7 @@ const structuredData =
 ---
 
 <!doctype html>
-<html
-  lang=`${LOCALE.lang ?? "en"}`
-  class={`${scrollSmooth && "scroll-smooth"}`}
->
+<html lang={LOCALE.lang ?? "en"} class:list={[scrollSmooth && "scroll-smooth"]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -146,7 +143,7 @@ const structuredData =
       type="font/woff2"
       crossorigin
     />
-    <script is:inline>
+    <script is:inline data-astro-rerun>
       document.documentElement.classList.add("js");
     </script>
 
@@ -209,22 +206,7 @@ const structuredData =
   <body>
     <a id="skip-to-content" href="#main-content">Skip to content</a>
     <div class="site-shell">
-      <header class="site-topbar">
-        <a href="/" lang="hu">{SITE.author}</a>
-        <div class="topbar-actions">
-          <ThemeToggle />
-          <button
-            class="menu-button focus-outline"
-            type="button"
-            data-menu-button
-            aria-expanded="false"
-            aria-controls="site-drawer"
-            aria-label="Open menu"
-          >
-            <span></span>
-          </button>
-        </div>
-      </header>
+      <SiteTopbar />
       <SiteSidebar />
       <div class="site-content">
         <slot />
@@ -327,6 +309,32 @@ const structuredData =
         });
         window.addEventListener("resize", () => {
           if (drawerDesktop()) setDrawer(false);
+        });
+        document.addEventListener(
+          "click",
+          event => {
+            const node = event.target;
+            if (!(node instanceof Element)) return;
+            const link = node.closest("a[href]");
+            if (!link || !link.closest("[data-site-drawer]")) return;
+            if (drawerDesktop()) return;
+            const { button, drawer, backdrop } = drawerEls();
+            if (!button || !drawer) return;
+            button.setAttribute("aria-expanded", "false");
+            button.setAttribute("aria-label", "Open menu");
+            drawer.classList.remove("is-open");
+            document.body.classList.remove("menu-open");
+            if (backdrop) backdrop.setAttribute("hidden", "");
+            setTimeout(() => {
+              const next = drawerEls().drawer;
+              if (next && !next.classList.contains("is-open")) setDrawer(false);
+            }, 0);
+          },
+          true
+        );
+        document.addEventListener("astro:after-swap", () => {
+          document.documentElement.classList.add("js");
+          setDrawer(false);
         });
         document.addEventListener("astro:page-load", bindDrawer);
       }
