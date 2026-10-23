@@ -152,6 +152,40 @@ const structuredData =
     <ViewTransitions />
 
     <script defer src="/toggle-theme.js"></script>
+    <script is:inline>
+      window.plausible =
+        window.plausible ||
+        function (...args) {
+          (window.plausible.q = window.plausible.q || []).push(args);
+        };
+      if (!window.__promoTracking) {
+        window.__promoTracking = true;
+        function promoProps(el) {
+          const card = el.getAttribute("data-promo-card");
+          const post = el.getAttribute("data-promo-post");
+          if (!card || !post) return null;
+          const props = { card, post };
+          const destination = el.getAttribute("data-promo-destination");
+          if (destination) props.destination = destination;
+          return props;
+        }
+        document.addEventListener("click", event => {
+          const node = event.target;
+          if (!(node instanceof Element)) return;
+          const link = node.closest("a[data-promo-card]");
+          if (!link) return;
+          const props = promoProps(link);
+          if (props) window.plausible("Promo Click", { props });
+        });
+        document.addEventListener("submit", event => {
+          const form = event.target;
+          if (!(form instanceof HTMLFormElement)) return;
+          if (!form.getAttribute("data-promo-card")) return;
+          const props = promoProps(form);
+          if (props) window.plausible("Promo Click", { props });
+        });
+      }
+    </script>
     <script
       defer
       data-domain="akoskm.com"

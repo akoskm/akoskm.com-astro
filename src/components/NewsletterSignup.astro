@@ -1,0 +1,61 @@
+---
+import { BITSY_FORM_ACTION, BITSY_REFERRAL, BITSY_URL } from "@data/promos";
+
+export interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+const pageUrl = `https://akoskm.com/${slug}/`;
+---
+
+<aside class="my-8 rounded-lg border border-skin-line bg-skin-card p-4">
+  <p class="text-xs uppercase tracking-wide opacity-70">Newsletter</p>
+  <h2 class="mt-1 text-lg font-semibold">Bitsy</h2>
+  <p class="mt-2 text-sm">
+    A free weekly newsletter for developers. I write about what I'm building and
+    what I had to figure out to ship it. One email a week.
+  </p>
+  <form
+    class="mt-4 flex flex-col gap-3 sm:flex-row"
+    action={BITSY_FORM_ACTION}
+    method="post"
+    target="_blank"
+    data-promo-card="bitsy-signup"
+    data-promo-post={slug}
+    data-promo-destination="subscribe"
+  >
+    <input type="hidden" name="source" value="embed" />
+    <input type="hidden" name="referral_code" value={BITSY_REFERRAL} />
+    <input type="hidden" name="current_url" value={pageUrl} />
+    <label class="sr-only" for="bitsy-email">Email</label>
+    <input
+      id="bitsy-email"
+      class="w-full rounded-lg border border-skin-line bg-skin-fill px-4 py-2 focus:border-skin-accent focus:outline-none"
+      type="email"
+      name="email"
+      required
+      autocomplete="email"
+      placeholder="you@example.com"
+    />
+    <button
+      class="hire-me-btn shrink-0 rounded-lg bg-skin-accent px-4 py-2 font-medium text-skin-inverted"
+      type="submit"
+    >
+      Subscribe
+    </button>
+  </form>
+  <p class="mt-3 text-sm">
+    <a
+      href={BITSY_URL}
+      class="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+      data-promo-card="bitsy-signup"
+      data-promo-post={slug}
+      data-promo-destination="read"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Read it on Substack
+    </a>
+  </p>
+</aside>

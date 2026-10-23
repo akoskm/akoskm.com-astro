@@ -1,0 +1,13 @@
+---
+import PromoCard from "@components/PromoCard.astro";
+import { promosForSlug } from "@data/promos";
+
+export interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+const promos = promosForSlug(slug);
+---
+
+{promos.map(promo => <PromoCard promo={promo} post={slug} />)}

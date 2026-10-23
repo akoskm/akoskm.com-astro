@@ -6,6 +6,8 @@ import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import ShareLinks from "@components/ShareLinks.astro";
 import ProductOffer from "@components/ProductOffer.astro";
+import PostPromos from "@components/PostPromos.astro";
+import NewsletterSignup from "@components/NewsletterSignup.astro";
 import RelatedPosts from "@components/RelatedPosts.astro";
 import { SITE } from "@config";
 import { resolveDescription } from "lib/postMeta";
@@ -132,12 +134,15 @@ const layoutProps = {
         )
       }
     </article>
-    <ProductOffer tags={tags} />
+    <PostPromos slug={slug} />
+    <ProductOffer tags={tags} slug={slug} />
     <RelatedPosts currentPost={post} allPosts={allPosts} />
 
     <ul class="my-8">
       {tags.map(tag => <Tag tag={tag.slug} />)}
     </ul>
+
+    <NewsletterSignup slug={slug} />
 
     <div
       class="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
