@@ -52,7 +52,7 @@ const schema = {
     <article>
       <img src={app.icon} alt="" width="96" height="96" />
       <p class="eyebrow">App</p>
-      <h1>{app.name}</h1>
+      <h1 class="page-title page-title-lg">{app.name}</h1>
       <p class="summary">{app.summary}</p>
       <p>{app.audience}</p>
       <p>{app.description}</p>
@@ -103,10 +103,6 @@ const schema = {
     text-transform: uppercase;
     color: rgb(var(--color-accent));
   }
-  h1 {
-    font-size: 3rem;
-    line-height: 1;
-  }
   .summary {
     margin-top: 0.4rem;
     font-size: 1.15rem;
@@ -114,7 +110,7 @@ const schema = {
   p {
     margin-top: 0.8rem;
   }
-  h2 {
+  article h2 {
     margin-top: 1.6rem;
     font-family: var(--font-sans);
     font-size: 0.75rem;
