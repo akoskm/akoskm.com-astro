@@ -577,6 +577,25 @@ function chip(value: string): { month: string; day: string } {
     font-weight: 600;
   }
   @media (max-width: 1023px) {
+    .site-sidebar {
+      flex-direction: column;
+      margin-left: 0;
+    }
+    .rail,
+    .panel-scroll {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      transform: none;
+    }
+    .panel-scroll {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+    }
+    .rail {
+      height: auto;
+    }
     .drawer-close {
       display: inline-flex;
       align-items: center;

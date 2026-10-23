@@ -15,7 +15,7 @@ const books = [
 
 <div class="project-strip lg:hidden">
   <h2><Icon name="blocks" size={16} /> Apps</h2>
-  <ul>
+  <ul class="app-grid">
     {
       LISTED_APPS.map(app => (
         <li>
@@ -75,19 +75,35 @@ const books = [
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
-    overflow-x: auto;
+    overflow: visible;
   }
   .project-strip a {
     display: flex;
     gap: 0.75rem;
-    align-items: center;
-    min-width: 16rem;
+    align-items: flex-start;
+    min-width: 0;
     padding: 0.75rem;
     border-radius: 0.75rem;
     background: rgb(var(--color-card));
     text-decoration: none;
+  }
+  .app-grid a {
+    height: 100%;
+  }
+  .app-grid a > span {
+    min-width: 0;
+  }
+  @container home-projects (min-width: 900px) {
+    .app-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
   .project-strip img {
     width: 48px;
@@ -95,8 +111,15 @@ const books = [
     border-radius: 0.6rem;
     object-fit: cover;
   }
+  .book-strip {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+  }
   .book-strip a {
     min-width: 0;
+    width: auto;
+    flex: none;
     padding: 0;
     background: transparent;
   }

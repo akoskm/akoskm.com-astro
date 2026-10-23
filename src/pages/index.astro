@@ -88,8 +88,12 @@ const articles = posts.slice(0, 8).map(post => ({
     padding-bottom: 0.5rem;
   }
   .home-projects {
+    width: 100%;
+    max-width: none;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
+    container-name: home-projects;
+    container-type: inline-size;
   }
   /* The strip is mobile-only in the shared component. On the homepage it is the first block at every width. */
   .home-projects :global(.project-strip) {

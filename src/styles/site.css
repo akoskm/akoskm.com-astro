@@ -153,14 +153,19 @@ html[data-theme="dark"] .icon-sun {
     top: 3.5rem;
     bottom: 0;
     left: 0;
+    right: auto;
     display: flex;
     flex-direction: column;
-    width: min(348px, calc(100vw - 2.5rem));
+    width: min(100%, max(85vw, 320px));
+    max-width: 100%;
+    margin: 0;
     overflow: hidden;
     transform: translateX(-105%);
   }
 
   .site-sidebar.is-open {
+    left: 0;
+    margin-left: 0;
     transform: translateX(0);
   }
 
