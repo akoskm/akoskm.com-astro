@@ -1,8 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import Card from "@components/Card";
 import Pagination from "@components/Pagination.astro";
 import { MIN_TAG_POSTS_TO_INDEX, SITE } from "@config";
@@ -28,7 +26,6 @@ const robots =
   description={`Articles tagged ${tagName} by Ákos K.`}
   robots={robots}
 >
-  <Header activeNav="tags" />
   <Main
     pageTitle={[`Tag:`, `${tagName}`]}
     titleTransition={tag}
@@ -48,6 +45,4 @@ const robots =
     }/`}
     nextUrl={`/tags/${tag}/${currentPage + 1}/`}
   />
-
-  <Footer noMarginTop={totalPages > 1} />
 </Layout>

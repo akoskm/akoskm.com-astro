@@ -1,8 +1,6 @@
 ---
 import { SITE } from "@config";
 import Breadcrumbs from "@components/Breadcrumbs.astro";
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
 import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
@@ -22,7 +20,6 @@ const { Content } = await item.render();
   title={`${item.data.title} | ${SITE.title}`}
   description={item.data.description}
 >
-  <Header activeNav="portfolio" />
   <Breadcrumbs />
   <main id="main-content">
     <article class="prose mx-auto mb-28 max-w-3xl px-4 prose-img:border-0">
@@ -85,5 +82,4 @@ const { Content } = await item.render();
       </div>
     </article>
   </main>
-  <Footer />
 </Layout>

@@ -1,7 +1,5 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import ShareLinks from "@components/ShareLinks.astro";
@@ -87,8 +85,6 @@ const layoutProps = {
 ---
 
 <Layout {...layoutProps}>
-  <Header />
-
   <div class="mx-auto flex w-full max-w-3xl justify-start px-2">
     <button
       class="focus-outline mb-2 mt-8 flex hover:opacity-75"
@@ -186,7 +182,6 @@ const layoutProps = {
       <ShareLinks />
     </div>
   </main>
-  <Footer />
 </Layout>
 
 <style>

@@ -1,0 +1,40 @@
+---
+import Layout from "@layouts/Layout.astro";
+import StreamList from "@components/StreamList.astro";
+import { SITE } from "@config";
+import { loadBitsyFeed, newsletterEntries } from "lib/bitsyFeed";
+
+const issues = await loadBitsyFeed();
+const items = newsletterEntries(issues);
+---
+
+<Layout
+  title={`Bitsy | ${SITE.title}`}
+  description="Bitsy is Ákos K's weekly newsletter for developers. One email about what he's building and what he had to figure out to ship it."
+>
+  <main id="main-content">
+    <section>
+      <h1>Bitsy</h1>
+      <p class="lede">
+        A weekly email for developers. I write about what I'm building and what
+        I had to figure out to ship it.
+      </p>
+      <StreamList items={items} />
+    </section>
+  </main>
+</Layout>
+
+<style>
+  section {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+  h1 {
+    font-size: 2.4rem;
+    line-height: 1;
+  }
+  .lede {
+    margin: 0.5rem 0 1rem;
+    max-width: 36rem;
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import { APPS } from "@data/apps";
+import products from "@data/products";
+
+const path = Astro.url.pathname;
+const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
+  key => products[key as keyof typeof products]
+);
+---
+
+<div class="project-strip lg:hidden">
+  <h2>Apps</h2>
+  <ul>
+    {
+      APPS.map(app => (
+        <li>
+          <a
+            href={`/apps/${app.slug}/`}
+            data-promo-card={`sidebar-${app.slug}`}
+            data-promo-post={path}
+            data-promo-destination="app"
+          >
+            <img src={app.icon} alt="" width="48" height="48" />
+            <span>
+              <strong>{app.name}</strong>
+              <span>{app.summary}</span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <h2>Books</h2>
+  <ul class="book-strip">
+    {
+      books.map(book => (
+        <li>
+          <a
+            href="/books/"
+            data-promo-card="sidebar-books"
+            data-promo-post={path}
+            data-promo-destination="books"
+          >
+            <img src={book.image} alt={book.title} width="72" height="108" />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .project-strip {
+    margin: 1.5rem 0 0.5rem;
+  }
+  .project-strip h2 {
+    margin: 1rem 0 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .project-strip ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+  }
+  .project-strip a {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    min-width: 16rem;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background: rgb(var(--color-card));
+    text-decoration: none;
+  }
+  .project-strip img {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.6rem;
+    object-fit: cover;
+  }
+  .book-strip a {
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+  }
+  .book-strip img {
+    width: 72px;
+    height: 108px;
+    border-radius: 0.25rem;
+    object-fit: cover;
+  }
+  .project-strip strong,
+  .project-strip span span {
+    display: block;
+  }
+  .project-strip span span {
+    margin-top: 0.15rem;
+    font-size: 0.85rem;
+    opacity: 0.75;
+  }
+</style>

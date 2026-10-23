@@ -1,0 +1,317 @@
+---
+import { APPS } from "@data/apps";
+import products from "@data/products";
+import { BITSY_URL } from "@data/promos";
+import BitsyForm from "./BitsyForm.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+const path = Astro.url.pathname;
+
+const nav = [
+  { href: "/", label: "Home", card: "home" },
+  { href: "/posts/", label: "Writing", card: "writing" },
+  { href: "/newsletter/", label: "Newsletter", card: "newsletter" },
+  { href: "/apps/", label: "Apps", card: "apps" },
+  { href: "/books/", label: "Books", card: "books" },
+  { href: "/about/", label: "About", card: "about" },
+  { href: "/search/", label: "Search", card: "search" },
+];
+
+function current(href: string): boolean {
+  if (href === "/") return path === "/";
+  return path === href || path.startsWith(href);
+}
+
+const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
+  key => products[key as keyof typeof products]
+);
+---
+
+<aside id="site-drawer" class="site-sidebar" data-site-drawer>
+  <a
+    class="identity"
+    href="/"
+    data-promo-card="sidebar-home"
+    data-promo-post={path}
+    data-promo-destination="nav"
+  >
+    <img src="/assets/akoskm.jpg" alt="" width="64" height="64" />
+    <span>
+      <span class="site-name">Ákos K</span>
+      <span class="bio">I build apps and write Bitsy.</span>
+    </span>
+  </a>
+
+  <nav aria-label="Site">
+    <ul>
+      {
+        nav.map(item => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={current(item.href) ? "page" : undefined}
+              data-promo-card={`sidebar-${item.card}`}
+              data-promo-post={path}
+              data-promo-destination="nav"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <div class="side-block">
+    <h2 class="side-label">Bitsy</h2>
+    <p class="side-copy">
+      One email a week. What I'm building, and what I had to figure out to ship
+      it.
+    </p>
+    <BitsyForm post={path} id="bitsy-email-sidebar" compact />
+    <a
+      class="side-inline"
+      href={BITSY_URL}
+      data-promo-card="sidebar-bitsy"
+      data-promo-post={path}
+      data-promo-destination="read"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Read it on Substack
+    </a>
+  </div>
+
+  <div class="side-block">
+    <h2 class="side-label">Apps</h2>
+    <ul class="app-list">
+      {
+        APPS.map(app => (
+          <li>
+            <a
+              href={`/apps/${app.slug}/`}
+              data-promo-card={`sidebar-${app.slug}`}
+              data-promo-post={path}
+              data-promo-destination="app"
+            >
+              <img src={app.icon} alt="" width="40" height="40" />
+              <span>
+                <strong>{app.name}</strong>
+                <span>{app.summary}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="side-block">
+    <h2 class="side-label">
+      <a
+        href="/books/"
+        data-promo-card="sidebar-books"
+        data-promo-post={path}
+        data-promo-destination="books"
+      >
+        Books
+      </a>
+    </h2>
+    <ul class="book-list">
+      {
+        books.map(book => (
+          <li>
+            <a
+              href="/books/"
+              data-promo-card="sidebar-books"
+              data-promo-post={path}
+              data-promo-destination="books"
+            >
+              <img src={book.image} alt={book.title} width="56" height="84" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="side-block side-contact">
+    <a
+      class="hire-me-btn side-hire"
+      href="/hire-me/"
+      data-promo-card="sidebar-hire"
+      data-promo-post={path}
+      data-promo-destination="hire"
+    >
+      Hire me
+    </a>
+    <a
+      href="mailto:hello@akoskm.com"
+      data-promo-card="sidebar-contact"
+      data-promo-post={path}
+      data-promo-destination="email"
+    >
+      hello@akoskm.com
+    </a>
+    <p class="socials">
+      <a
+        href="https://x.com/akoskm"
+        data-promo-card="sidebar-x"
+        data-promo-post={path}
+        data-promo-destination="x"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        X @akoskm
+      </a>
+      <a
+        href="https://github.com/akoskm"
+        data-promo-card="sidebar-github"
+        data-promo-post={path}
+        data-promo-destination="github"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        GitHub
+      </a>
+    </p>
+    <ThemeToggle />
+  </div>
+</aside>
+
+<style>
+  .site-sidebar {
+    background: rgb(var(--color-card));
+    color: rgb(var(--color-text-base));
+    padding: 1.25rem 1.1rem 2rem;
+  }
+  .identity {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    text-decoration: none;
+  }
+  .identity img {
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    object-fit: cover;
+    box-shadow: 0 0 0 2px rgb(var(--color-accent));
+  }
+  .site-name,
+  .bio {
+    display: block;
+  }
+  .site-name {
+    font-family: var(--font-serif);
+    font-size: 1.7rem;
+    line-height: 1;
+  }
+  .bio {
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    opacity: 0.75;
+  }
+  nav ul {
+    list-style: none;
+    margin: 1.1rem 0 0;
+    padding: 0;
+  }
+  nav a {
+    display: block;
+    padding: 0.28rem 0 0.28rem 0.7rem;
+    border-left: 2px solid transparent;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  nav a[aria-current="page"] {
+    border-left-color: rgb(var(--color-accent));
+    color: rgb(var(--color-accent));
+  }
+  .side-block {
+    margin-top: 1.35rem;
+  }
+  .side-label,
+  .side-label a {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .side-copy {
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  .side-inline {
+    display: inline-block;
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    text-underline-offset: 3px;
+  }
+  .app-list,
+  .book-list {
+    list-style: none;
+    margin: 0.55rem 0 0;
+    padding: 0;
+  }
+  .app-list a {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+    margin-top: 0.65rem;
+    text-decoration: none;
+  }
+  .app-list img {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.55rem;
+    object-fit: cover;
+  }
+  .app-list strong,
+  .app-list span span {
+    display: block;
+  }
+  .app-list span span {
+    margin-top: 0.1rem;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    opacity: 0.75;
+  }
+  .book-list {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .book-list img {
+    width: 56px;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 0.2rem;
+  }
+  .side-hire {
+    display: inline-block;
+    margin-bottom: 0.55rem;
+    border-radius: 999px;
+    background: rgb(var(--color-accent));
+    padding: 0.45rem 0.9rem;
+    color: rgb(var(--color-on-accent));
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .socials {
+    display: flex;
+    gap: 0.9rem;
+    margin-top: 0.45rem;
+    font-size: 0.9rem;
+  }
+  .theme-toggle {
+    margin-top: 0.8rem;
+  }
+  @media (max-width: 1023px) {
+    .theme-toggle {
+      display: none;
+    }
+  }
+</style>

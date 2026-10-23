@@ -1,152 +1,63 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import LinkButton from "@components/LinkButton.astro";
-import Hr from "@components/Hr.astro";
-import Card from "@components/Card";
-import { SITE } from "@config";
+import ProjectStrip from "@components/ProjectStrip.astro";
+import StreamList from "@components/StreamList.astro";
 import { getAllPosts } from "lib/getAllPosts";
+import {
+  loadBitsyFeed,
+  newsletterEntries,
+  type StreamEntry,
+} from "lib/bitsyFeed";
+import postFilter from "@utils/postFilter";
 import getSortedPosts from "@utils/getSortedPosts";
 
-const allPosts = await getAllPosts();
-const recentPosts = getSortedPosts(allPosts).slice(0, SITE.postPerIndex);
+const issues = await loadBitsyFeed();
+const posts = getSortedPosts((await getAllPosts()).filter(postFilter));
+const articles: StreamEntry[] = posts.slice(0, 12).map(post => ({
+  kind: "article",
+  title: post.title,
+  href: `/${post.slug}/`,
+  publishedAt: post.publishedAt,
+  summary: post.brief,
+}));
+const items = [...newsletterEntries(issues), ...articles]
+  .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
+  .slice(0, 12);
 ---
 
 <Layout>
-  <Header />
   <main id="main-content">
-    <section id="hero">
-      <h1>Hey 👋, I'm Ákos.</h1>
-      <div class="prose">
-        <p>
-          I help startups and product teams <span
-            class="font-black text-orange-600"
-            >build and ship AI-powered software</span
-          >—from
-          <a href="/tags/llm/">LLM integrations</a> and
-          <a href="/tags/ai-tools/">MCP servers</a> to cutting-edge
-          <span class="font-black text-orange-600"
-            >Recursive Language Models</span
-          >.
-        </p>
-        <p>
-          18+ years building software. Author of 6 books. Now focused on turning
-          AI capabilities into production-ready products.
-        </p>
-        <p>
-          <strong
-            >Available for consulting, contracting, or fractional CTO roles.</strong
-          >
-        </p>
-        <p>
-          <a
-            href="/hire-me"
-            class="hire-me-btn inline-block mt-2 px-6 py-2 bg-skin-accent text-skin-inverted rounded-lg transition-opacity font-medium"
-          >
-            Hire me
-          </a>
-        </p>
-      </div>
+    <section id="latest">
+      <h1>Latest</h1>
+      <p class="lede">
+        Bitsy most weeks. An article when there's something to ship.
+      </p>
+      <ProjectStrip />
+      <StreamList items={items} />
+      <p class="stream-more">
+        <a href="/newsletter/">All newsletters</a>
+        <a href="/posts/">All articles</a>
+      </p>
     </section>
-
-    <Hr />
-
-    <section id="educator">
-      <div class="prose">
-        <p>
-          I also write about what I learn—practical articles on
-          <a href="/tags/reactjs/">React</a>,
-          <a href="/tags/typescript/">TypeScript</a>,
-          <a href="/tags/nextjs/">Next.js</a>, and
-          <a href="/tags/ai/">AI tooling</a>.
-        </p>
-        <p>
-          Weekly newsletter for developers:
-          <LinkButton
-            className="inline-block rounded-md border border-skin-line bg-skin-card px-4 py-2 font-medium hover:bg-skin-card-muted hover:text-skin-accent"
-            href="https://akoskm.substack.com/welcome?utm_source=akoskm.com&utm_medium=website"
-          >
-            ✉️ Subscribe
-          </LinkButton>
-        </p>
-      </div>
-    </section>
-
-    <Hr />
-
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts">
-          <h2>Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              (post, index) => index < SITE.postPerIndex && <Card post={post} />
-            )}
-          </ul>
-        </section>
-      )
-    }
-
-    <div class="all-posts-btn-wrapper">
-      <LinkButton href="/posts/">
-        All Posts
-        <svg xmlns="http://www.w3.org/2000/svg"
-          ><path
-            d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
-          ></path>
-        </svg>
-      </LinkButton>
-    </div>
   </main>
-
-  <Footer />
 </Layout>
 
 <style>
-  /* ===== Hero Section ===== */
-  #hero {
-    @apply pb-4 pt-4;
+  #latest {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
   }
-  #hero h1 {
-    @apply inline-block text-xl font-bold sm:my-4 sm:text-3xl;
+  #latest h1 {
+    font-size: 2.4rem;
+    line-height: 1;
   }
-  #hero .rss-link {
-    @apply mb-4;
+  .lede {
+    margin-top: 0.4rem;
+    max-width: 36rem;
   }
-  #hero .rss-icon {
-    @apply mb-2 h-6 w-6 scale-110 fill-skin-accent sm:mb-2 sm:scale-125;
-  }
-  #hero p {
-    @apply my-1;
-  }
-  .social-wrapper {
-    @apply mt-2 flex flex-col sm:flex-row sm:items-center;
-  }
-  .social-links {
-    @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
-  }
-
-  /* ===== Educator Section ===== */
-  #educator {
-    @apply pb-4 pt-4;
-  }
-  #educator p {
-    @apply my-1;
-  }
-
-  /* ===== Featured & Recent Posts Sections ===== */
-  #featured,
-  #recent-posts,
-  #testimonials {
-    @apply pb-4 pt-6;
-  }
-  #featured h2,
-  #recent-posts h2,
-  #testimonials h2 {
-    @apply text-2xl font-semibold tracking-wide;
-  }
-  .all-posts-btn-wrapper {
-    @apply my-4 text-center;
+  .stream-more {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
   }
 </style>

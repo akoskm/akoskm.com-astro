@@ -1,0 +1,90 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { SITE } from "@config";
+import { APPS } from "@data/apps";
+
+const itemList = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: APPS.map((app, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: app.name,
+    url: `${SITE.website}apps/${app.slug}/`,
+  })),
+};
+---
+
+<Layout
+  title={`Apps | ${SITE.title}`}
+  description="Apps by Ákos K: Nummy, a nursing tracker, and SubSub, a subscription tracker. Each is a one-time purchase."
+  extraSchema={itemList}
+>
+  <main id="main-content">
+    <section>
+      <h1>Apps</h1>
+      <p class="lede">
+        Two apps. Each one does one job, and each is $3.99 once.
+      </p>
+      <ul>
+        {
+          APPS.map(app => (
+            <li>
+              <a href={`/apps/${app.slug}/`}>
+                <img src={app.icon} alt="" width="72" height="72" />
+                <span>
+                  <strong>{app.name}</strong>
+                  <span>{app.summary}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  section {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+  h1 {
+    font-size: 2.4rem;
+    line-height: 1;
+  }
+  .lede {
+    margin-top: 0.45rem;
+  }
+  ul {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  a {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    padding: 0.9rem;
+    border-radius: 0.9rem;
+    background: rgb(var(--color-card));
+    text-decoration: none;
+  }
+  img {
+    width: 72px;
+    height: 72px;
+    border-radius: 1rem;
+    object-fit: cover;
+  }
+  strong,
+  span span {
+    display: block;
+  }
+  span span {
+    margin-top: 0.2rem;
+    opacity: 0.75;
+  }
+</style>

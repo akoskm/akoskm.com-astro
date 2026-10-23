@@ -1,6 +1,4 @@
 ---
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import Serie from "@components/Serie.astro";
@@ -16,11 +14,9 @@ let series = getUniqueSeries(posts);
   title={`Series | ${SITE.title}`}
   description="Article series by Ákos K, grouped so you can read a topic from start to finish."
 >
-  <Header activeNav="series" />
   <Main pageTitle="Series" pageDesc="All the series.">
     <ul>
       {series.map(serie => <Serie serie={serie} size="lg" />)}
     </ul>
   </Main>
-  <Footer />
 </Layout>

@@ -1,0 +1,125 @@
+{
+  "fetchedAt": "2026-10-23T06:05:55.282Z",
+  "items": [
+    {
+      "title": "Why do we even have loops?",
+      "url": "https://akoskm.substack.com/p/why-do-we-even-have-loops",
+      "publishedAt": "2026-10-18T05:14:33.000Z",
+      "summary": "Supplements for engineers who skipped leg day"
+    },
+    {
+      "title": "Delete All Your Skills",
+      "url": "https://akoskm.substack.com/p/delete-all-your-skills",
+      "publishedAt": "2026-10-11T05:53:20.000Z",
+      "summary": "The essence probably fits on a pamphlet"
+    },
+    {
+      "title": "Why a handful of engineers will beat your agent fleet",
+      "url": "https://akoskm.substack.com/p/meat-proxies-dont-ship",
+      "publishedAt": "2026-09-26T04:23:45.000Z",
+      "summary": "Motivated, capable engineers with a deep understanding of the business will always out-ship meat proxies and create a superior product."
+    },
+    {
+      "title": "We went from human slop to AI slop. That’s fine.",
+      "url": "https://akoskm.substack.com/p/we-went-from-human-slop-to-ai-slop",
+      "publishedAt": "2026-09-19T05:23:18.000Z",
+      "summary": "Hot take: AI-written code is not that bad."
+    },
+    {
+      "title": "Agentic coding is boring if you only write code",
+      "url": "https://akoskm.substack.com/p/agentic-coding-is-boring-if-you-only",
+      "publishedAt": "2026-09-05T10:16:21.000Z",
+      "summary": "Play the metagame"
+    },
+    {
+      "title": "The skill that outlasts coding",
+      "url": "https://akoskm.substack.com/p/the-skill-that-outlasts-coding",
+      "publishedAt": "2026-08-29T05:05:54.000Z",
+      "summary": "No, it’s not the developers who use AI nonsense."
+    },
+    {
+      "title": "Time-to-market vs time-to-regret",
+      "url": "https://akoskm.substack.com/p/code-was-never-the-hard-part-and",
+      "publishedAt": "2026-08-22T05:56:37.000Z",
+      "summary": "Is code still important?"
+    },
+    {
+      "title": "The Year of Side Projects",
+      "url": "https://akoskm.substack.com/p/the-year-of-side-projects",
+      "publishedAt": "2026-08-15T04:37:30.000Z",
+      "summary": "If you ignore the advice of people whose success depends on AI development going vertical, you’ll find yourself in a different storyline."
+    },
+    {
+      "title": "AI is too dumb. Let me do this!",
+      "url": "https://akoskm.substack.com/p/ai-is-too-dumb-let-me-do-this",
+      "publishedAt": "2026-08-02T05:01:12.000Z",
+      "summary": "Why it’s still hard to do “AI” right"
+    },
+    {
+      "title": "The Local Agentic Future is Already Here — Just Not All at Once",
+      "url": "https://akoskm.substack.com/p/the-local-agentic-future-is-already",
+      "publishedAt": "2026-07-11T06:02:55.000Z",
+      "summary": "How the transition period will look like"
+    },
+    {
+      "title": "Why you should be excited about local LLMs too",
+      "url": "https://akoskm.substack.com/p/why-you-should-be-excited-about-local",
+      "publishedAt": "2026-07-05T06:19:30.000Z",
+      "summary": "cheap models are good"
+    },
+    {
+      "title": "I Tried to One-Shot My Entire Sprint With AI and Failed",
+      "url": "https://akoskm.substack.com/p/i-tried-to-one-shot-my-entire-sprint",
+      "publishedAt": "2026-06-13T05:55:08.000Z",
+      "summary": "Why Agentic Coding Is So Difficult in an Enterprise"
+    },
+    {
+      "title": "How to Give AI Agents Safe Access to Your Production Database",
+      "url": "https://akoskm.substack.com/p/ai-and-your-production-db",
+      "publishedAt": "2026-06-06T13:17:01.000Z",
+      "summary": "This boring fix is older than agentic coding"
+    },
+    {
+      "title": "Cursor Made Agentic Coding WYSIWYG",
+      "url": "https://akoskm.substack.com/p/cursor-made-agentic-coding-wysiwyg",
+      "publishedAt": "2026-05-26T05:19:54.000Z",
+      "summary": "Hi Friends,"
+    },
+    {
+      "title": "Why I Cancelled My Claude Code and ChatGPT Pro Subscriptions (for Side Projects)",
+      "url": "https://akoskm.substack.com/p/why-i-cancelled-my-claude-code-and",
+      "publishedAt": "2026-05-10T06:10:40.000Z",
+      "summary": "Last week I posted a simple tweet and it exploded (300k+ views)."
+    },
+    {
+      "title": "Power Plants and Steam Engines: How SDKs Will Solve the Compute Crisis",
+      "url": "https://akoskm.substack.com/p/power-plants-and-steam-engines-how",
+      "publishedAt": "2026-05-06T06:14:24.000Z",
+      "summary": "I found two technologies that fight both model lock-in and the growing infra crisis."
+    },
+    {
+      "title": "I don't know — but here's how I'd find out",
+      "url": "https://akoskm.substack.com/p/i-dont-know-but-heres-how-id-find",
+      "publishedAt": "2026-04-26T06:23:05.000Z",
+      "summary": "Why defensiveness isn't seniority — and what to say instead."
+    },
+    {
+      "title": "How to write coding agent teams that actually work",
+      "url": "https://akoskm.substack.com/p/how-to-write-coding-agent-teams-that",
+      "publishedAt": "2026-04-19T06:28:35.000Z",
+      "summary": "Four design choices behind a code-review team that ships useful feedback."
+    },
+    {
+      "title": "Nothing Failed. That’s the Problem.",
+      "url": "https://akoskm.substack.com/p/nothing-failed-thats-the-problem",
+      "publishedAt": "2026-04-11T09:57:48.000Z",
+      "summary": "Your agent optimizes for green, not for truth."
+    },
+    {
+      "title": "Your AI Tests Are Probably Useless",
+      "url": "https://akoskm.substack.com/p/your-ai-tests-are-probably-useless",
+      "publishedAt": "2026-04-04T06:22:31.000Z",
+      "summary": "How to write better tests with coding agents"
+    }
+  ]
+}

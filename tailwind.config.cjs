@@ -16,6 +16,7 @@ module.exports = {
     // if one breakpoint is not enough for you
     screens: {
       sm: "640px",
+      lg: "1024px",
     },
 
     extend: {
@@ -23,7 +24,7 @@ module.exports = {
         skin: {
           base: withOpacity("--color-text-base"),
           accent: withOpacity("--color-accent"),
-          inverted: withOpacity("--color-fill"),
+          inverted: withOpacity("--color-on-accent"),
         },
       },
       backgroundColor: {
@@ -55,7 +56,21 @@ module.exports = {
         transparent: "transparent",
       },
       fontFamily: {
-        mono: ["IBM Plex Mono", "monospace"],
+        sans: ["Switzer", "Avenir Next", "Segoe UI", "sans-serif"],
+        serif: [
+          "Iowan Old Style",
+          "Palatino",
+          "Palatino Linotype",
+          "Georgia",
+          "serif",
+        ],
+        mono: [
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
       },
 
       typography: {

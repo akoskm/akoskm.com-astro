@@ -1,8 +1,6 @@
 ---
 import { SITE } from "@config";
 import Layout from "@layouts/Layout.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import LinkButton from "@components/LinkButton.astro";
 ---
 
@@ -11,8 +9,6 @@ import LinkButton from "@components/LinkButton.astro";
   description="That URL is not on akoskm.com."
   robots="noindex, follow"
 >
-  <Header />
-
   <main id="main-content">
     <div class="not-found-wrapper">
       <h1>404</h1>
@@ -26,8 +22,6 @@ import LinkButton from "@components/LinkButton.astro";
       </LinkButton>
     </div>
   </main>
-
-  <Footer />
 </Layout>
 
 <style>

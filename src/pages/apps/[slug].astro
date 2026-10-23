@@ -1,0 +1,137 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { SITE } from "@config";
+import { APPS, type AppInfo } from "@data/apps";
+
+export function getStaticPaths() {
+  return APPS.map(app => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+interface Props {
+  app: AppInfo;
+}
+
+const { app } = Astro.props;
+const pageUrl = `${SITE.website}apps/${app.slug}/`;
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: app.name,
+  applicationCategory: app.category,
+  operatingSystem: app.operatingSystem,
+  description: app.description,
+  image: new URL(app.icon, SITE.website).href,
+  url: pageUrl,
+  installUrl: app.appStore,
+  author: {
+    "@type": "Person",
+    name: SITE.author,
+    url: SITE.website,
+  },
+  offers: {
+    "@type": "Offer",
+    price: app.price,
+    priceCurrency: "USD",
+  },
+};
+---
+
+<Layout
+  title={`${app.name} | ${SITE.title}`}
+  description={app.description}
+  ogImage={app.icon}
+  canonicalURL={pageUrl}
+  extraSchema={schema}
+>
+  <main id="main-content">
+    <article>
+      <img src={app.icon} alt="" width="96" height="96" />
+      <p class="eyebrow">App</p>
+      <h1>{app.name}</h1>
+      <p class="summary">{app.summary}</p>
+      <p>{app.audience}</p>
+      <p>{app.description}</p>
+      <h2>What it does</h2>
+      <ul>
+        {app.features.map(feature => <li>{feature}</li>)}
+      </ul>
+      <p class="actions">
+        <a
+          class="hire-me-btn"
+          href={app.appStore}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          App Store
+        </a>
+        <a href={app.site} rel="noopener noreferrer" target="_blank">
+          {app.siteLabel}
+        </a>
+      </p>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  article {
+    max-width: 40rem;
+    padding: 1.5rem 1rem 2.5rem;
+  }
+  img {
+    width: 96px;
+    height: 96px;
+    border-radius: 1.3rem;
+    object-fit: cover;
+  }
+  .eyebrow {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(var(--color-accent));
+  }
+  h1 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+  .summary {
+    margin-top: 0.4rem;
+    font-size: 1.15rem;
+  }
+  p {
+    margin-top: 0.8rem;
+  }
+  h2 {
+    margin-top: 1.6rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  ul {
+    margin-top: 0.6rem;
+    padding-left: 1.1rem;
+  }
+  li + li {
+    margin-top: 0.3rem;
+  }
+  .actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .hire-me-btn {
+    display: inline-block;
+    border-radius: 999px;
+    background: rgb(var(--color-accent));
+    padding: 0.55rem 1rem;
+    color: rgb(var(--color-on-accent));
+    font-weight: 600;
+    text-decoration: none;
+  }
+</style>

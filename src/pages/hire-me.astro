@@ -1,8 +1,6 @@
 ---
 import { SITE } from "@config";
 import Breadcrumbs from "@components/Breadcrumbs.astro";
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
 import Layout from "@layouts/Layout.astro";
 ---
 
@@ -10,7 +8,6 @@ import Layout from "@layouts/Layout.astro";
   title={`Hire Me | ${SITE.title}`}
   description="Hire Ákos K for consulting, contract work, or a fractional CTO role. He ships AI-powered software for startups and product teams."
 >
-  <Header />
   <Breadcrumbs />
   <main id="main-content">
     <section class="mx-auto mb-28 max-w-xl">
@@ -99,5 +96,4 @@ import Layout from "@layouts/Layout.astro";
       </form>
     </section>
   </main>
-  <Footer />
 </Layout>
