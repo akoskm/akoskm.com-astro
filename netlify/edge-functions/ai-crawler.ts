@@ -1,5 +1,7 @@
-// Records AI crawler hits in Plausible. Crawlers do not run the
-// browser script, so the edge sends the event itself.
+// Records AI crawler hits on their own Plausible site. The akoskm.com
+// script only runs in the browser, and this is the only server-side
+// report. Events use PLAUSIBLE_CRAWLER_DOMAIN (default
+// crawlers.akoskm.com), so the main site stays free of bot visits.
 
 export const AI_CRAWLERS = [
   { token: "GPTBot", name: "GPTBot" },
@@ -28,12 +30,18 @@ export const AI_CRAWLERS = [
 ] as const;
 
 export const PLAUSIBLE_ENDPOINT = "https://plausible.akoskm.com/api/event";
-export const SITE_DOMAIN = "akoskm.com";
+export const DEFAULT_CRAWLER_DOMAIN = "crawlers.akoskm.com";
+const CRAWLER_DOMAIN_VAR = "PLAUSIBLE_CRAWLER_DOMAIN";
+
+declare const Netlify: {
+  env: {
+    get(name: string): string | undefined;
+  };
+};
 
 // Plausible drops any user agent that device-detector classifies as a bot.
 // Its "(compatible)" rule only matches when the parenthesis closes right
-// after that word, so this string is kept. A desktop Chrome UA would also
-// pass, and would be counted as a Chrome visit.
+// after that word, so this string is kept.
 export const PLAUSIBLE_USER_AGENT =
   "Mozilla/5.0 (compatible; akoskm-edge-logger)";
 
@@ -50,7 +58,7 @@ export interface EdgeContext {
 
 export interface CrawlerEvent {
   name: "AI Crawler";
-  domain: typeof SITE_DOMAIN;
+  domain: string;
   url: string;
   props: { bot: string; path: string };
 }
@@ -79,11 +87,21 @@ export function isTrackablePath(pathname: string): boolean {
   return !ASSET_PATH.test(pathname);
 }
 
+export function crawlerSiteDomain(configured?: string | null): string {
+  const domain = configured?.trim();
+  return domain || DEFAULT_CRAWLER_DOMAIN;
+}
+
+function eventDomain(): string {
+  if (typeof Netlify === "undefined") return crawlerSiteDomain();
+  return crawlerSiteDomain(Netlify.env.get(CRAWLER_DOMAIN_VAR));
+}
+
 export function buildCrawlerEvent(pageUrl: string, bot: string): CrawlerEvent {
   const url = new URL(pageUrl);
   return {
     name: "AI Crawler",
-    domain: SITE_DOMAIN,
+    domain: eventDomain(),
     url: url.toString(),
     props: { bot, path: url.pathname },
   };

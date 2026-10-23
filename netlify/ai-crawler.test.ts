@@ -6,6 +6,7 @@ import {
   PLAUSIBLE_USER_AGENT,
   buildCrawlerEvent,
   config,
+  crawlerSiteDomain,
   isTrackablePath,
   matchAiCrawler,
   trackCrawler,
@@ -193,7 +194,7 @@ describe("trackCrawler", () => {
     assert.equal(headers["X-Forwarded-For"], "203.0.113.9");
     assert.deepEqual(JSON.parse(String(seen.init?.body)), {
       name: "AI Crawler",
-      domain: "akoskm.com",
+      domain: "crawlers.akoskm.com",
       url: "https://akoskm.com/posts/hello/?utm=1",
       props: { bot: "GPTBot", path: "/posts/hello/" },
     });
@@ -206,11 +207,50 @@ describe("trackCrawler", () => {
       buildCrawlerEvent("https://akoskm.com/llms.txt", "ClaudeBot"),
       {
         name: "AI Crawler",
-        domain: "akoskm.com",
+        domain: "crawlers.akoskm.com",
         url: "https://akoskm.com/llms.txt",
         props: { bot: "ClaudeBot", path: "/llms.txt" },
       }
     );
+  });
+
+  it("reads the crawler site from PLAUSIBLE_CRAWLER_DOMAIN", async () => {
+    assert.equal(crawlerSiteDomain(undefined), "crawlers.akoskm.com");
+    assert.equal(crawlerSiteDomain("  "), "crawlers.akoskm.com");
+    assert.equal(crawlerSiteDomain("bots.example.com"), "bots.example.com");
+
+    const runtime = globalThis as {
+      Netlify?: { env: { get(name: string): string | undefined } };
+    };
+    runtime.Netlify = {
+      env: {
+        get(name) {
+          return name === "PLAUSIBLE_CRAWLER_DOMAIN"
+            ? "bots.example.com"
+            : undefined;
+        },
+      },
+    };
+    try {
+      const ctx = context();
+      let body = "";
+      await trackCrawler(
+        new Request("https://akoskm.com/about/", {
+          headers: { "user-agent": "GPTBot/1.0" },
+        }),
+        ctx,
+        (_url, init) => {
+          body = String(init.body);
+          return Promise.resolve(new Response("{}", { status: 202 }));
+        }
+      );
+      await Promise.all(ctx.pending);
+      const event = JSON.parse(body) as { domain: string; props: { bot: string; path: string } };
+      assert.equal(event.domain, "bots.example.com");
+      assert.deepEqual(event.props, { bot: "GPTBot", path: "/about/" });
+    } finally {
+      delete runtime.Netlify;
+    }
   });
 
   it("does not log browsers, assets, or other methods", async () => {
