@@ -1,7 +1,7 @@
 ---
 layout: ../layouts/ProjectsLayout.astro
 title: "Progressive Web App Example: Building Modern PWAs with React"
-description: "An overview of progressive web apps with React, and Ákos K's book on cloud-based PWAs with Supabase and TypeScript."
+description: "An overview of progressive web apps with React, and Ákos Kőműves's book on cloud-based PWAs with Supabase and TypeScript."
 ---
 
 Progressive Web Apps (PWAs) are revolutionizing how we interact with web applications by combining the best of both web and mobile experiences.

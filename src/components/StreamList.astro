@@ -3,9 +3,10 @@ import type { StreamEntry } from "lib/bitsyFeed";
 
 export interface Props {
   items: StreamEntry[];
+  showKind?: boolean;
 }
 
-const { items } = Astro.props;
+const { items, showKind = true } = Astro.props;
 
 function formatDate(value: string): string {
   const time = Date.parse(value);
@@ -29,9 +30,11 @@ function formatDate(value: string): string {
             : {})}
         >
           <span class="stream-meta">
-            <span class:list={["stream-kind", item.kind]}>
-              {item.kind === "newsletter" ? "Newsletter" : "Article"}
-            </span>
+            {showKind && (
+              <span class:list={["stream-kind", item.kind]}>
+                {item.kind === "newsletter" ? "Newsletter" : "Article"}
+              </span>
+            )}
             <time datetime={item.publishedAt}>
               {formatDate(item.publishedAt)}
             </time>

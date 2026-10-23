@@ -13,7 +13,7 @@ export const GET: APIRoute = async () => {
     "",
     `> ${SITE.desc}`,
     "",
-    "Ákos K (Akos Komuves) is a developer and author. The site is https://akoskm.com/. The Bitsy newsletter is https://akoskm.substack.com.",
+    `${SITE.author} is a developer and author. The site is https://akoskm.com/. The Bitsy newsletter is https://akoskm.substack.com.`,
     "",
     "## Posts",
     "",

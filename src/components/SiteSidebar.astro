@@ -28,19 +28,37 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
 ---
 
 <aside id="site-drawer" class="site-sidebar" data-site-drawer>
-  <a
-    class="identity"
-    href="/"
-    data-promo-card="sidebar-home"
-    data-promo-post={path}
-    data-promo-destination="nav"
-  >
-    <img src="/assets/akoskm.jpg" alt="" width="64" height="64" />
-    <span>
-      <span class="site-name">Ákos K</span>
-      <span class="bio">I build apps and write Bitsy.</span>
-    </span>
-  </a>
+  <div class="drawer-head">
+    <a
+      class="identity"
+      href="/"
+      data-promo-card="sidebar-home"
+      data-promo-post={path}
+      data-promo-destination="nav"
+    >
+      <img src="/assets/akoskm.jpg" alt="" width="64" height="64" />
+      <span>
+        <span class="site-name" lang="hu">Ákos Kőműves</span>
+        <span class="name-pronounce" lang="en">pronounced AH-kosh</span>
+        <span class="bio">I build apps and write Bitsy.</span>
+      </span>
+    </a>
+    <button
+      class="drawer-close focus-outline"
+      type="button"
+      data-drawer-close
+      aria-label="Close menu"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
+        <path
+          d="M6 6l12 12M18 6L6 18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
 
   <nav aria-label="Site">
     <ul>
@@ -185,11 +203,21 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     color: rgb(var(--color-text-base));
     padding: 1.25rem 1.1rem 2rem;
   }
+  .drawer-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
   .identity {
     display: flex;
+    flex: 1;
     gap: 0.75rem;
     align-items: center;
+    min-width: 0;
     text-decoration: none;
+  }
+  .drawer-close {
+    display: none;
   }
   .identity img {
     width: 64px;
@@ -199,13 +227,20 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     box-shadow: 0 0 0 2px rgb(var(--color-accent));
   }
   .site-name,
+  .name-pronounce,
   .bio {
     display: block;
   }
   .site-name {
     font-family: var(--font-serif);
     font-size: 1.7rem;
-    line-height: 1;
+    line-height: 1.15;
+  }
+  .name-pronounce {
+    margin-top: 0.15rem;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    opacity: 0.6;
   }
   .bio {
     margin-top: 0.25rem;
@@ -312,6 +347,22 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
   @media (max-width: 1023px) {
     .theme-toggle {
       display: none;
+    }
+    :global(html.js) .drawer-close {
+      display: inline-flex;
+      flex: none;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin: -0.4rem -0.35rem 0 0;
+      color: rgb(var(--color-text-base));
+    }
+    .drawer-close svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      fill: none;
+      stroke: currentColor;
     }
   }
 </style>

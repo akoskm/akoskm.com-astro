@@ -1,63 +1,86 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import BitsyForm from "@components/BitsyForm.astro";
 import ProjectStrip from "@components/ProjectStrip.astro";
 import StreamList from "@components/StreamList.astro";
 import { getAllPosts } from "lib/getAllPosts";
-import {
-  loadBitsyFeed,
-  newsletterEntries,
-  type StreamEntry,
-} from "lib/bitsyFeed";
+import { loadBitsyFeed, newsletterEntries } from "lib/bitsyFeed";
 import postFilter from "@utils/postFilter";
 import getSortedPosts from "@utils/getSortedPosts";
 
 const issues = await loadBitsyFeed();
 const posts = getSortedPosts((await getAllPosts()).filter(postFilter));
-const articles: StreamEntry[] = posts.slice(0, 12).map(post => ({
-  kind: "article",
+const newsletters = newsletterEntries(issues).slice(0, 5);
+const articles = posts.slice(0, 8).map(post => ({
+  kind: "article" as const,
   title: post.title,
   href: `/${post.slug}/`,
   publishedAt: post.publishedAt,
   summary: post.brief,
 }));
-const items = [...newsletterEntries(issues), ...articles]
-  .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
-  .slice(0, 12);
 ---
 
 <Layout>
   <main id="main-content">
-    <section id="latest">
-      <h1>Latest</h1>
+    <section class="home-bitsy">
+      <h1>Latest from Bitsy</h1>
       <p class="lede">
-        Bitsy most weeks. An article when there's something to ship.
+        One email a week. What I'm building, and what I had to figure out to
+        ship it.
       </p>
-      <ProjectStrip />
-      <StreamList items={items} />
+      <StreamList items={newsletters} showKind={false} />
       <p class="stream-more">
-        <a href="/newsletter/">All newsletters</a>
-        <a href="/posts/">All articles</a>
+        <a href="/newsletter/">All issues →</a>
+      </p>
+      <div class="home-signup">
+        <BitsyForm post="/" id="bitsy-email-home" compact />
+      </div>
+    </section>
+    <section class="home-posts">
+      <h2>Posts</h2>
+      <StreamList items={articles} showKind={false} />
+      <p class="stream-more">
+        <a href="/posts/">All articles →</a>
       </p>
     </section>
+    <div class="home-projects">
+      <ProjectStrip />
+    </div>
   </main>
 </Layout>
 
 <style>
-  #latest {
-    padding-top: 1.5rem;
-    padding-bottom: 2rem;
+  .home-bitsy {
+    margin-top: 1.5rem;
+    padding-top: 1.35rem;
+    padding-bottom: 1.35rem;
+    border-radius: 0.85rem;
+    background: rgb(var(--color-card));
   }
-  #latest h1 {
-    font-size: 2.4rem;
-    line-height: 1;
+  .home-bitsy h1,
+  .home-posts h2 {
+    font-size: 2.15rem;
+    line-height: 1.05;
   }
   .lede {
-    margin-top: 0.4rem;
+    margin-top: 0.45rem;
     max-width: 36rem;
   }
   .stream-more {
-    display: flex;
-    gap: 1.25rem;
-    margin-top: 0.5rem;
+    margin-top: 0.35rem;
+  }
+  .home-signup {
+    max-width: 22rem;
+    margin-top: 1rem;
+  }
+  .home-posts {
+    padding-top: 1.75rem;
+    padding-bottom: 0.5rem;
+  }
+  .home-projects {
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem 2rem;
   }
 </style>

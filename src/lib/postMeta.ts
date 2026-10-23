@@ -112,7 +112,7 @@ export function normalizePost(raw: RawPost): Post {
 
   return {
     author: {
-      name: raw.author?.name || SITE.author,
+      name: SITE.author,
       profilePicture: raw.author?.profilePicture || "",
     },
     canonicalUrl: raw.canonicalUrl || `${SITE.website}${slug}/`,
