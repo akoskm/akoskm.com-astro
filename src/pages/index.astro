@@ -2,7 +2,6 @@
 import Layout from "@layouts/Layout.astro";
 import BitsyForm from "@components/BitsyForm.astro";
 import Icon from "@components/Icon.astro";
-import ProjectStrip from "@components/ProjectStrip.astro";
 import StreamList from "@components/StreamList.astro";
 import { getAllPosts } from "lib/getAllPosts";
 import { BITSY_TAGLINE } from "@data/promos";
@@ -24,9 +23,6 @@ const articles = posts.slice(0, 8).map(post => ({
 
 <Layout>
   <main id="main-content">
-    <section class="home-projects">
-      <ProjectStrip />
-    </section>
     <section class="home-newsletter">
       <h1><Icon name="newspaper" /> Newsletter</h1>
       <p class="lede">
@@ -86,17 +82,5 @@ const articles = posts.slice(0, 8).map(post => ({
   .home-posts {
     padding-top: 1.75rem;
     padding-bottom: 0.5rem;
-  }
-  .home-projects {
-    width: 100%;
-    max-width: none;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    container-name: home-projects;
-    container-type: inline-size;
-  }
-  /* The strip is mobile-only in the shared component. On the homepage it is the first block at every width. */
-  .home-projects :global(.project-strip) {
-    display: block;
   }
 </style>

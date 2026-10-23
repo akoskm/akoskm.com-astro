@@ -2,6 +2,7 @@
 import { LISTED_APPS } from "@data/apps";
 import products from "@data/products";
 import { loadBitsyFeed, bitsyIssueUrl } from "lib/bitsyFeed";
+import BitsyForm from "./BitsyForm.astro";
 import Icon from "./Icon.astro";
 import ProfilePhoto from "./ProfilePhoto.astro";
 import ThemeToggle from "./ThemeToggle.astro";
@@ -105,26 +106,6 @@ function chip(value: string): { month: string; day: string } {
           ))
         }
       </nav>
-      <div class="rail-divider"></div>
-      <div class="rail-apps">
-        {
-          LISTED_APPS.map(app => (
-            <a
-              class="rail-app focus-outline"
-              href={app.href}
-              aria-label={app.name}
-              target={app.external ? "_blank" : undefined}
-              rel={app.external ? "noopener noreferrer" : undefined}
-              data-promo-card={`sidebar-${app.name.toLowerCase().replace(/\s+/g, "-")}`}
-              data-promo-post={path}
-              data-promo-destination="app"
-            >
-              <img src={app.icon} alt="" width="40" height="40" />
-              <span class="rail-tip">{app.name}</span>
-            </a>
-          ))
-        }
-      </div>
     </div>
     <div class="rail-foot">
       <ThemeToggle />
@@ -177,16 +158,7 @@ function chip(value: string): { month: string; day: string } {
             <Icon name="mail" size={16} />
           </a>
         </div>
-        <a
-          class="subscribe-pill focus-outline"
-          href="/newsletter/"
-          data-promo-card="sidebar-bitsy"
-          data-promo-post={path}
-          data-promo-destination="nav"
-        >
-          <Icon name="send" size={16} />
-          Subscribe
-        </a>
+        <BitsyForm post={path} id="bitsy-email-sidebar" inline />
       </div>
     </header>
 
@@ -313,7 +285,6 @@ function chip(value: string): { month: string; day: string } {
   }
   .rail-main,
   .rail-nav,
-  .rail-apps,
   .rail-foot {
     display: flex;
     align-items: center;
@@ -341,14 +312,11 @@ function chip(value: string): { month: string; day: string } {
   }
   .rail-avatar:active,
   .rail-btn:active,
-  .rail-app:active,
   .social-btn:active,
-  .subscribe-pill:active,
   .drawer-close:active {
     transform: scale(0.95);
   }
   .rail-btn,
-  .rail-app,
   .social-btn {
     position: relative;
     display: inline-flex;
@@ -372,27 +340,16 @@ function chip(value: string): { month: string; day: string } {
     width: 36px;
     height: 36px;
   }
-  .rail-app {
-    width: 40px;
-    height: 40px;
-    border-radius: 0.75rem;
-    overflow: hidden;
-  }
-  .rail-app img,
   .dense-row img {
     width: 40px;
     height: 40px;
     object-fit: cover;
-  }
-  .rail-app img {
-    border-radius: 0.75rem;
   }
   .dense-row img {
     flex: none;
     border-radius: 0.55rem;
   }
   .rail-btn:hover,
-  .rail-app:hover,
   .social-btn:hover,
   .dense-row:hover {
     background: rgba(var(--color-text-base), 0.08);
@@ -423,9 +380,7 @@ function chip(value: string): { month: string; day: string } {
     transition: opacity 160ms ease;
   }
   .rail-btn:hover .rail-tip,
-  .rail-btn:focus-visible .rail-tip,
-  .rail-app:hover .rail-tip,
-  .rail-app:focus-visible .rail-tip {
+  .rail-btn:focus-visible .rail-tip {
     opacity: 1;
   }
   .panel-scroll {
@@ -451,33 +406,14 @@ function chip(value: string): { month: string; day: string } {
   }
   .panel-tools {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
     margin-top: 0.75rem;
   }
   .social-row {
     display: flex;
     gap: 0.15rem;
-  }
-  .subscribe-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    border-radius: 999px;
-    background: rgb(var(--color-accent-fill));
-    padding: 0.35rem 0.75rem;
-    color: rgb(var(--color-on-accent));
-    font-size: 0.8125rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition:
-      transform 160ms ease,
-      background-color 160ms ease;
-  }
-  .subscribe-pill:hover {
-    background: rgb(var(--color-accent-fill));
-    color: rgb(var(--color-on-accent));
   }
   .side-section {
     border-top: 1px solid rgb(var(--color-border));
@@ -643,8 +579,7 @@ function chip(value: string): { month: string; day: string } {
       border-right: 1px solid rgb(var(--color-border));
     }
     .rail-main,
-    .rail-nav,
-    .rail-apps {
+    .rail-nav {
       flex-direction: column;
     }
     .rail-main {
@@ -667,9 +602,7 @@ function chip(value: string): { month: string; day: string } {
   }
   @media (prefers-reduced-motion: reduce) {
     .rail-btn,
-    .rail-app,
     .social-btn,
-    .subscribe-pill,
     .dense-row,
     .drawer-close,
     .side-label::after {
