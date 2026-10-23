@@ -53,7 +53,7 @@ We care about patterns, nesting, and interaction between different parts of the 
 
 Nesting is one of those things that I always approach with:
 
-*Ughhh, let's go a level deeper*
+_Ughhh, let's go a level deeper_
 
 It's one of the overused things in React, and it usually appears as a byproduct of using the ternary operator.
 
