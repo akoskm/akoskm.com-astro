@@ -59,6 +59,21 @@ const nummy: Promo = {
   ],
 };
 
+const mcp: Promo = {
+  id: "mcp",
+  kind: "book",
+  title: "Model Context Protocol: Build MCP Servers with TypeScript",
+  body: "A short book on building an MCP server in TypeScript. The protocol, a working server, and the parts you deploy.",
+  image: "/assets/covers/mcp-server.png",
+  links: [
+    {
+      href: "https://a.co/d/3nPsjMM",
+      label: "Amazon",
+      destination: "amazon",
+    },
+  ],
+};
+
 const rtl: Promo = {
   id: "rtl",
   kind: "book",
@@ -92,15 +107,13 @@ export const PROMOS: Record<string, Promo> = {
   subsub,
   nummy,
   rtl,
+  mcp,
   bitsy,
 };
 
 /** Slug → promo ids, in display order. */
 export const POST_PROMOS: Record<string, string[]> = {
-  "a-full-stack-developers-guide-to-setting-up-a-new-macbook-pro": [
-    "subsub",
-    "nummy",
-  ],
+  "a-full-stack-developers-guide-to-setting-up-a-new-macbook-pro": ["subsub"],
   "try-openai-codex-no-subscription": ["subsub"],
   "how-to-use-cursor-commands-to-write-jira-ticket-descriptions": ["subsub"],
   "how-to-use-rerender-in-react-testing-library": ["rtl"],
@@ -109,7 +122,7 @@ export const POST_PROMOS: Record<string, string[]> = {
   "how-to-test-props-in-react-with-jest": ["rtl"],
   "how-to-test-react-apps-with-vitest-and-vite": ["rtl"],
   "how-to-solve-variable-is-possibly-undefined-in-typescript-even-when-its-defined":
-    ["bitsy"],
+    ["mcp"],
 };
 
 export function promosForSlug(slug: string): Promo[] {
