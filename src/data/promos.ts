@@ -95,14 +95,41 @@ export const PROMOS: Record<string, Promo> = {
   bitsy,
 };
 
-/** Slug → promo ids, in display order. */
-export const POST_PROMOS: Record<string, string[]> = {
+const SUBSUB_CARD_HREF =
+  "https://akoskm.com/apps/subsub/?utm_source=akoskm.com&utm_medium=card";
+
+const subsubOnSite: PromoLink = {
+  href: SUBSUB_CARD_HREF,
+  label: "See SubSub",
+  destination: "site",
+};
+
+interface PostPromoEntry {
+  id: string;
+  body?: string;
+  links?: PromoLink[];
+}
+
+/** Slug → promo ids, in display order. An entry can override body and links. */
+export const POST_PROMOS: Record<string, Array<string | PostPromoEntry>> = {
   "a-full-stack-developers-guide-to-setting-up-a-new-macbook-pro": [
     "subsub",
     "nummy",
   ],
-  "try-openai-codex-no-subscription": ["subsub"],
-  "how-to-use-cursor-commands-to-write-jira-ticket-descriptions": ["subsub"],
+  "try-openai-codex-no-subscription": [
+    {
+      id: "subsub",
+      body: "Track what Codex, Cursor, and the rest of your AI subscriptions cost you.",
+      links: [subsubOnSite],
+    },
+  ],
+  "how-to-use-cursor-commands-to-write-jira-ticket-descriptions": [
+    {
+      id: "subsub",
+      body: "Track what Cursor, Jira, and your other subscriptions cost you each month.",
+      links: [subsubOnSite],
+    },
+  ],
   "how-to-use-rerender-in-react-testing-library": ["rtl"],
   "how-to-test-a-classname-with-jest-and-react-testing-library": ["rtl"],
   "how-to-test-props-in-react-testing-library": ["rtl"],
@@ -112,9 +139,20 @@ export const POST_PROMOS: Record<string, string[]> = {
     ["bitsy"],
 };
 
+function promoFromEntry(entry: string | PostPromoEntry): Promo | undefined {
+  if (typeof entry === "string") return PROMOS[entry];
+  const base = PROMOS[entry.id];
+  if (!base) return undefined;
+  return {
+    ...base,
+    body: entry.body ?? base.body,
+    links: entry.links ?? base.links,
+  };
+}
+
 export function promosForSlug(slug: string): Promo[] {
   return (POST_PROMOS[slug] ?? [])
-    .map(id => PROMOS[id])
+    .map(promoFromEntry)
     .filter((promo): promo is Promo => Boolean(promo));
 }
 
