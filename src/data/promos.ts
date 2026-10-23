@@ -82,6 +82,11 @@ const rtl: Promo = {
   image: "/assets/covers/rtl-crash-course.jpg",
   links: [
     {
+      href: "https://akoskm.com/books",
+      label: "Books",
+      destination: "books",
+    },
+    {
       href: "https://a.co/d/dyQ91Fw",
       label: "Amazon",
       destination: "amazon",
@@ -148,6 +153,7 @@ export const POST_PROMOS: Record<string, Array<string | PostPromoEntry>> = {
   "how-to-test-props-in-react-testing-library": ["rtl"],
   "how-to-test-props-in-react-with-jest": ["rtl"],
   "how-to-test-react-apps-with-vitest-and-vite": ["rtl"],
+  "react-router-vitest-example": ["rtl"],
   "how-to-solve-variable-is-possibly-undefined-in-typescript-even-when-its-defined":
     ["mcp"],
 };
