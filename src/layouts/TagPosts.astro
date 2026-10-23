@@ -5,8 +5,8 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Card from "@components/Card";
 import Pagination from "@components/Pagination.astro";
-import { SITE } from "@config";
-import type {Post} from "lib/schema";
+import { MIN_TAG_POSTS_TO_INDEX, SITE } from "@config";
+import type { Post } from "lib/schema";
 
 export interface Props {
   currentPage: number;
@@ -14,12 +14,20 @@ export interface Props {
   paginatedPosts: Post[];
   tag: string;
   tagName: string;
+  postCount: number;
 }
 
-const { currentPage, totalPages, paginatedPosts, tag, tagName } = Astro.props;
+const { currentPage, totalPages, paginatedPosts, tag, tagName, postCount } =
+  Astro.props;
+const robots =
+  postCount < MIN_TAG_POSTS_TO_INDEX ? "noindex, follow" : undefined;
 ---
 
-<Layout title={`Tag: ${tagName} | ${SITE.title}`}>
+<Layout
+  title={`Tag: ${tagName} | ${SITE.title}`}
+  description={`Articles tagged ${tagName} by Ákos K.`}
+  robots={robots}
+>
   <Header activeNav="tags" />
   <Main
     pageTitle={[`Tag:`, `${tagName}`]}
@@ -28,11 +36,7 @@ const { currentPage, totalPages, paginatedPosts, tag, tagName } = Astro.props;
   >
     <h1 slot="title" transition:name={tag}>{`Tag:${tag}`}</h1>
     <ul>
-      {
-        paginatedPosts.map((post) => (
-          <Card post={post} />
-        ))
-      }
+      {paginatedPosts.map(post => <Card post={post} />)}
     </ul>
   </Main>
 

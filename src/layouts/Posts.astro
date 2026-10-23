@@ -6,7 +6,7 @@ import Footer from "@components/Footer.astro";
 import Pagination from "@components/Pagination.astro";
 import Card from "@components/Card";
 import { SITE } from "@config";
-import type {Post} from "lib/schema";
+import type { Post } from "lib/schema";
 
 export interface Props {
   currentPage: number;
@@ -17,15 +17,14 @@ export interface Props {
 const { currentPage, totalPages, paginatedPosts } = Astro.props;
 ---
 
-<Layout title={`Posts | ${SITE.title}`}>
+<Layout
+  title={`Posts | ${SITE.title}`}
+  description="All articles by Ákos K on React, TypeScript, testing, Next.js, and shipping AI-powered software."
+>
   <Header activeNav="posts" />
   <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
     <ul>
-      {
-        paginatedPosts.map(post => (
-          <Card post={post} />
-        ))
-      }
+      {paginatedPosts.map(post => <Card post={post} />)}
     </ul>
   </Main>
 

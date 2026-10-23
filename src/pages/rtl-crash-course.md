@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/ProjectsLayout.astro
 title: "React Testing Library Crash Course: Learn to Test React Components"
+description: "What the React Testing Library Crash Course covers: Vitest setup, queries, user events, and testing how components behave."
 ---
 
 If You’re a React Developer...

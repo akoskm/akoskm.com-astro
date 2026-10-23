@@ -1,14 +1,24 @@
 ---
 import TagPosts from "@layouts/TagPosts.astro";
+import { MIN_TAG_POSTS_TO_INDEX } from "@config";
 import getPostsByTag from "@utils/getPostsByTag";
 import getPagination from "@utils/getPagination";
 import getUniqueTags from "@utils/getUniqueTags";
+import { recordThinTags } from "@utils/thinTags";
 import { getAllPosts } from "lib/getAllPosts";
 
 export async function getStaticPaths() {
   const posts = await getAllPosts();
 
   const tags = getUniqueTags(posts);
+
+  recordThinTags(
+    tags
+      .filter(
+        ({ tag }) => getPostsByTag(posts, tag).length < MIN_TAG_POSTS_TO_INDEX
+      )
+      .map(({ tag }) => tag)
+  );
 
   return tags.map(({ tag, tagName }) => {
     return {
@@ -27,6 +37,7 @@ const pagination = getPagination({
   page: 1,
   isIndex: true,
 });
+const postCount = postsByTag.length;
 ---
 
-<TagPosts {...pagination} {tag} {tagName} />
+<TagPosts {...pagination} {tag} {tagName} {postCount} />

@@ -22,6 +22,9 @@ pnpm-debug.log*
 # ignore .astro directory
 .astro
 
+# tag slugs excluded from the sitemap, written at build time
+.cache/
+
 # yarn
 .yarn/*
 !.yarn/patches

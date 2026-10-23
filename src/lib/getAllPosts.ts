@@ -82,25 +82,35 @@ export async function getAllPosts(): Promise<Post[]> {
   return allPosts;
 }
 
-export async function getPostBySlug(
-  slug: string
-): Promise<Post & { _localEntry?: any; _ContentComponent?: any }> {
+type ContentComponent = (props?: Record<string, never>) => unknown;
+
+type LocalEntry = {
+  render: () => Promise<{ Content: ContentComponent }>;
+};
+
+export type PostWithContent = Post & {
+  _localEntry?: LocalEntry;
+  _ContentComponent?: ContentComponent;
+};
+
+export async function getPostBySlug(slug: string): Promise<PostWithContent> {
   const allPosts = await getAllPosts();
-  const post = allPosts.find(p => p.slug === slug);
+  const post = allPosts.find(p => p.slug === slug) as
+    | PostWithContent
+    | undefined;
 
   if (!post) {
     throw new Error(`Post not found: ${slug}`);
   }
 
   // If local post, render the content
-  if ((post as any)._localEntry) {
-    const entry = (post as any)._localEntry;
-    const { Content } = await entry.render();
+  if (post._localEntry) {
+    const { Content } = await post._localEntry.render();
 
     return {
       ...post,
       _ContentComponent: Content,
-    } as Post & { _localEntry?: any; _ContentComponent?: any };
+    };
   }
 
   // For Hashnode posts, fetch full details (including tableOfContents)

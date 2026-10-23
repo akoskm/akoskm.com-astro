@@ -12,7 +12,10 @@ const posts = await fetchAllPosts();
 let series = getUniqueSeries(posts);
 ---
 
-<Layout title={`Series | ${SITE.title}`}>
+<Layout
+  title={`Series | ${SITE.title}`}
+  description="Article series by Ákos K, grouped so you can read a topic from start to finish."
+>
   <Header activeNav="series" />
   <Main pageTitle="Series" pageDesc="All the series.">
     <ul>

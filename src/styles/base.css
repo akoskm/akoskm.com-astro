@@ -126,7 +126,6 @@
   html[data-theme="dark"] pre:has(code) :not(span) {
     @apply text-skin-base;
   }
-
 }
 
 /* Apply Dark Theme for Shiki/Astro code blocks - outside @layer for higher specificity */

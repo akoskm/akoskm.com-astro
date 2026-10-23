@@ -35,6 +35,7 @@ Here's how I built it.
 My existing setup used Hashnode's GraphQL API as the single source of truth. Every page called `fetchAllPosts()` to grab content. Simple, but limiting.
 
 I wanted to:
+
 - Write certain posts in local markdown
 - Keep everything in version control
 - Maintain the same rendering pipeline for both sources
@@ -193,9 +194,13 @@ const ContentComponent = post._ContentComponent;
 ---
 
 <article>
-  {ContentComponent
-    ? <ContentComponent />
-    : <Fragment set:html={content.html} />}
+  {
+    ContentComponent ? (
+      <ContentComponent />
+    ) : (
+      <Fragment set:html={content.html} />
+    )
+  }
 </article>
 ```
 
@@ -237,7 +242,6 @@ tags:
 series: null
 draft: false
 ---
-
 Your content here...
 ```
 

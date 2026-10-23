@@ -1,8 +1,11 @@
 import { gql, GraphQLClient } from "graphql-request";
-import type { AllPostsData, PostData, Post } from "./schema";
+import type { AllPostsData, Post } from "./schema";
+import { loadHashnodeSnapshot, normalizePost } from "./postMeta";
+
+const HASHNODE_ENDPOINT = "https://gql-beta.hashnode.com";
 
 export const getClient = () => {
-  return new GraphQLClient("https://gql.hashnode.com");
+  return new GraphQLClient(HASHNODE_ENDPOINT);
 };
 
 const myHashnodeURL = "akoskm.hashnode.dev";
@@ -68,26 +71,58 @@ const getPostsAtCursor = async (cursor = "") => {
   return allPosts;
 };
 
-export const fetchAllPosts = async (): Promise<Post[]> => {
+async function fetchHashnodePosts(): Promise<Post[]> {
   let cursor = "";
   let hasNextPage = true;
-  const postList = [];
+  const postList: Post[] = [];
 
   while (hasNextPage) {
     const data = await getPostsAtCursor(cursor);
+    const publication = data?.publication;
+    if (!publication) {
+      throw new Error("Hashnode publication unavailable");
+    }
 
     postList.push(
-      ...data.publication.posts.edges.map(({ node }: { node: Post }) => node)
+      ...publication.posts.edges.map(({ node }: { node: Post }) =>
+        normalizePost(node)
+      )
     );
 
-    cursor = data.publication.posts.pageInfo.endCursor;
-    hasNextPage = data.publication.posts.pageInfo.hasNextPage;
+    cursor = publication.posts.pageInfo.endCursor;
+    hasNextPage = publication.posts.pageInfo.hasNextPage;
+  }
+
+  if (postList.length === 0) {
+    throw new Error("Hashnode returned no posts");
   }
 
   return postList;
+}
+
+let cachedPosts: Promise<Post[]> | undefined;
+
+export const fetchAllPosts = async (): Promise<Post[]> => {
+  if (!cachedPosts) {
+    cachedPosts = (async () => {
+      try {
+        return await fetchHashnodePosts();
+      } catch (error) {
+        const message = (
+          error instanceof Error ? error.message : String(error)
+        ).slice(0, 140);
+        console.warn(
+          `Hashnode API unavailable (${message}). Using src/data/hashnode-posts.json.`
+        );
+        return loadHashnodeSnapshot().map(post => normalizePost(post));
+      }
+    })();
+  }
+
+  return cachedPosts;
 };
 
-export const getPreviewPosts = async (cursor = "") => {
+export const getPreviewPosts = async () => {
   const client = getClient();
 
   const allPosts = await client.request<AllPostsData>(
@@ -149,60 +184,10 @@ export const getPreviewPosts = async (cursor = "") => {
 };
 
 export const getPost = async (slug: string) => {
-  const client = getClient();
-
-  const data = await client.request<PostData>(
-    gql`
-      query postDetails($slug: String!) {
-        publication(host: "${myHashnodeURL}") {
-          id
-          post(slug: $slug) {
-            id
-            author{
-              name
-              profilePicture
-            }
-            publishedAt
-            updatedAt
-            title
-            subtitle
-            readTimeInMinutes
-            slug
-            content{
-              html
-              markdown
-            }
-            tags {
-              name
-              slug
-            }
-            series {
-              name
-              slug
-            }
-            coverImage {
-              url
-            }
-            seo {
-              description
-            }
-            features {
-              tableOfContents {
-                items {
-                  id
-                  level
-                  slug
-                  title
-                  parentId
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
-    { slug: slug }
-  );
-
-  return data.publication.post;
+  const posts = await fetchAllPosts();
+  const post = posts.find(item => item.slug === slug);
+  if (!post) {
+    throw new Error(`Post not found: ${slug}`);
+  }
+  return post;
 };

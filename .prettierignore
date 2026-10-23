@@ -11,3 +11,6 @@
 !.prettierrc
 !eslint.config.mjs
 !README.md
+
+# Snapshot of Hashnode posts. Kept compact on purpose.
+src/data/hashnode-posts.json

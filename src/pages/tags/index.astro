@@ -15,14 +15,17 @@ let tags = getUniqueTags(posts);
 let series = getUniqueSeries(posts);
 ---
 
-<Layout title={`Tags | ${SITE.title}`}>
+<Layout
+  title={`Tags | ${SITE.title}`}
+  description="Browse topics on akoskm.com, from React and TypeScript to testing and AI tooling."
+>
   <Header activeNav="tags" />
   <Main pageTitle="Tags" pageDesc="All the tags used in posts.">
     <ul>
       {tags.map(({ tag }) => <Tag {tag} size="lg" />)}
     </ul>
 
-    <h2 class="mt-12 mb-4 text-2xl font-semibold">Series</h2>
+    <h2 class="mb-4 mt-12 text-2xl font-semibold">Series</h2>
     <ul>
       {series.map(serie => <Serie serie={serie} size="lg" />)}
     </ul>
