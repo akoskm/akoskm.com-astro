@@ -23,7 +23,7 @@ const { frontmatter, nameHeading, pronunciation } = Astro.props;
   <Breadcrumbs />
   <main id="main-content">
     <section id="about" class="prose mb-28 max-w-3xl prose-img:border-0">
-      <div class="about-identity">
+      <div class="about-identity not-prose">
         <ProfilePhoto size={96} />
         <div>
           <h1
@@ -53,9 +53,16 @@ const { frontmatter, nameHeading, pronunciation } = Astro.props;
 <style>
   .about-identity {
     display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    margin-bottom: 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin: 0 0 1.5rem;
+    float: none;
+  }
+  .about-identity :global(picture),
+  .about-identity :global(img) {
+    float: none;
+    margin: 0;
   }
   .about-identity h1 {
     margin: 0;

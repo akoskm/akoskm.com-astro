@@ -175,6 +175,14 @@ svg.lucide[width="16"] {
   height: 16px;
 }
 
+svg.icon-x-logo {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  stroke: none;
+  flex: none;
+}
+
 .phonetic {
   margin-left: 0.35rem;
   font-family: var(--font-mono);

@@ -162,15 +162,6 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
 
   <div class="side-block side-contact">
     <a
-      class="hire-me-btn side-hire"
-      href="/hire-me/"
-      data-promo-card="sidebar-hire"
-      data-promo-post={path}
-      data-promo-destination="hire"
-    >
-      Hire me
-    </a>
-    <a
       href="mailto:hello@akoskm.com"
       data-promo-card="sidebar-contact"
       data-promo-post={path}
@@ -182,14 +173,15 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     <p class="socials">
       <a
         href="https://x.com/akoskm"
+        aria-label="X @akoskm"
         data-promo-card="sidebar-x"
         data-promo-post={path}
         data-promo-destination="x"
         rel="noopener noreferrer"
         target="_blank"
       >
-        <Icon name="x" size={16} />
-        X @akoskm
+        <Icon name="x-logo" size={16} />
+        @akoskm
       </a>
       <a
         href="https://github.com/akoskm"
@@ -325,16 +317,6 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     height: 84px;
     object-fit: cover;
     border-radius: 0.2rem;
-  }
-  .side-hire {
-    display: inline-block;
-    margin-bottom: 0.55rem;
-    border-radius: 999px;
-    background: rgb(var(--color-accent-fill));
-    padding: 0.45rem 0.9rem;
-    color: rgb(var(--color-on-accent));
-    font-weight: 600;
-    text-decoration: none;
   }
   .side-contact > a[href^="mailto:"] {
     display: inline-flex;
