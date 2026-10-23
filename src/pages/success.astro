@@ -1,16 +1,13 @@
 ---
 import { SITE } from "@config";
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
 import Layout from "@layouts/Layout.astro";
 ---
 
 <Layout
   title={`Message Sent | ${SITE.title}`}
-  description="Thanks for your message. Ákos K will reply within 24 hours."
+  description="Thanks for your message. Ákos Kőműves will reply within 24 hours."
   robots="noindex, follow"
 >
-  <Header />
   <main id="main-content">
     <section class="mx-auto mb-28 max-w-xl pt-12 text-center">
       <h1 class="mb-4 text-2xl tracking-wider sm:text-3xl">Message sent!</h1>
@@ -19,11 +16,10 @@ import Layout from "@layouts/Layout.astro";
       </p>
       <a
         href="/portfolio"
-        class="hire-me-btn inline-block rounded-lg bg-skin-accent px-6 py-3 font-medium"
+        class="inline-block rounded-lg bg-skin-accent px-6 py-3 font-medium text-skin-inverted"
       >
         Browse case studies
       </a>
     </section>
   </main>
-  <Footer />
 </Layout>

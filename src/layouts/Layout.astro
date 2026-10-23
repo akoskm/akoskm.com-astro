@@ -1,7 +1,13 @@
 ---
-import { LOCALE, SAME_AS, SITE } from "@config";
+import { AUTHOR_IMAGE, LOCALE, SAME_AS, SITE } from "@config";
 import { toIso } from "lib/postMeta";
+import SiteSidebar from "@components/SiteSidebar.astro";
+import SiteTopbar from "@components/SiteTopbar.astro";
+import geistSansWoff2 from "../../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2?url";
+import geistMonoWoff2 from "../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2?url";
+import "@styles/fonts.css";
 import "@styles/base.css";
+import "@styles/site.css";
 import { ViewTransitions } from "astro:transitions";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
@@ -20,6 +26,7 @@ export interface Props {
   /** Article headline without the site-name suffix. */
   headline?: string;
   robots?: string;
+  extraSchema?: Record<string, unknown>;
 }
 
 const {
@@ -34,6 +41,7 @@ const {
   schema = "WebPage",
   headline,
   robots,
+  extraSchema,
 } = Astro.props;
 
 const metaDescription = description?.trim() || SITE.desc;
@@ -51,6 +59,7 @@ const person = {
   "@type": "Person",
   name: SITE.author,
   url: SITE.profile,
+  image: new URL(AUTHOR_IMAGE, SITE.website).href,
   sameAs: SAME_AS,
 };
 
@@ -79,10 +88,7 @@ const structuredData =
 ---
 
 <!doctype html>
-<html
-  lang=`${LOCALE.lang ?? "en"}`
-  class={`${scrollSmooth && "scroll-smooth"}`}
->
+<html lang={LOCALE.lang ?? "en"} class:list={[scrollSmooth && "scroll-smooth"]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -124,16 +130,32 @@ const structuredData =
       type="application/ld+json"
       set:html={JSON.stringify(structuredData)}
     />
+    {
+      extraSchema && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(extraSchema)}
+        />
+      )
+    }
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
+      rel="preload"
+      href={geistSansWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
+    <link
+      rel="preload"
+      href={geistMonoWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script is:inline data-astro-rerun>
+      document.documentElement.classList.add("js");
+    </script>
 
     <meta name="theme-color" content="" />
 
@@ -192,6 +214,141 @@ const structuredData =
       src="https://plausible.akoskm.com/js/script.outbound-links.js"></script>
   </head>
   <body>
-    <slot />
+    <a id="skip-to-content" href="#main-content">Skip to content</a>
+    <div class="site-shell">
+      <SiteTopbar />
+      <SiteSidebar />
+      <div class="site-content">
+        <slot />
+        <footer class="site-colophon">
+          <p lang="hu">{SITE.author}</p>
+        </footer>
+      </div>
+    </div>
+    <div class="site-backdrop" data-menu-backdrop hidden></div>
+    <script is:inline>
+      function drawerEls() {
+        return {
+          button: document.querySelector("[data-menu-button]"),
+          drawer: document.querySelector("[data-site-drawer]"),
+          backdrop: document.querySelector("[data-menu-backdrop]"),
+        };
+      }
+      function drawerDesktop() {
+        return window.matchMedia("(min-width: 1024px)").matches;
+      }
+      function drawerItems(drawer) {
+        return [...drawer.querySelectorAll("a[href], button, input")].filter(
+          el => !el.disabled && el.getClientRects().length
+        );
+      }
+      function closeFromOverlay() {
+        const { button } = drawerEls();
+        setDrawer(false);
+        if (button && !drawerDesktop()) button.focus();
+      }
+      function setDrawer(open) {
+        const { button, drawer, backdrop } = drawerEls();
+        if (!button || !drawer) return;
+        if (drawerDesktop()) open = false;
+        button.setAttribute("aria-expanded", open ? "true" : "false");
+        button.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        drawer.classList.toggle("is-open", open);
+        document.body.classList.toggle("menu-open", open);
+        if (drawerDesktop() || open) {
+          drawer.removeAttribute("inert");
+          if (!open) backdrop && backdrop.setAttribute("hidden", "");
+          if (open) {
+            backdrop && backdrop.removeAttribute("hidden");
+            const items = drawerItems(drawer);
+            (items[0] || drawer).focus();
+          }
+          return;
+        }
+        drawer.setAttribute("inert", "");
+        backdrop && backdrop.setAttribute("hidden", "");
+      }
+      function bindDrawer() {
+        const { button, backdrop } = drawerEls();
+        if (!button || button.dataset.bound) {
+          if (!drawerDesktop()) setDrawer(false);
+          return;
+        }
+        button.dataset.bound = "1";
+        button.addEventListener("click", () => {
+          setDrawer(button.getAttribute("aria-expanded") !== "true");
+        });
+        if (backdrop && !backdrop.dataset.bound) {
+          backdrop.dataset.bound = "1";
+          backdrop.addEventListener("click", closeFromOverlay);
+        }
+        document.querySelectorAll("[data-drawer-close]").forEach(el => {
+          if (el.dataset.bound) return;
+          el.dataset.bound = "1";
+          el.addEventListener("click", closeFromOverlay);
+        });
+        if (!drawerDesktop()) setDrawer(false);
+      }
+      if (!window.__siteDrawerBound) {
+        window.__siteDrawerBound = true;
+        document.addEventListener("keydown", event => {
+          const { drawer } = drawerEls();
+          if (
+            !drawer ||
+            !drawer.classList.contains("is-open") ||
+            drawerDesktop()
+          )
+            return;
+          if (event.key === "Escape") {
+            event.preventDefault();
+            closeFromOverlay();
+            return;
+          }
+          if (event.key !== "Tab") return;
+          const items = drawerItems(drawer);
+          if (!items.length) return;
+          const first = items[0];
+          const last = items[items.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        });
+        window.addEventListener("resize", () => {
+          if (drawerDesktop()) setDrawer(false);
+        });
+        document.addEventListener(
+          "click",
+          event => {
+            const node = event.target;
+            if (!(node instanceof Element)) return;
+            const link = node.closest("a[href]");
+            if (!link || !link.closest("[data-site-drawer]")) return;
+            if (drawerDesktop()) return;
+            const { button, drawer, backdrop } = drawerEls();
+            if (!button || !drawer) return;
+            button.setAttribute("aria-expanded", "false");
+            button.setAttribute("aria-label", "Open menu");
+            drawer.classList.remove("is-open");
+            document.body.classList.remove("menu-open");
+            if (backdrop) backdrop.setAttribute("hidden", "");
+            setTimeout(() => {
+              const next = drawerEls().drawer;
+              if (next && !next.classList.contains("is-open")) setDrawer(false);
+            }, 0);
+          },
+          true
+        );
+        document.addEventListener("astro:after-swap", () => {
+          document.documentElement.classList.add("js");
+          setDrawer(false);
+        });
+        document.addEventListener("astro:page-load", bindDrawer);
+      }
+      bindDrawer();
+    </script>
   </body>
 </html>

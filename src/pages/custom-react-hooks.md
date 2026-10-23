@@ -1,7 +1,7 @@
 ---
 layout: ../layouts/ProjectsLayout.astro
 title: "Mastering Custom React Hooks: Examples and Best Practices"
-description: "A short guide to custom React hooks for state, effects, and API calls, plus Ákos K's Custom React Hooks course."
+description: "A short guide to custom React hooks for state, effects, and API calls, plus Ákos Kőműves's Custom React Hooks course."
 ---
 
 Custom React hooks are essential for <span class="font-black text-orange-600">building scalable and maintainable</span> front-end applications. They allow developers to abstract logic, making components cleaner and more reusable. Whether you're managing state, handling side effects, or making API calls, knowing how to create custom hooks in React is a must-have skill.

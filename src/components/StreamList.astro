@@ -1,0 +1,112 @@
+---
+import type { StreamEntry } from "lib/bitsyFeed";
+import Icon from "./Icon.astro";
+
+export interface Props {
+  items: StreamEntry[];
+  showKind?: boolean;
+}
+
+const { items, showKind = true } = Astro.props;
+
+function formatDate(value: string): string {
+  const time = Date.parse(value);
+  if (Number.isNaN(time)) return "";
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(time);
+}
+---
+
+<ol class="stream">
+  {
+    items.map(item => (
+      <li>
+        <a
+          href={item.href}
+          {...(item.kind === "newsletter"
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : {})}
+        >
+          <span class="stream-meta">
+            {showKind && (
+              <span class:list={["stream-kind", item.kind]}>
+                {item.kind === "newsletter" ? "Newsletter" : "Article"}
+              </span>
+            )}
+            <time datetime={item.publishedAt}>
+              <Icon name="calendar" size={16} />
+              {formatDate(item.publishedAt)}
+            </time>
+          </span>
+          <span class="stream-title">
+            {item.title}
+            {item.kind === "newsletter" && (
+              <Icon name="arrow-up-right" size={16} />
+            )}
+          </span>
+          {item.summary && <span class="stream-summary">{item.summary}</span>}
+        </a>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .stream {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .stream li + li {
+    border-top: 1px solid rgb(var(--color-border));
+  }
+  .stream a {
+    display: block;
+    padding: 1rem 0;
+    text-decoration: none;
+  }
+  .stream a:hover .stream-title {
+    color: rgb(var(--color-accent));
+  }
+  .stream-meta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .stream-meta time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .stream-kind.newsletter {
+    color: rgb(var(--color-accent));
+  }
+  .stream-kind.article,
+  .stream-meta time {
+    color: rgb(var(--color-text-muted));
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .stream-title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    line-height: 1.2;
+  }
+  .stream-summary {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.95rem;
+    opacity: 0.78;
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import ProjectsLayout from "@layouts/ProjectsLayout.astro";
+import Icon from "@components/Icon.astro";
 import products from "../data/products.ts";
 ---
 
@@ -7,7 +8,7 @@ import products from "../data/products.ts";
   frontmatter={{
     title: "Books",
     description:
-      "Books and courses by Ákos K on React Testing Library, custom React hooks, generative AI with React, and cloud-based PWAs.",
+      "Books and courses by Ákos Kőműves on React Testing Library, custom React hooks, generative AI with React, and cloud-based PWAs.",
   }}
 >
   <main class="mx-auto max-w-6xl">
@@ -31,11 +32,12 @@ import products from "../data/products.ts";
                 {links.map(({ href, text }) => (
                   <a
                     href={href}
-                    class="inline-flex items-center rounded-lg bg-skin-accent px-4 py-2 text-skin-inverted transition-opacity hover:opacity-90"
+                    class="inline-flex items-center gap-1.5 rounded-lg bg-skin-accent px-4 py-2 text-skin-inverted"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     {text}
+                    <Icon name="arrow-up-right" size={16} />
                   </a>
                 ))}
               </div>

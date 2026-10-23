@@ -1,4 +1,5 @@
 ---
+import { SITE } from "@config";
 import Hr from "./Hr.astro";
 import Socials from "./Socials.astro";
 
@@ -14,16 +15,7 @@ const { noMarginTop = false } = Astro.props;
   <div class="footer-wrapper">
     <Socials centered />
     <div class="copyright-wrapper">
-      <span
-        >Made with 🏋️ and ☕ by <a href="https://akoskm.com" class="underline"
-          >akoskm</a
-        >.</span
-      >
-      <span class="separator">&nbsp;|&nbsp;</span>
-      <span
-        >Theme: <a href="https://github.com/satnaing/astro-paper">AstroPaper</a
-        ></span
-      >
+      <span lang="hu">{SITE.author}</span>
     </div>
   </div>
 </footer>

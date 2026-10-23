@@ -1,3 +1,5 @@
+export const BITSY_TAGLINE =
+  "For engineers who pair with AI as a coworker, keep the thinking, and ship value instead of slop.";
 export const BITSY_REFERRAL = "twgob";
 export const BITSY_URL = `https://akoskm.substack.com/?r=${BITSY_REFERRAL}`;
 export const BITSY_SUBSCRIBE_URL = `https://akoskm.substack.com/subscribe?r=${BITSY_REFERRAL}`;
@@ -76,7 +78,7 @@ const bitsy: Promo = {
   id: "bitsy",
   kind: "newsletter",
   title: "Bitsy",
-  body: "A free weekly email. I write about what I'm building and what I had to figure out to ship it.",
+  body: BITSY_TAGLINE,
   links: [
     {
       href: BITSY_URL,

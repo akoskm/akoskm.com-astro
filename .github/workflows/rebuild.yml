@@ -1,0 +1,21 @@
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    name: Trigger Netlify build
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST the build hook
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -z "$NETLIFY_BUILD_HOOK" ]; then
+            echo "Add the NETLIFY_BUILD_HOOK repository secret. Create a build hook in Netlify, then store that URL as the secret."
+            exit 1
+          fi
+          curl --fail --silent --show-error --request POST --data "{}" "$NETLIFY_BUILD_HOOK"

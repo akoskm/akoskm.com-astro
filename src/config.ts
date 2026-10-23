@@ -1,11 +1,14 @@
 import type { Site, SocialObjects } from "./types";
 
+/** JPEG of the X profile photo. Pages display an optimized copy; this URL is for JSON-LD. */
+export const AUTHOR_IMAGE = "/assets/akoskm.jpg";
+
 export const SITE: Site = {
   website: "https://akoskm.com/",
-  author: "Ákos K",
+  author: "Ákos Kőműves",
   profile: "https://akoskm.com/",
-  desc: "Ákos K writes about React, TypeScript, testing, and shipping AI-powered software. Developer, author, and writer of the Bitsy newsletter.",
-  title: "Akos Komuves",
+  desc: "Ákos Kőműves writes about React, TypeScript, testing, and shipping AI-powered software. Developer, author, and writer of the Bitsy newsletter.",
+  title: "Ákos Kőműves",
   ogImage: "og_image.png",
   lightAndDarkMode: true,
   postPerIndex: 3,

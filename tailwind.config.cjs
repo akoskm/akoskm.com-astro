@@ -16,20 +16,22 @@ module.exports = {
     // if one breakpoint is not enough for you
     screens: {
       sm: "640px",
+      lg: "1024px",
     },
 
     extend: {
       textColor: {
         skin: {
           base: withOpacity("--color-text-base"),
+          muted: withOpacity("--color-text-muted"),
           accent: withOpacity("--color-accent"),
-          inverted: withOpacity("--color-fill"),
+          inverted: withOpacity("--color-on-accent"),
         },
       },
       backgroundColor: {
         skin: {
           fill: withOpacity("--color-fill"),
-          accent: withOpacity("--color-accent"),
+          accent: withOpacity("--color-accent-fill"),
           inverted: withOpacity("--color-text-base"),
           card: withOpacity("--color-card"),
           "card-muted": withOpacity("--color-card-muted"),
@@ -55,7 +57,22 @@ module.exports = {
         transparent: "transparent",
       },
       fontFamily: {
-        mono: ["IBM Plex Mono", "monospace"],
+        sans: ["Geist Sans", "Avenir Next", "Segoe UI", "sans-serif"],
+        serif: [
+          "Iowan Old Style",
+          "Palatino",
+          "Palatino Linotype",
+          "Georgia",
+          "serif",
+        ],
+        mono: [
+          "Geist Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
       },
 
       typography: {

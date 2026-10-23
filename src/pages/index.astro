@@ -1,152 +1,86 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import LinkButton from "@components/LinkButton.astro";
-import Hr from "@components/Hr.astro";
-import Card from "@components/Card";
-import { SITE } from "@config";
+import BitsyForm from "@components/BitsyForm.astro";
+import Icon from "@components/Icon.astro";
+import StreamList from "@components/StreamList.astro";
 import { getAllPosts } from "lib/getAllPosts";
+import { BITSY_TAGLINE } from "@data/promos";
+import { loadBitsyFeed, newsletterEntries } from "lib/bitsyFeed";
+import postFilter from "@utils/postFilter";
 import getSortedPosts from "@utils/getSortedPosts";
 
-const allPosts = await getAllPosts();
-const recentPosts = getSortedPosts(allPosts).slice(0, SITE.postPerIndex);
+const issues = await loadBitsyFeed();
+const posts = getSortedPosts((await getAllPosts()).filter(postFilter));
+const newsletters = newsletterEntries(issues).slice(0, 5);
+const articles = posts.slice(0, 8).map(post => ({
+  kind: "article" as const,
+  title: post.title,
+  href: `/${post.slug}/`,
+  publishedAt: post.publishedAt,
+  summary: post.brief,
+}));
 ---
 
 <Layout>
-  <Header />
   <main id="main-content">
-    <section id="hero">
-      <h1>Hey 👋, I'm Ákos.</h1>
-      <div class="prose">
-        <p>
-          I help startups and product teams <span
-            class="font-black text-orange-600"
-            >build and ship AI-powered software</span
-          >—from
-          <a href="/tags/llm/">LLM integrations</a> and
-          <a href="/tags/ai-tools/">MCP servers</a> to cutting-edge
-          <span class="font-black text-orange-600"
-            >Recursive Language Models</span
-          >.
-        </p>
-        <p>
-          18+ years building software. Author of 6 books. Now focused on turning
-          AI capabilities into production-ready products.
-        </p>
-        <p>
-          <strong
-            >Available for consulting, contracting, or fractional CTO roles.</strong
-          >
-        </p>
-        <p>
-          <a
-            href="/hire-me"
-            class="hire-me-btn inline-block mt-2 px-6 py-2 bg-skin-accent text-skin-inverted rounded-lg transition-opacity font-medium"
-          >
-            Hire me
-          </a>
-        </p>
+    <section class="home-newsletter">
+      <h1><Icon name="newspaper" /> Newsletter</h1>
+      <p class="lede">
+        {BITSY_TAGLINE}
+      </p>
+      <StreamList items={newsletters} />
+      <p class="stream-more">
+        <a class="with-icon" href="/newsletter/">
+          All issues
+          <Icon name="arrow-up-right" size={16} />
+        </a>
+      </p>
+      <div class="home-signup">
+        <BitsyForm post="/" id="bitsy-email-home" compact />
       </div>
     </section>
-
-    <Hr />
-
-    <section id="educator">
-      <div class="prose">
-        <p>
-          I also write about what I learn—practical articles on
-          <a href="/tags/reactjs/">React</a>,
-          <a href="/tags/typescript/">TypeScript</a>,
-          <a href="/tags/nextjs/">Next.js</a>, and
-          <a href="/tags/ai/">AI tooling</a>.
-        </p>
-        <p>
-          Weekly newsletter for developers:
-          <LinkButton
-            className="inline-block rounded-md border border-skin-line bg-skin-card px-4 py-2 font-medium hover:bg-skin-card-muted hover:text-skin-accent"
-            href="https://akoskm.substack.com/welcome?utm_source=akoskm.com&utm_medium=website"
-          >
-            ✉️ Subscribe
-          </LinkButton>
-        </p>
-      </div>
+    <section class="home-posts">
+      <h2><Icon name="pen-line" /> Posts</h2>
+      <StreamList items={articles} showKind={false} />
+      <p class="stream-more">
+        <a class="with-icon" href="/posts/">
+          All articles
+          <Icon name="arrow-up-right" size={16} />
+        </a>
+      </p>
     </section>
-
-    <Hr />
-
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts">
-          <h2>Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              (post, index) => index < SITE.postPerIndex && <Card post={post} />
-            )}
-          </ul>
-        </section>
-      )
-    }
-
-    <div class="all-posts-btn-wrapper">
-      <LinkButton href="/posts/">
-        All Posts
-        <svg xmlns="http://www.w3.org/2000/svg"
-          ><path
-            d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
-          ></path>
-        </svg>
-      </LinkButton>
-    </div>
   </main>
-
-  <Footer />
 </Layout>
 
 <style>
-  /* ===== Hero Section ===== */
-  #hero {
-    @apply pb-4 pt-4;
+  .home-newsletter {
+    margin-top: 1.5rem;
+    padding-top: 1.35rem;
+    padding-bottom: 1.35rem;
+    border-radius: 0.85rem;
+    background: rgb(var(--color-card));
   }
-  #hero h1 {
-    @apply inline-block text-xl font-bold sm:my-4 sm:text-3xl;
+  .home-newsletter h1,
+  .home-posts h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 2.15rem;
+    line-height: 1.05;
   }
-  #hero .rss-link {
-    @apply mb-4;
+  .lede {
+    margin-top: 0.45rem;
+    max-width: 36rem;
   }
-  #hero .rss-icon {
-    @apply mb-2 h-6 w-6 scale-110 fill-skin-accent sm:mb-2 sm:scale-125;
+  .stream-more {
+    margin-top: 0.35rem;
   }
-  #hero p {
-    @apply my-1;
+  .home-signup {
+    max-width: 22rem;
+    margin-top: 1rem;
   }
-  .social-wrapper {
-    @apply mt-2 flex flex-col sm:flex-row sm:items-center;
-  }
-  .social-links {
-    @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
-  }
-
-  /* ===== Educator Section ===== */
-  #educator {
-    @apply pb-4 pt-4;
-  }
-  #educator p {
-    @apply my-1;
-  }
-
-  /* ===== Featured & Recent Posts Sections ===== */
-  #featured,
-  #recent-posts,
-  #testimonials {
-    @apply pb-4 pt-6;
-  }
-  #featured h2,
-  #recent-posts h2,
-  #testimonials h2 {
-    @apply text-2xl font-semibold tracking-wide;
-  }
-  .all-posts-btn-wrapper {
-    @apply my-4 text-center;
+  .home-posts {
+    padding-top: 1.75rem;
+    padding-bottom: 0.5rem;
   }
 </style>

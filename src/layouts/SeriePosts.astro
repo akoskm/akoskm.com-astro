@@ -1,8 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import Card from "@components/Card";
 import Pagination from "@components/Pagination.astro";
 import { SITE } from "@config";
@@ -22,9 +20,8 @@ const { currentPage, totalPages, paginatedPosts, serie, serieName } =
 
 <Layout
   title={`Series: ${serieName} | ${SITE.title}`}
-  description={`Articles in the ${serieName} series by Ákos K.`}
+  description={`Articles in the ${serieName} series by Ákos Kőműves.`}
 >
-  <Header activeNav="series" />
   <Main
     pageTitle={[`Series:`, `${serieName}`]}
     titleTransition={serie}
@@ -44,6 +41,4 @@ const { currentPage, totalPages, paginatedPosts, serie, serieName } =
     }/1`}
     nextUrl={`/series/${serie}/${currentPage + 1}/`}
   />
-
-  <Footer noMarginTop={totalPages > 1} />
 </Layout>

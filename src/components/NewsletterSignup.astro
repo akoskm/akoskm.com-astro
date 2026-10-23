@@ -1,54 +1,26 @@
 ---
-import { BITSY_REFERRAL, BITSY_URL } from "@data/promos";
+import { BITSY_TAGLINE, BITSY_URL } from "@data/promos";
+import BitsyForm from "./BitsyForm.astro";
+import Icon from "./Icon.astro";
 
 export interface Props {
   slug: string;
 }
 
 const { slug } = Astro.props;
-const subscribeAction = "https://akoskm.substack.com/subscribe";
 ---
 
 <aside class="my-8 rounded-lg border border-skin-line bg-skin-card p-4">
   <p class="text-xs uppercase tracking-wide opacity-70">Newsletter</p>
   <h2 class="mt-1 text-lg font-semibold">Bitsy</h2>
-  <p class="mt-2 text-sm">
-    A free weekly newsletter for developers. I write about what I'm building and
-    what I had to figure out to ship it. One email a week.
-  </p>
-  <form
-    class="bitsy-form mt-4"
-    action={subscribeAction}
-    method="get"
-    data-bitsy-signup
-    data-post={slug}
-  >
-    <label for="bitsy-email" class="mb-2 block text-sm font-medium">
-      Email
-    </label>
-    <input
-      id="bitsy-email"
-      class="w-full rounded-lg border border-skin-line bg-skin-fill px-4 py-2 focus:border-skin-accent focus:outline-none"
-      type="email"
-      name="email"
-      required
-      autocomplete="email"
-      placeholder="you@example.com"
-    />
-    <input type="hidden" name="r" value={BITSY_REFERRAL} />
-    <p data-bitsy-status class="mt-2 min-h-[1.25rem] text-sm" role="status"></p>
-    <button
-      class="hire-me-btn mt-1 rounded-lg bg-skin-accent px-4 py-2 font-medium text-skin-inverted disabled:opacity-60"
-      type="submit"
-      data-bitsy-button
-    >
-      Subscribe
-    </button>
-  </form>
+  <p class="mt-2 text-sm">{BITSY_TAGLINE}</p>
+  <div class="mt-4">
+    <BitsyForm post={slug} />
+  </div>
   <p class="mt-3 text-sm">
     <a
       href={BITSY_URL}
-      class="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+      class="with-icon underline decoration-dashed underline-offset-4 hover:text-skin-accent"
       data-promo-card="bitsy-signup"
       data-promo-post={slug}
       data-promo-destination="read"
@@ -56,52 +28,7 @@ const subscribeAction = "https://akoskm.substack.com/subscribe";
       target="_blank"
     >
       Read it on Substack
+      <Icon name="arrow-up-right" size={16} />
     </a>
   </p>
 </aside>
-
-<script is:inline>
-  function bindBitsySignup() {
-    document.querySelectorAll("form[data-bitsy-signup]").forEach(form => {
-      if (form.dataset.bound) return;
-      form.dataset.bound = "1";
-      const button = form.querySelector("[data-bitsy-button]");
-      const status = form.querySelector("[data-bitsy-status]");
-      form.addEventListener("submit", event => {
-        if (!form.checkValidity()) return;
-        event.preventDefault();
-        const emailInput = form.querySelector('input[type="email"]');
-        const email = emailInput ? emailInput.value.trim() : "";
-        if (button) button.disabled = true;
-        if (status) {
-          status.textContent = "One more click on Substack to confirm…";
-        }
-        const destination = new URL(form.action);
-        destination.search = "";
-        destination.searchParams.set("email", email);
-        const referral = new FormData(form).get("r");
-        if (typeof referral === "string" && referral) {
-          destination.searchParams.set("r", referral);
-        }
-        let left = false;
-        const go = () => {
-          if (left) return;
-          left = true;
-          window.location.assign(destination.toString());
-        };
-        if (typeof window.plausible === "function") {
-          window.plausible("Newsletter Signup", {
-            props: { post: form.dataset.post || "" },
-            callback: go,
-          });
-        }
-        window.setTimeout(go, 1000);
-      });
-    });
-  }
-  bindBitsySignup();
-  if (!window.__bitsySignupBound) {
-    window.__bitsySignupBound = true;
-    document.addEventListener("astro:page-load", bindBitsySignup);
-  }
-</script>

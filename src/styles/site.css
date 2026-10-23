@@ -1,0 +1,254 @@
+.site-shell {
+  min-height: 100svh;
+}
+
+.site-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3.5rem;
+  padding: 0 0.65rem 0 0.85rem;
+  background: rgba(var(--color-card), 0.86);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgb(var(--color-border));
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  color: rgb(var(--color-text-base));
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.topbar-brand span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.menu-button {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  padding: 0;
+  color: rgb(var(--color-text-base));
+  cursor: pointer;
+  transition: transform 160ms ease;
+}
+
+.menu-button:active {
+  transform: scale(0.95);
+}
+
+.menu-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  padding: 0;
+  color: rgb(var(--color-text-base));
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(var(--color-text-base), 0.08);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+}
+
+.icon-sun,
+html[data-theme="dark"] .icon-moon {
+  display: none;
+}
+
+.icon-moon,
+html[data-theme="dark"] .icon-sun {
+  display: block;
+}
+
+.site-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(23, 25, 30, 0.46);
+}
+
+.site-backdrop[hidden] {
+  display: none;
+}
+
+.site-content {
+  min-width: 0;
+}
+
+.site-colophon {
+  padding-bottom: 2rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+#skip-to-content {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 60;
+  background: rgb(var(--color-accent-fill));
+  color: rgb(var(--color-on-accent));
+  padding: 0.4rem 0.7rem;
+}
+
+#skip-to-content:focus {
+  top: 0.6rem;
+}
+
+@media (max-width: 1023px) {
+  .menu-button {
+    display: inline-flex;
+  }
+
+  .site-sidebar {
+    position: fixed;
+    z-index: 40;
+    top: 3.5rem;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, max(85vw, 320px));
+    max-width: 100%;
+    margin: 0;
+    overflow: hidden;
+    transform: translateX(-105%);
+  }
+
+  .site-sidebar.is-open {
+    left: 0;
+    margin-left: 0;
+    transform: translateX(0);
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1024px) {
+  .site-topbar,
+  .site-backdrop {
+    display: none;
+  }
+
+  .site-sidebar {
+    position: fixed;
+    z-index: 30;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 348px;
+    height: 100svh;
+    overflow: hidden;
+    transform: none;
+    border-right: 1px solid rgb(var(--color-border));
+  }
+
+  .site-content {
+    margin-left: 348px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-sidebar {
+    transition: transform 180ms ease;
+  }
+}
+
+.site-sidebar,
+.site-sidebar section {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+svg.lucide {
+  fill: none;
+  stroke: currentColor;
+  flex: none;
+}
+
+svg.lucide[width="18"] {
+  width: 18px;
+  height: 18px;
+}
+
+svg.lucide[width="16"] {
+  width: 16px;
+  height: 16px;
+}
+
+svg.icon-x-logo {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  stroke: none;
+  flex: none;
+}
+
+.phonetic {
+  margin-left: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.55em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: rgb(var(--color-text-muted));
+  white-space: nowrap;
+}
+
+.with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}

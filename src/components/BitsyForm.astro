@@ -1,0 +1,158 @@
+---
+import { BITSY_REFERRAL } from "@data/promos";
+import Icon from "./Icon.astro";
+
+export interface Props {
+  post: string;
+  id?: string;
+  compact?: boolean;
+  inline?: boolean;
+}
+
+const {
+  post,
+  id = "bitsy-email",
+  compact = false,
+  inline = false,
+} = Astro.props;
+const subscribeAction = "https://akoskm.substack.com/subscribe";
+---
+
+<form
+  class:list={[
+    "bitsy-form",
+    compact && "bitsy-form-compact",
+    inline && "bitsy-form-inline",
+  ]}
+  action={subscribeAction}
+  method="get"
+  data-bitsy-signup
+  data-post={post}
+>
+  <label
+    for={id}
+    class:list={[inline ? "bitsy-sr" : "mb-2 block text-sm font-medium"]}
+    >Email</label
+  >
+  <div class="bitsy-fields">
+    <input
+      id={id}
+      class="w-full rounded-lg border border-skin-line bg-skin-fill px-3 py-2 text-sm focus:border-skin-accent focus:outline-none"
+      type="email"
+      name="email"
+      required
+      autocomplete="email"
+      placeholder="you@example.com"
+    />
+    <button
+      class:list={[
+        "inline-flex items-center justify-center gap-2 rounded-lg bg-skin-accent px-4 py-2 text-sm font-medium text-skin-inverted disabled:opacity-60",
+        inline ? "bitsy-submit" : "mt-1 w-full",
+      ]}
+      type="submit"
+      data-bitsy-button
+    >
+      <Icon name="send" size={16} />
+      Subscribe
+    </button>
+  </div>
+  <input type="hidden" name="r" value={BITSY_REFERRAL} />
+  <p
+    data-bitsy-status
+    class:list={[inline ? "bitsy-status" : "mt-2 min-h-[1.25rem] text-sm"]}
+    role="status"
+  >
+  </p>
+</form>
+
+<style>
+  .bitsy-fields {
+    display: flex;
+    flex-direction: column;
+  }
+  .bitsy-form-inline .bitsy-fields {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .bitsy-form-inline input {
+    width: 100%;
+    height: 36px;
+    border-radius: 0.5rem;
+  }
+  .bitsy-form-inline .bitsy-submit {
+    align-self: flex-start;
+    width: auto;
+    height: 36px;
+    margin: 0;
+    border-radius: 0.5rem;
+    padding: 0 0.85rem;
+  }
+  .bitsy-form-inline .bitsy-submit:active {
+    transform: scale(0.95);
+  }
+  .bitsy-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+  }
+  .bitsy-status {
+    margin: 0.35rem 0 0;
+    min-height: 0;
+    font-size: 0.75rem;
+  }
+  .bitsy-status:empty {
+    display: none;
+  }
+</style>
+
+<script is:inline>
+  function bindBitsySignup() {
+    document.querySelectorAll("form[data-bitsy-signup]").forEach(form => {
+      if (form.dataset.bound) return;
+      form.dataset.bound = "1";
+      const button = form.querySelector("[data-bitsy-button]");
+      const status = form.querySelector("[data-bitsy-status]");
+      form.addEventListener("submit", event => {
+        if (!form.checkValidity()) return;
+        event.preventDefault();
+        const emailInput = form.querySelector('input[type="email"]');
+        const email = emailInput ? emailInput.value.trim() : "";
+        if (button) button.disabled = true;
+        if (status) {
+          status.textContent = "One more click on Substack to confirm…";
+        }
+        const destination = new URL(form.action);
+        destination.search = "";
+        destination.searchParams.set("email", email);
+        const referral = new FormData(form).get("r");
+        if (typeof referral === "string" && referral) {
+          destination.searchParams.set("r", referral);
+        }
+        let left = false;
+        const go = () => {
+          if (left) return;
+          left = true;
+          window.location.assign(destination.toString());
+        };
+        if (typeof window.plausible === "function") {
+          window.plausible("Newsletter Signup", {
+            props: { post: form.dataset.post || "" },
+            callback: go,
+          });
+        }
+        window.setTimeout(go, 1000);
+      });
+    });
+  }
+  bindBitsySignup();
+  if (!window.__bitsySignupBound) {
+    window.__bitsySignupBound = true;
+    document.addEventListener("astro:page-load", bindBitsySignup);
+  }
+</script>

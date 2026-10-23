@@ -1,0 +1,612 @@
+---
+import { LISTED_APPS } from "@data/apps";
+import products from "@data/products";
+import { loadBitsyFeed, bitsyIssueUrl } from "lib/bitsyFeed";
+import BitsyForm from "./BitsyForm.astro";
+import Icon from "./Icon.astro";
+import ProfilePhoto from "./ProfilePhoto.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+const path = Astro.url.pathname;
+const issues = (await loadBitsyFeed()).slice(0, 3);
+
+const nav = [
+  { href: "/", label: "Home", card: "home", icon: "home" },
+  { href: "/posts/", label: "Posts", card: "posts", icon: "pen-line" },
+  {
+    href: "/newsletter/",
+    label: "Newsletter",
+    card: "newsletter",
+    icon: "newspaper",
+  },
+  { href: "/apps/", label: "Apps", card: "apps", icon: "blocks" },
+  { href: "/books/", label: "Books", card: "books", icon: "book-open" },
+  { href: "/about/", label: "About", card: "about", icon: "user" },
+  { href: "/search/", label: "Search", card: "search", icon: "search" },
+] as const;
+
+const bookBlurbs: Record<string, string> = {
+  "mcp-crash-course": "Build MCP servers with TypeScript, step by step.",
+  "rtl-crash-course": "Learn React component tests with Testing Library.",
+  pwa: "Build cloud PWAs with React, TypeScript, and Supabase.",
+  openAi: "Build and deploy generative AI apps in React.",
+  portfolio: "Plan portfolio projects that show real web work.",
+  hooks: "Learn custom React hooks by building six small apps.",
+};
+
+const bookKeys = [
+  "mcp-crash-course",
+  "rtl-crash-course",
+  "pwa",
+  "openAi",
+  "portfolio",
+  "hooks",
+] as const;
+
+const books = bookKeys.map(key => ({
+  ...products[key],
+  blurb: bookBlurbs[key],
+}));
+
+function current(href: string): boolean {
+  if (href === "/") return path === "/";
+  return path === href || path.startsWith(href);
+}
+
+function chip(value: string): { month: string; day: string } {
+  const time = Date.parse(value);
+  if (Number.isNaN(time)) return { month: "", day: "" };
+  const date = new Date(time);
+  return {
+    month: date.toLocaleString("en", { month: "short", timeZone: "UTC" }),
+    day: String(date.getUTCDate()),
+  };
+}
+---
+
+<aside id="site-drawer" class="site-sidebar" data-site-drawer>
+  <div class="drawer-head">
+    <button
+      class="drawer-close focus-outline"
+      type="button"
+      data-drawer-close
+      aria-label="Close menu"
+    >
+      <Icon name="x" />
+    </button>
+  </div>
+
+  <div class="rail">
+    <div class="rail-main">
+      <a
+        class="rail-avatar"
+        href="/"
+        aria-label="Home"
+        data-promo-card="sidebar-home"
+        data-promo-post={path}
+        data-promo-destination="nav"
+      >
+        <ProfilePhoto size={40} shape="square" alt="" />
+      </a>
+      <div class="rail-divider"></div>
+      <nav class="rail-nav" aria-label="Site">
+        {
+          nav.map(item => (
+            <a
+              class="rail-btn focus-outline"
+              href={item.href}
+              aria-current={current(item.href) ? "page" : undefined}
+              data-promo-card={`sidebar-${item.card}`}
+              data-promo-post={path}
+              data-promo-destination="nav"
+            >
+              <Icon name={item.icon} />
+              <span class="rail-tip">{item.label}</span>
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+    <div class="rail-foot">
+      <ThemeToggle />
+    </div>
+  </div>
+
+  <div class="panel-scroll">
+    <header class="panel-head">
+      <p class="panel-name" lang="hu">
+        Ákos Kőműves
+        <span class="phonetic" lang="en" aria-label="pronounced AH-kosh"
+          >(AH-kosh)</span
+        >
+      </p>
+      <p class="panel-bio">I build apps and write Bitsy.</p>
+      <div class="panel-tools">
+        <div class="social-row">
+          <a
+            class="social-btn focus-outline"
+            href="https://x.com/akoskm"
+            aria-label="X @akoskm"
+            data-promo-card="sidebar-x"
+            data-promo-post={path}
+            data-promo-destination="x"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Icon name="x-logo" size={16} />
+          </a>
+          <a
+            class="social-btn focus-outline"
+            href="https://github.com/akoskm"
+            aria-label="GitHub"
+            data-promo-card="sidebar-github"
+            data-promo-post={path}
+            data-promo-destination="github"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Icon name="github" size={16} />
+          </a>
+          <a
+            class="social-btn focus-outline"
+            href="mailto:hello@akoskm.com"
+            aria-label="Email hello@akoskm.com"
+            data-promo-card="sidebar-contact"
+            data-promo-post={path}
+            data-promo-destination="email"
+          >
+            <Icon name="mail" size={16} />
+          </a>
+        </div>
+        <BitsyForm post={path} id="bitsy-email-sidebar" inline />
+      </div>
+    </header>
+
+    {
+      issues.length > 0 && (
+        <details class="side-section" open>
+          <summary class="side-label">Latest issues</summary>
+          <ul class="dense-list">
+            {issues.map(issue => {
+              const date = chip(issue.publishedAt);
+              return (
+                <li>
+                  <a
+                    class="dense-row"
+                    href={bitsyIssueUrl(issue.url)}
+                    data-promo-card="sidebar-issue"
+                    data-promo-post={path}
+                    data-promo-destination="read"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <span class="date-chip">
+                      <span class="date-month">{date.month}</span>
+                      <span class="date-day">{date.day}</span>
+                    </span>
+                    <span class="row-copy">
+                      <strong>{issue.title}</strong>
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </details>
+      )
+    }
+
+    <details class="side-section" open>
+      <summary class="side-label">Apps</summary>
+      <ul class="dense-list">
+        {
+          LISTED_APPS.map(app => (
+            <li>
+              <a
+                class="dense-row"
+                href={app.href}
+                target={app.external ? "_blank" : undefined}
+                rel={app.external ? "noopener noreferrer" : undefined}
+                data-promo-card={`sidebar-row-${app.name.toLowerCase().replace(/\s+/g, "-")}`}
+                data-promo-post={path}
+                data-promo-destination="app"
+              >
+                <img src={app.icon} alt="" width="40" height="40" />
+                <span class="row-copy">
+                  <strong>{app.name}</strong>
+                  <span>{app.summary}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </details>
+
+    <details class="side-section" open>
+      <summary class="side-label">Books</summary>
+      <ul class="dense-list">
+        {
+          books.map(book => (
+            <li>
+              <a
+                class="dense-row"
+                href="/books/"
+                data-promo-card="sidebar-books"
+                data-promo-post={path}
+                data-promo-destination="books"
+              >
+                <img src={book.image} alt="" width="40" height="40" />
+                <span class="row-copy">
+                  <strong>{book.title}</strong>
+                  <span>{book.blurb}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </details>
+  </div>
+</aside>
+
+<style>
+  .site-sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background: rgb(var(--color-card));
+    color: rgb(var(--color-text-base));
+  }
+  .drawer-head {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: flex-end;
+    height: 3rem;
+    padding: 0 0.35rem;
+    border-bottom: 1px solid rgb(var(--color-border));
+  }
+  .drawer-close {
+    display: none;
+  }
+  .rail {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 0.35rem;
+    overflow: hidden;
+    padding: 0.45rem 0.55rem;
+    background: rgb(var(--color-card-muted));
+    border-bottom: 1px solid rgb(var(--color-border));
+  }
+  :global(html[data-theme="dark"]) .rail {
+    background: rgb(28, 27, 25);
+  }
+  .rail-main,
+  .rail-nav,
+  .rail-foot {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .rail-main {
+    min-width: 0;
+    flex: 1;
+    overflow-x: auto;
+  }
+  .rail-foot {
+    flex: none;
+  }
+  .rail-divider {
+    flex: none;
+    width: 1px;
+    height: 1.5rem;
+    background: rgb(var(--color-border));
+  }
+  .rail-avatar {
+    display: block;
+    flex: none;
+    line-height: 0;
+    border-radius: 0.7rem;
+  }
+  .rail-avatar:active,
+  .rail-btn:active,
+  .social-btn:active,
+  .drawer-close:active {
+    transform: scale(0.95);
+  }
+  .rail-btn,
+  .social-btn {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    color: rgb(var(--color-text-base));
+    text-decoration: none;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+  .rail-btn,
+  .social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.5rem;
+  }
+  .social-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .dense-row img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
+  .dense-row img {
+    flex: none;
+    border-radius: 0.55rem;
+  }
+  .rail-btn:hover,
+  .social-btn:hover,
+  .dense-row:hover {
+    background: rgba(var(--color-text-base), 0.08);
+  }
+  .rail-btn[aria-current="page"] {
+    background: rgba(var(--color-accent-fill), 0.16);
+    color: #8a2e00;
+  }
+  :global(html[data-theme="dark"]) .rail-btn[aria-current="page"] {
+    color: rgb(var(--color-accent));
+  }
+  .rail-tip {
+    position: absolute;
+    z-index: 3;
+    left: calc(100% + 0.45rem);
+    top: 50%;
+    translate: 0 -50%;
+    padding: 0.2rem 0.45rem;
+    border-radius: 0.35rem;
+    background: rgb(var(--color-text-base));
+    color: rgb(var(--color-fill));
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease;
+  }
+  .rail-btn:hover .rail-tip,
+  .rail-btn:focus-visible .rail-tip {
+    opacity: 1;
+  }
+  .panel-scroll {
+    flex: 1;
+    min-width: 0;
+    overflow: auto;
+  }
+  .panel-head {
+    padding: 0.9rem 0.9rem 0.75rem;
+  }
+  .panel-name {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .panel-bio {
+    margin: 0.2rem 0 0;
+    color: rgb(var(--color-text-muted));
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+  .panel-tools {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-top: 0.75rem;
+  }
+  .social-row {
+    display: flex;
+    gap: 0.15rem;
+  }
+  .side-section {
+    border-top: 1px solid rgb(var(--color-border));
+    padding: 0.45rem 0.55rem 0.65rem;
+  }
+  .side-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.375rem;
+    color: rgb(var(--color-text-muted));
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    list-style: none;
+  }
+  .side-label::-webkit-details-marker {
+    display: none;
+  }
+  .side-label::after {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 160ms ease;
+  }
+  details[open] > .side-label::after {
+    transform: rotate(225deg);
+  }
+  .side-label:hover {
+    background: rgba(var(--color-text-base), 0.06);
+  }
+  .dense-list {
+    list-style: none;
+    margin: 0.15rem 0 0;
+    padding: 0;
+  }
+  .dense-row {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 0.1rem;
+    padding: 0.375rem 0.5rem;
+    border-radius: 0.375rem;
+    color: inherit;
+    font-size: 0.875rem;
+    line-height: 1.3;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+  }
+  .row-copy {
+    min-width: 0;
+  }
+  .row-copy strong,
+  .row-copy span {
+    display: block;
+  }
+  .row-copy strong {
+    font-weight: 600;
+  }
+  .row-copy span {
+    margin-top: 0.1rem;
+    color: rgb(var(--color-text-muted));
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+  .date-chip {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgb(var(--color-border));
+    border-radius: 0.45rem;
+    background: rgb(var(--color-fill));
+    font-family: var(--font-mono);
+    line-height: 1;
+  }
+  .date-month {
+    color: rgb(var(--color-text-muted));
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .date-day {
+    margin-top: 0.12rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  @media (max-width: 1023px) {
+    .site-sidebar {
+      flex-direction: column;
+      margin-left: 0;
+    }
+    .rail,
+    .panel-scroll {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      transform: none;
+    }
+    .panel-scroll {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+    }
+    .rail {
+      height: auto;
+    }
+    .drawer-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 0.5rem;
+      background: transparent;
+      padding: 0;
+      color: rgb(var(--color-text-base));
+      cursor: pointer;
+      transition: transform 160ms ease;
+    }
+    .rail-tip {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      border: 0;
+      opacity: 1;
+      translate: none;
+    }
+  }
+  @media (min-width: 1024px) {
+    .site-sidebar {
+      flex-direction: row;
+    }
+    .drawer-head {
+      display: none;
+    }
+    .rail {
+      z-index: 2;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      width: 68px;
+      height: 100%;
+      overflow: visible;
+      padding: 0.75rem 0;
+      border-bottom: 0;
+      border-right: 1px solid rgb(var(--color-border));
+    }
+    .rail-main,
+    .rail-nav {
+      flex-direction: column;
+    }
+    .rail-main {
+      gap: 0.45rem;
+      width: 100%;
+      overflow: visible;
+    }
+    .rail-divider {
+      width: 1.75rem;
+      height: 1px;
+    }
+    .rail-foot {
+      margin-top: auto;
+    }
+    .panel-scroll {
+      flex: 1;
+      width: auto;
+      height: 100%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rail-btn,
+    .social-btn,
+    .dense-row,
+    .drawer-close,
+    .side-label::after {
+      transition: none;
+    }
+  }
+</style>

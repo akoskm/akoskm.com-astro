@@ -1,7 +1,7 @@
 import { getCollection } from "astro:content";
 import { fetchAllPosts, getPost } from "./clients";
 import type { Post } from "./schema";
-import { SITE } from "@config";
+import { AUTHOR_IMAGE, SITE } from "@config";
 
 export async function getAllPosts(): Promise<Post[]> {
   let localEntries: Awaited<ReturnType<typeof getCollection<"blog">>> = [];
@@ -38,7 +38,7 @@ export async function getAllPosts(): Promise<Post[]> {
       return {
         author: {
           name: SITE.author,
-          profilePicture: "/assets/akoskm.jpg",
+          profilePicture: AUTHOR_IMAGE,
         },
         canonicalUrl: `${SITE.website}${entry.slug}/`,
         publishedAt: entry.data.publishedAt,

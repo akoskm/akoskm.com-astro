@@ -1,5 +1,6 @@
 ---
 import ProjectsLayout from "@layouts/ProjectsLayout.astro";
+import Icon from "@components/Icon.astro";
 import { getCollection } from "astro:content";
 
 const portfolioItems = await getCollection("portfolio");
@@ -9,7 +10,7 @@ const portfolioItems = await getCollection("portfolio");
   frontmatter={{
     title: "Portfolio",
     description:
-      "Client projects built by Ákos K, from architecture through deployment.",
+      "Client projects built by Ákos Kőműves, from architecture through deployment.",
   }}
   activeNav="portfolio"
 >
@@ -30,9 +31,10 @@ const portfolioItems = await getCollection("portfolio");
                   href={data.clientUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="client-link"
+                  class="client-link with-icon"
                 >
                   {data.client}
+                  <Icon name="arrow-up-right" size={16} />
                 </a>
               ) : (
                 data.client
@@ -41,7 +43,7 @@ const portfolioItems = await getCollection("portfolio");
             <p class="mb-3">{data.description}</p>
             <div class="mb-3 flex flex-wrap gap-2">
               {data.technologies.map(tech => (
-                <span class="tech-tag rounded border border-skin-line px-2 py-1 text-xs">
+                <span class="tech-tag rounded border border-skin-line px-2 py-1 font-mono text-xs">
                   {tech}
                 </span>
               ))}
@@ -78,11 +80,11 @@ const portfolioItems = await getCollection("portfolio");
     color: rgb(var(--color-text-base));
   }
   a.read-more {
-    color: #fff !important;
+    color: rgb(var(--color-on-accent)) !important;
     text-decoration: none !important;
   }
   a.read-more:hover {
-    color: #fff !important;
+    color: rgb(var(--color-on-accent)) !important;
     text-decoration: underline !important;
     text-decoration-style: dashed !important;
     text-underline-offset: 6px;

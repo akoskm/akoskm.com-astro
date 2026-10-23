@@ -5,35 +5,67 @@
 @layer base {
   :root,
   html[data-theme="light"] {
-    --color-fill: 251, 254, 251;
-    --color-text-base: 40, 39, 40;
-    --color-accent: 0, 108, 172;
-    --color-card: 230, 230, 230;
-    --color-card-muted: 205, 205, 205;
-    --color-border: 236, 233, 233;
+    --color-fill: 255, 255, 255;
+    --color-text-base: 23, 25, 30;
+    --color-text-muted: 102, 98, 94;
+    --color-accent: 194, 61, 0;
+    --color-accent-fill: 255, 79, 0;
+    --color-card: 245, 240, 230;
+    --color-card-muted: 232, 224, 208;
+    --color-border: 129, 123, 117;
+    --color-on-accent: 23, 25, 30;
+    --font-sans: "Geist Sans", "Avenir Next", "Segoe UI", sans-serif;
+    --font-serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia,
+      serif;
+    --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas,
+      monospace;
   }
   html[data-theme="dark"] {
-    --color-fill: 33, 39, 55;
-    --color-text-base: 234, 237, 243;
-    --color-accent: 255, 107, 1;
-    --color-card: 52, 63, 96;
-    --color-card-muted: 138, 51, 2;
-    --color-border: 171, 75, 8;
-  }
-  #sun-svg,
-  html[data-theme="dark"] #moon-svg {
-    display: none;
-  }
-  #moon-svg,
-  html[data-theme="dark"] #sun-svg {
-    display: block;
+    --color-fill: 23, 25, 30;
+    --color-text-base: 245, 240, 230;
+    --color-text-muted: 178, 172, 164;
+    --color-accent: 255, 141, 90;
+    --color-accent-fill: 255, 79, 0;
+    --color-card: 48, 46, 43;
+    --color-card-muted: 68, 64, 59;
+    --color-border: 148, 142, 136;
+    --color-on-accent: 23, 25, 30;
   }
   body {
-    @apply flex min-h-[100svh] flex-col bg-skin-fill font-mono text-skin-base selection:bg-skin-accent/70 selection:text-skin-inverted;
+    @apply flex min-h-[100svh] flex-col bg-skin-fill font-sans text-skin-base;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  .prose :where(h1, h2) {
+    font-family: var(--font-serif);
+    font-weight: 400;
+  }
+  pre,
+  code,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
   }
   section,
   footer {
     @apply mx-auto max-w-3xl px-4;
+  }
+  ::selection {
+    background: rgb(var(--color-accent-fill));
+    color: rgb(var(--color-on-accent));
+  }
+  ::placeholder {
+    color: rgb(var(--color-text-muted));
+    opacity: 1;
+  }
+  a:visited {
+    color: rgb(var(--color-text-base));
+  }
+  a.text-skin-accent:visited,
+  .text-skin-accent:visited {
+    color: rgb(var(--color-accent));
   }
   a {
     @apply outline-2 outline-offset-1 outline-skin-fill focus-visible:no-underline focus-visible:outline-dashed;
@@ -50,14 +82,16 @@
   .prose a {
     @apply break-words hover:!text-skin-accent;
   }
-  .prose a.hire-me-btn,
-  a.hire-me-btn {
-    color: #fff !important;
+  .prose a.bg-skin-accent,
+  a.bg-skin-accent,
+  button.bg-skin-accent {
+    color: rgb(var(--color-on-accent)) !important;
     text-decoration: none !important;
   }
-  .prose a.hire-me-btn:hover,
-  a.hire-me-btn:hover {
-    color: #fff !important;
+  .prose a.bg-skin-accent:hover,
+  a.bg-skin-accent:hover,
+  button.bg-skin-accent:hover {
+    color: rgb(var(--color-on-accent)) !important;
     text-decoration: underline !important;
     text-decoration-style: dashed !important;
     text-underline-offset: 6px;
@@ -118,9 +152,8 @@
     white-space: pre;
   }
 
-  /* my fix for the highlight, might not be needed */
-  html[data-theme="light"] pre:has(code) :not(span) {
-    @apply text-skin-inverted;
+  html[data-theme="light"] pre.astro-code :not(span) {
+    color: rgb(var(--color-text-base));
   }
 
   html[data-theme="dark"] pre:has(code) :not(span) {
@@ -136,6 +169,34 @@ html[data-theme="dark"] pre.astro-code span {
   font-style: var(--shiki-dark-font-style) !important;
   font-weight: var(--shiki-dark-font-weight) !important;
   text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+.prose pre:not(.astro-code),
+.prose pre:not(.astro-code) code {
+  color: #eeffff;
+}
+
+html pre .hljs-comment,
+html pre .hljs-quote {
+  color: #9a9a9a !important;
+}
+
+html[data-theme="light"] pre.astro-code span[style*="#E36209"],
+html[data-theme="light"] pre.astro-code span[style*="#e36209"] {
+  color: #c2410c !important;
+}
+
+.prose {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.prose :where(p, li) {
+  line-height: 1.65;
+}
+
+.prose-lg {
+  font-size: 18px;
 }
 
 @layer components {

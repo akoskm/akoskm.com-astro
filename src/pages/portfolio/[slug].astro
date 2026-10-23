@@ -1,8 +1,7 @@
 ---
 import { SITE } from "@config";
 import Breadcrumbs from "@components/Breadcrumbs.astro";
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
+import Icon from "@components/Icon.astro";
 import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
@@ -22,7 +21,6 @@ const { Content } = await item.render();
   title={`${item.data.title} | ${SITE.title}`}
   description={item.data.description}
 >
-  <Header activeNav="portfolio" />
   <Breadcrumbs />
   <main id="main-content">
     <article class="prose mx-auto mb-28 max-w-3xl px-4 prose-img:border-0">
@@ -34,9 +32,10 @@ const { Content } = await item.render();
               href={item.data.clientUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-skin-accent hover:underline"
+              class="with-icon text-skin-accent hover:underline"
             >
               {item.data.client}
+              <Icon name="arrow-up-right" size={16} />
             </a>
           ) : (
             item.data.client
@@ -47,7 +46,7 @@ const { Content } = await item.render();
       <div class="mb-6 flex flex-wrap gap-2">
         {
           item.data.technologies.map(tech => (
-            <span class="rounded border border-skin-line px-2 py-1 text-xs text-skin-base">
+            <span class="rounded border border-skin-line px-2 py-1 font-mono text-xs text-skin-base">
               {tech}
             </span>
           ))
@@ -72,7 +71,7 @@ const { Content } = await item.render();
         </p>
         <a
           href="/hire-me"
-          class="hire-me-btn inline-block rounded-lg bg-skin-accent px-6 py-2 text-skin-inverted transition-opacity"
+          class="inline-block rounded-lg bg-skin-accent px-6 py-2 text-skin-inverted"
         >
           Hire me
         </a>
@@ -85,5 +84,4 @@ const { Content } = await item.render();
       </div>
     </article>
   </main>
-  <Footer />
 </Layout>

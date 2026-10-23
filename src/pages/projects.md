@@ -1,7 +1,7 @@
 ---
 layout: ../layouts/ProjectsLayout.astro
 title: "Projects"
-description: "Books, courses, and apps by Ákos K, including React testing, custom hooks, generative AI, and One Task X."
+description: "Books, courses, and apps by Ákos Kőműves, including React testing, custom hooks, generative AI, and One Task X."
 ---
 
 ### Books

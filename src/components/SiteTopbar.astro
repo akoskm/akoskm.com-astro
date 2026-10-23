@@ -1,0 +1,22 @@
+---
+import { SITE } from "@config";
+import Icon from "./Icon.astro";
+import ProfilePhoto from "./ProfilePhoto.astro";
+---
+
+<header class="site-topbar">
+  <a class="topbar-brand" href="/" lang="hu">
+    <ProfilePhoto size={32} shape="square" alt="" />
+    <span>{SITE.author}</span>
+  </a>
+  <button
+    class="menu-button focus-outline"
+    type="button"
+    data-menu-button
+    aria-expanded="false"
+    aria-controls="site-drawer"
+    aria-label="Open menu"
+  >
+    <Icon name="menu" />
+  </button>
+</header>

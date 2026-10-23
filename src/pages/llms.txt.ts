@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { SITE } from "@config";
+import { BITSY_TAGLINE } from "@data/promos";
 import { getAllPosts } from "lib/getAllPosts";
 import { resolveDescription } from "lib/postMeta";
 import postFilter from "@utils/postFilter";
@@ -13,7 +14,7 @@ export const GET: APIRoute = async () => {
     "",
     `> ${SITE.desc}`,
     "",
-    "Ákos K (Akos Komuves) is a developer and author. The site is https://akoskm.com/. The Bitsy newsletter is https://akoskm.substack.com.",
+    `${SITE.author} is a developer and author. The site is https://akoskm.com/. Bitsy (https://akoskm.substack.com): ${BITSY_TAGLINE}`,
     "",
     "## Posts",
     "",
@@ -31,6 +32,12 @@ export const GET: APIRoute = async () => {
     "",
     `- [About](${SITE.website}about/): Software developer and author. Coding since 2005.`,
     `- [Posts](${SITE.website}posts/): Every article.`,
+    `- [Newsletter](${SITE.website}newsletter/): ${BITSY_TAGLINE}`,
+    `- [Apps](${SITE.website}apps/): Nummy, SubSub, Geordi Scan, and One Task X.`,
+    `- [Nummy](${SITE.website}apps/nummy/): Nursing tracker. Log a feed on your Watch, then see the week on iPhone.`,
+    `- [SubSub](${SITE.website}apps/subsub/): Subscription tracker for iPhone and Mac. No bank login.`,
+    `- [Geordi Scan](https://geordiscan.com): See what your contracts hide, with every claim linked to the PDF.`,
+    `- [One Task X](https://onetaskx.com): A minimalist todo application.`,
     `- [Books](${SITE.website}books/): React testing, hooks, generative AI, and PWA books and courses.`,
     `- [Portfolio](${SITE.website}portfolio/): Client project case studies.`,
     `- [Hire](${SITE.website}hire-me/): Consulting, contracting, and fractional CTO work.`,
