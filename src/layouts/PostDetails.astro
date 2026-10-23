@@ -70,6 +70,23 @@ if (promos.length > 0) {
   afterHtml = split.after;
 }
 
+const faq = post.faq ?? [];
+const faqSchema =
+  faq.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faq.map(item => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      }
+    : undefined;
+
 const layoutProps = {
   title: `${title} | ${SITE.title}`,
   headline: title,
@@ -81,6 +98,7 @@ const layoutProps = {
   ogImage: ogUrl,
   scrollSmooth: true,
   schema: "BlogPosting" as const,
+  extraSchema: faqSchema,
 };
 ---
 

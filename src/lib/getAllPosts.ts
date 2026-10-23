@@ -65,13 +65,20 @@ export async function getAllPosts(): Promise<Post[]> {
           },
         },
         draft: entry.data.draft,
+        faq: entry.data.faq,
         // Store render function for later use
         _localEntry: entry,
       } as Post & { _localEntry?: typeof entry };
     })
   );
 
-  const allPosts = [...hashnodePosts, ...localPosts];
+  // A local markdown file with the same slug replaces the Hashnode copy,
+  // including when the Hashnode API is reachable at build time.
+  const localSlugs = new Set(localPosts.map(post => post.slug));
+  const allPosts = [
+    ...hashnodePosts.filter(post => !localSlugs.has(post.slug)),
+    ...localPosts,
+  ];
 
   // Sort by publishedAt desc
   allPosts.sort(

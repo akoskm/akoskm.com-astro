@@ -46,6 +46,14 @@ export const PostSchema = z.object({
     }),
   }),
   draft: z.boolean().optional(),
+  faq: z
+    .array(
+      z.object({
+        question: z.string(),
+        answer: z.string(),
+      })
+    )
+    .optional(),
 });
 
 export const PageInfo = z.object({

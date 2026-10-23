@@ -59,6 +59,21 @@ const nummy: Promo = {
   ],
 };
 
+const mcp: Promo = {
+  id: "mcp",
+  kind: "book",
+  title: "Model Context Protocol: Build MCP Servers with TypeScript",
+  body: "A short book on building an MCP server in TypeScript. The protocol, a working server, and the parts you deploy.",
+  image: "/assets/covers/mcp-server.png",
+  links: [
+    {
+      href: "https://a.co/d/3nPsjMM",
+      label: "Amazon",
+      destination: "amazon",
+    },
+  ],
+};
+
 const rtl: Promo = {
   id: "rtl",
   kind: "book",
@@ -92,6 +107,7 @@ export const PROMOS: Record<string, Promo> = {
   subsub,
   nummy,
   rtl,
+  mcp,
   bitsy,
 };
 
@@ -112,10 +128,7 @@ interface PostPromoEntry {
 
 /** Slug → promo ids, in display order. An entry can override body and links. */
 export const POST_PROMOS: Record<string, Array<string | PostPromoEntry>> = {
-  "a-full-stack-developers-guide-to-setting-up-a-new-macbook-pro": [
-    "subsub",
-    "nummy",
-  ],
+  "a-full-stack-developers-guide-to-setting-up-a-new-macbook-pro": ["subsub"],
   "try-openai-codex-no-subscription": [
     {
       id: "subsub",
@@ -136,7 +149,7 @@ export const POST_PROMOS: Record<string, Array<string | PostPromoEntry>> = {
   "how-to-test-props-in-react-with-jest": ["rtl"],
   "how-to-test-react-apps-with-vitest-and-vite": ["rtl"],
   "how-to-solve-variable-is-possibly-undefined-in-typescript-even-when-its-defined":
-    ["bitsy"],
+    ["mcp"],
 };
 
 function promoFromEntry(entry: string | PostPromoEntry): Promo | undefined {
