@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { SITE } from "@config";
+import { AUTHOR_IMAGE, SITE } from "@config";
 import { POST_DESCRIPTIONS } from "../data/post-descriptions";
 import type { Post } from "./schema";
 
@@ -113,7 +113,7 @@ export function normalizePost(raw: RawPost): Post {
   return {
     author: {
       name: SITE.author,
-      profilePicture: "/assets/akoskm.jpg",
+      profilePicture: AUTHOR_IMAGE,
     },
     canonicalUrl: raw.canonicalUrl || `${SITE.website}${slug}/`,
     publishedAt: raw.publishedAt || "",

@@ -1,6 +1,7 @@
 ---
 import { SITE } from "@config";
 import Breadcrumbs from "@components/Breadcrumbs.astro";
+import ProfilePhoto from "@components/ProfilePhoto.astro";
 import Layout from "./Layout.astro";
 
 export interface Props {
@@ -22,25 +23,42 @@ const { frontmatter, nameHeading, pronunciation } = Astro.props;
   <Breadcrumbs />
   <main id="main-content">
     <section id="about" class="prose mb-28 max-w-3xl prose-img:border-0">
-      <h1 class="text-2xl sm:text-3xl" lang={nameHeading ? "hu" : undefined}>
-        {nameHeading || frontmatter.title}
-      </h1>
-      {
-        pronunciation && (
-          <p class="name-pronounce" lang="en">
-            pronounced {pronunciation}
-          </p>
-        )
-      }
+      <div class="about-identity">
+        <ProfilePhoto size={96} />
+        <div>
+          <h1
+            class="text-2xl sm:text-3xl"
+            lang={nameHeading ? "hu" : undefined}
+          >
+            {nameHeading || frontmatter.title}
+          </h1>
+          {
+            pronunciation && (
+              <p class="name-pronounce" lang="en">
+                pronounced {pronunciation}
+              </p>
+            )
+          }
+        </div>
+      </div>
       <slot />
     </section>
   </main>
 </Layout>
 
 <style>
+  .about-identity {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+  .about-identity h1 {
+    margin: 0;
+  }
   .name-pronounce {
     margin-top: 0.35rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0;
     font-family: var(--font-sans);
     font-size: 0.8rem;
     line-height: 1.3;

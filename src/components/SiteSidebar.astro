@@ -3,6 +3,7 @@ import { LISTED_APPS } from "@data/apps";
 import products from "@data/products";
 import { BITSY_TAGLINE, BITSY_URL } from "@data/promos";
 import BitsyForm from "./BitsyForm.astro";
+import ProfilePhoto from "./ProfilePhoto.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
 const path = Astro.url.pathname;
@@ -36,7 +37,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
       data-promo-post={path}
       data-promo-destination="nav"
     >
-      <img src="/assets/akoskm.jpg" alt="" width="64" height="64" />
+      <ProfilePhoto size={64} />
       <span>
         <span class="site-name" lang="hu">Ákos Kőműves</span>
         <span class="name-pronounce" lang="en">pronounced AH-kosh</span>
@@ -219,13 +220,6 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
   }
   .drawer-close {
     display: none;
-  }
-  .identity img {
-    width: 64px;
-    height: 64px;
-    border-radius: 999px;
-    object-fit: cover;
-    box-shadow: 0 0 0 2px rgb(var(--color-accent-fill));
   }
   .site-name,
   .name-pronounce,

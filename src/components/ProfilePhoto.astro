@@ -1,0 +1,41 @@
+---
+import { Picture } from "astro:assets";
+import avatar from "../assets/akoskm.jpg";
+
+interface Props {
+  size?: number;
+}
+
+const { size = 64 } = Astro.props;
+---
+
+<span class="profile-photo" style={`width: ${size}px; height: ${size}px`}>
+  <Picture
+    src={avatar}
+    formats={["avif", "webp"]}
+    alt="Ákos Kőműves"
+    width={size}
+    height={size}
+    densities={[1, 2]}
+  />
+</span>
+
+<style>
+  .profile-photo {
+    display: block;
+    flex: none;
+    line-height: 0;
+  }
+  .profile-photo :global(picture) {
+    display: block;
+    line-height: 0;
+  }
+  .profile-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 999px;
+    object-fit: cover;
+    box-shadow: 0 0 0 2px rgb(var(--color-accent-fill));
+  }
+</style>

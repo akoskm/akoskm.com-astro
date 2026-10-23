@@ -1,6 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import { SITE } from "@config";
+import { AUTHOR_IMAGE, SITE } from "@config";
 import { APPS, type AppInfo } from "@data/apps";
 
 export function getStaticPaths() {
@@ -30,6 +30,7 @@ const schema = {
     "@type": "Person",
     name: SITE.author,
     url: SITE.website,
+    image: new URL(AUTHOR_IMAGE, SITE.website).href,
   },
   offers: {
     "@type": "Offer",
