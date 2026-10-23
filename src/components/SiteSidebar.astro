@@ -65,17 +65,6 @@ function chip(value: string): { month: string; day: string } {
 ---
 
 <aside id="site-drawer" class="site-sidebar" data-site-drawer>
-  <div class="drawer-head">
-    <button
-      class="drawer-close focus-outline"
-      type="button"
-      data-drawer-close
-      aria-label="Close menu"
-    >
-      <Icon name="x" />
-    </button>
-  </div>
-
   <div class="rail">
     <div class="rail-main">
       <a
@@ -105,10 +94,10 @@ function chip(value: string): { month: string; day: string } {
             </a>
           ))
         }
+        <div class="rail-foot">
+          <ThemeToggle />
+        </div>
       </nav>
-    </div>
-    <div class="rail-foot">
-      <ThemeToggle />
     </div>
   </div>
 
@@ -258,18 +247,6 @@ function chip(value: string): { month: string; day: string } {
     background: rgb(var(--color-card));
     color: rgb(var(--color-text-base));
   }
-  .drawer-head {
-    display: flex;
-    flex: none;
-    align-items: center;
-    justify-content: flex-end;
-    height: 3rem;
-    padding: 0 0.35rem;
-    border-bottom: 1px solid rgb(var(--color-border));
-  }
-  .drawer-close {
-    display: none;
-  }
   .rail {
     display: flex;
     flex: none;
@@ -312,8 +289,7 @@ function chip(value: string): { month: string; day: string } {
   }
   .rail-avatar:active,
   .rail-btn:active,
-  .social-btn:active,
-  .drawer-close:active {
+  .social-btn:active {
     transform: scale(0.95);
   }
   .rail-btn,
@@ -531,20 +507,35 @@ function chip(value: string): { month: string; day: string } {
     }
     .rail {
       height: auto;
-    }
-    .drawer-close {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      border: 0;
-      border-radius: 0.5rem;
       background: transparent;
-      padding: 0;
-      color: rgb(var(--color-text-base));
-      cursor: pointer;
-      transition: transform 160ms ease;
+      border-bottom: 0;
+    }
+    :global(html[data-theme="dark"]) .rail {
+      background: transparent;
+    }
+    .rail-main {
+      display: block;
+      flex: none;
+      width: 100%;
+      overflow: visible;
+    }
+    .rail-nav {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.15rem;
+      width: 100%;
+    }
+    .rail-foot {
+      display: contents;
+    }
+    .rail-btn,
+    .rail :global(.theme-toggle) {
+      width: auto;
+      height: 44px;
+    }
+    .rail-avatar,
+    .rail-divider {
+      display: none;
     }
     .rail-tip {
       position: absolute;
@@ -563,9 +554,6 @@ function chip(value: string): { month: string; day: string } {
     .site-sidebar {
       flex-direction: row;
     }
-    .drawer-head {
-      display: none;
-    }
     .rail {
       z-index: 2;
       flex-direction: column;
@@ -583,9 +571,15 @@ function chip(value: string): { month: string; day: string } {
       flex-direction: column;
     }
     .rail-main {
+      flex: 1;
       gap: 0.45rem;
       width: 100%;
+      min-height: 0;
       overflow: visible;
+    }
+    .rail-nav {
+      flex: 1;
+      width: 100%;
     }
     .rail-divider {
       width: 1.75rem;
@@ -604,7 +598,6 @@ function chip(value: string): { month: string; day: string } {
     .rail-btn,
     .social-btn,
     .dense-row,
-    .drawer-close,
     .side-label::after {
       transition: none;
     }

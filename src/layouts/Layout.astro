@@ -238,9 +238,19 @@ const structuredData =
         return window.matchMedia("(min-width: 1024px)").matches;
       }
       function drawerItems(drawer) {
-        return [...drawer.querySelectorAll("a[href], button, input")].filter(
-          el => !el.disabled && el.getClientRects().length
-        );
+        const items = [
+          ...drawer.querySelectorAll("a[href], button, input"),
+        ].filter(el => !el.disabled && el.getClientRects().length);
+        const { button } = drawerEls();
+        if (
+          button &&
+          !button.disabled &&
+          button.getClientRects().length &&
+          !items.includes(button)
+        ) {
+          items.unshift(button);
+        }
+        return items;
       }
       function closeFromOverlay() {
         const { button } = drawerEls();
@@ -282,11 +292,6 @@ const structuredData =
           backdrop.dataset.bound = "1";
           backdrop.addEventListener("click", closeFromOverlay);
         }
-        document.querySelectorAll("[data-drawer-close]").forEach(el => {
-          if (el.dataset.bound) return;
-          el.dataset.bound = "1";
-          el.addEventListener("click", closeFromOverlay);
-        });
         if (!drawerDesktop()) setDrawer(false);
       }
       if (!window.__siteDrawerBound) {
