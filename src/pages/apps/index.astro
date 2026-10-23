@@ -1,36 +1,38 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import { SITE } from "@config";
-import { APPS } from "@data/apps";
+import { LISTED_APPS } from "@data/apps";
 
 const itemList = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  itemListElement: APPS.map((app, index) => ({
+  itemListElement: LISTED_APPS.map((app, index) => ({
     "@type": "ListItem",
     position: index + 1,
     name: app.name,
-    url: `${SITE.website}apps/${app.slug}/`,
+    url: new URL(app.href, SITE.website).href,
   })),
 };
 ---
 
 <Layout
   title={`Apps | ${SITE.title}`}
-  description="Apps by Ákos Kőműves: Nummy, a nursing tracker, and SubSub, a subscription tracker. Each is a one-time purchase."
+  description="Apps by Ákos Kőműves: Nummy, SubSub, Geordi Scan, and One Task X."
   extraSchema={itemList}
 >
   <main id="main-content">
     <section>
       <h1>Apps</h1>
-      <p class="lede">
-        Two apps. Each one does one job, and each is $3.99 once.
-      </p>
+      <p class="lede">Each one does one job.</p>
       <ul>
         {
-          APPS.map(app => (
+          LISTED_APPS.map(app => (
             <li>
-              <a href={`/apps/${app.slug}/`}>
+              <a
+                href={app.href}
+                target={app.external ? "_blank" : undefined}
+                rel={app.external ? "noopener noreferrer" : undefined}
+              >
                 <img src={app.icon} alt="" width="72" height="72" />
                 <span>
                   <strong>{app.name}</strong>
@@ -78,6 +80,7 @@ const itemList = {
     height: 72px;
     border-radius: 1rem;
     object-fit: cover;
+    flex: none;
   }
   strong,
   span span {
@@ -85,6 +88,6 @@ const itemList = {
   }
   span span {
     margin-top: 0.2rem;
-    opacity: 0.75;
+    color: rgb(var(--color-text-muted));
   }
 </style>

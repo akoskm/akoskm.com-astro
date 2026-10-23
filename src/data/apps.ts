@@ -71,3 +71,36 @@ export const APPS: AppInfo[] = [
 export function appBySlug(slug: string): AppInfo | undefined {
   return APPS.find(app => app.slug === slug);
 }
+
+export interface ListedApp {
+  name: string;
+  summary: string;
+  href: string;
+  icon: string;
+  external: boolean;
+}
+
+export const LISTED_APPS: ListedApp[] = [
+  ...APPS.map(app => ({
+    name: app.name,
+    summary: app.summary,
+    href: `/apps/${app.slug}/`,
+    icon: app.icon,
+    external: false,
+  })),
+  {
+    name: "Geordi Scan",
+    summary:
+      "See what your documents hide. Upload contracts and legal documents and get scenario flowcharts, key dates, and obligations, each linked to the page and quote in the PDF. EU-hosted storage.",
+    href: "https://geordiscan.com",
+    icon: "/assets/apps/geordi.png",
+    external: true,
+  },
+  {
+    name: "One Task X",
+    summary: "A minimalist todo application.",
+    href: "https://onetaskx.com",
+    icon: "/assets/apps/onetaskx.png",
+    external: true,
+  },
+];

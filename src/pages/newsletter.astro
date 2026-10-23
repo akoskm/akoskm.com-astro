@@ -2,23 +2,18 @@
 import Layout from "@layouts/Layout.astro";
 import StreamList from "@components/StreamList.astro";
 import { SITE } from "@config";
+import { BITSY_TAGLINE } from "@data/promos";
 import { loadBitsyFeed, newsletterEntries } from "lib/bitsyFeed";
 
 const issues = await loadBitsyFeed();
 const items = newsletterEntries(issues);
 ---
 
-<Layout
-  title={`Bitsy | ${SITE.title}`}
-  description="Bitsy is Ákos Kőműves's weekly newsletter for developers. One email about what he's building and what he had to figure out to ship it."
->
+<Layout title={`Bitsy | ${SITE.title}`} description={BITSY_TAGLINE}>
   <main id="main-content">
     <section>
       <h1>Bitsy</h1>
-      <p class="lede">
-        A weekly email for developers. I write about what I'm building and what
-        I had to figure out to ship it.
-      </p>
+      <p class="lede">{BITSY_TAGLINE}</p>
       <StreamList items={items} />
     </section>
   </main>

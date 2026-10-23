@@ -4,6 +4,7 @@ import BitsyForm from "@components/BitsyForm.astro";
 import ProjectStrip from "@components/ProjectStrip.astro";
 import StreamList from "@components/StreamList.astro";
 import { getAllPosts } from "lib/getAllPosts";
+import { BITSY_TAGLINE } from "@data/promos";
 import { loadBitsyFeed, newsletterEntries } from "lib/bitsyFeed";
 import postFilter from "@utils/postFilter";
 import getSortedPosts from "@utils/getSortedPosts";
@@ -22,11 +23,13 @@ const articles = posts.slice(0, 8).map(post => ({
 
 <Layout>
   <main id="main-content">
+    <section class="home-projects">
+      <ProjectStrip />
+    </section>
     <section class="home-newsletter">
       <h1>Newsletter</h1>
       <p class="lede">
-        One email a week. What I'm building, and what I had to figure out to
-        ship it.
+        {BITSY_TAGLINE}
       </p>
       <StreamList items={newsletters} />
       <p class="stream-more">
@@ -36,9 +39,6 @@ const articles = posts.slice(0, 8).map(post => ({
         <BitsyForm post="/" id="bitsy-email-home" compact />
       </div>
     </section>
-    <div class="home-projects">
-      <ProjectStrip />
-    </div>
     <section class="home-posts">
       <h2>Posts</h2>
       <StreamList items={articles} showKind={false} />
@@ -78,9 +78,11 @@ const articles = posts.slice(0, 8).map(post => ({
     padding-bottom: 0.5rem;
   }
   .home-projects {
-    max-width: 48rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 1rem 2rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  /* The strip is mobile-only in the shared component. On the homepage it is the first block at every width. */
+  .home-projects :global(.project-strip) {
+    display: block;
   }
 </style>

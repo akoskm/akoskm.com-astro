@@ -23,6 +23,7 @@ module.exports = {
       textColor: {
         skin: {
           base: withOpacity("--color-text-base"),
+          muted: withOpacity("--color-text-muted"),
           accent: withOpacity("--color-accent"),
           inverted: withOpacity("--color-on-accent"),
         },
@@ -30,7 +31,7 @@ module.exports = {
       backgroundColor: {
         skin: {
           fill: withOpacity("--color-fill"),
-          accent: withOpacity("--color-accent"),
+          accent: withOpacity("--color-accent-fill"),
           inverted: withOpacity("--color-text-base"),
           card: withOpacity("--color-card"),
           "card-muted": withOpacity("--color-card-muted"),

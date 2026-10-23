@@ -1,7 +1,7 @@
 ---
-import { APPS } from "@data/apps";
+import { LISTED_APPS } from "@data/apps";
 import products from "@data/products";
-import { BITSY_URL } from "@data/promos";
+import { BITSY_TAGLINE, BITSY_URL } from "@data/promos";
 import BitsyForm from "./BitsyForm.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 
@@ -83,8 +83,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
   <div class="side-block">
     <h2 class="side-label">Bitsy</h2>
     <p class="side-copy">
-      One email a week. What I'm building, and what I had to figure out to ship
-      it.
+      {BITSY_TAGLINE}
     </p>
     <BitsyForm post={path} id="bitsy-email-sidebar" compact />
     <a
@@ -104,11 +103,13 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     <h2 class="side-label">Apps</h2>
     <ul class="app-list">
       {
-        APPS.map(app => (
+        LISTED_APPS.map(app => (
           <li>
             <a
-              href={`/apps/${app.slug}/`}
-              data-promo-card={`sidebar-${app.slug}`}
+              href={app.href}
+              target={app.external ? "_blank" : undefined}
+              rel={app.external ? "noopener noreferrer" : undefined}
+              data-promo-card={`sidebar-${app.name.toLowerCase().replace(/\s+/g, "-")}`}
               data-promo-post={path}
               data-promo-destination="app"
             >
@@ -224,7 +225,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     height: 64px;
     border-radius: 999px;
     object-fit: cover;
-    box-shadow: 0 0 0 2px rgb(var(--color-accent));
+    box-shadow: 0 0 0 2px rgb(var(--color-accent-fill));
   }
   .site-name,
   .name-pronounce,
@@ -238,9 +239,9 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
   }
   .name-pronounce {
     margin-top: 0.15rem;
+    color: rgb(var(--color-text-muted));
     font-size: 0.75rem;
     line-height: 1.2;
-    opacity: 0.6;
   }
   .bio {
     margin-top: 0.25rem;
@@ -302,6 +303,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
   .app-list img {
     width: 40px;
     height: 40px;
+    flex: none;
     border-radius: 0.55rem;
     object-fit: cover;
   }
@@ -313,7 +315,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     margin-top: 0.1rem;
     font-size: 0.8rem;
     line-height: 1.35;
-    opacity: 0.75;
+    color: rgb(var(--color-text-muted));
   }
   .book-list {
     display: flex;
@@ -329,7 +331,7 @@ const books = ["rtl-crash-course", "mcp-crash-course", "hooks"].map(
     display: inline-block;
     margin-bottom: 0.55rem;
     border-radius: 999px;
-    background: rgb(var(--color-accent));
+    background: rgb(var(--color-accent-fill));
     padding: 0.45rem 0.9rem;
     color: rgb(var(--color-on-accent));
     font-weight: 600;

@@ -111,7 +111,7 @@ html[data-theme="dark"] .icon-sun {
   left: 1rem;
   top: -4rem;
   z-index: 60;
-  background: rgb(var(--color-accent));
+  background: rgb(var(--color-accent-fill));
   color: rgb(var(--color-on-accent));
   padding: 0.4rem 0.7rem;
 }

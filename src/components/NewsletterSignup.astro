@@ -1,5 +1,5 @@
 ---
-import { BITSY_URL } from "@data/promos";
+import { BITSY_TAGLINE, BITSY_URL } from "@data/promos";
 import BitsyForm from "./BitsyForm.astro";
 
 export interface Props {
@@ -12,10 +12,7 @@ const { slug } = Astro.props;
 <aside class="my-8 rounded-lg border border-skin-line bg-skin-card p-4">
   <p class="text-xs uppercase tracking-wide opacity-70">Newsletter</p>
   <h2 class="mt-1 text-lg font-semibold">Bitsy</h2>
-  <p class="mt-2 text-sm">
-    A free weekly newsletter for developers. I write about what I'm building and
-    what I had to figure out to ship it. One email a week.
-  </p>
+  <p class="mt-2 text-sm">{BITSY_TAGLINE}</p>
   <div class="mt-4">
     <BitsyForm post={slug} />
   </div>
