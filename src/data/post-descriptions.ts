@@ -18,7 +18,7 @@ export const POST_DESCRIPTIONS: Record<string, string> = {
   "how-i-made-my-first-dollars-from-blogging":
     "How a small blog of about 21 posts made its first money, including the one article that brought in most of the attention.",
   "how-to-package-electron-applications-with-electron-builder":
-    "Package an Electron app with electron-builder so people can install it instead of cloning the source and building it themselves.",
+    "electron-builder 26.18.0 and Electron 45: one config for a Mac dmg, a Windows NSIS installer, and a Linux AppImage. Notarize with notarytool, then publish.",
   "how-to-test-props-in-react-testing-library":
     "Test props passed to a React function component with React Testing Library and Jest, including values that do not stringify well.",
   "how-to-test-props-in-react-with-jest":
