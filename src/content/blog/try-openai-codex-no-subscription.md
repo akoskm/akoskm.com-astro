@@ -48,7 +48,7 @@ Since I’ve built some apps on top of OpenAI’s API, I knew I could top up my 
 
 So I topped up $5, grabbed my API key, and opened VSCode.
 
-![](../../assets/posts/try-openai-codex-no-subscription/vscode-opened.png)
+![VS Code with the Codex extension asking for an OpenAI API key or a ChatGPT sign-in.](../../assets/posts/try-openai-codex-no-subscription/vscode-opened.png)
 
 Two chat rounds later: feature shipped.
 
@@ -72,11 +72,11 @@ If you are unsure whether to go with Codex or not, I suggest you do the same exp
 
 2. Create a separate project for this so it doesn’t interfere with other spending.
 
-![](../../assets/posts/try-openai-codex-no-subscription/openai-project.png)
+![The Codex Experiments project on the OpenAI platform, with its API key.](../../assets/posts/try-openai-codex-no-subscription/openai-project.png)
 
 3. In the sidebar, select Billing, which is where you can top up your balance
 
-![](../../assets/posts/try-openai-codex-no-subscription/billing.png)
+![OpenAI billing with a $10 credit balance and Pay as you go selected.](../../assets/posts/try-openai-codex-no-subscription/billing.png)
 
 4. Now go to [https://platform.openai.com/settings/organization/api-keys](https://platform.openai.com/settings/organization/api-keys) and generate a key
 
@@ -86,7 +86,7 @@ If you are unsure whether to go with Codex or not, I suggest you do the same exp
 
 7. **Start coding**
 
-![](../../assets/posts/try-openai-codex-no-subscription/codex-sidebar.png)
+![The Codex sidebar in VS Code, signed in with an API key and ready for a prompt.](../../assets/posts/try-openai-codex-no-subscription/codex-sidebar.png)
 
 **You’re live**. No Plus. No proxy. Full Codex in your editor.
 

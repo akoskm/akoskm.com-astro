@@ -43,7 +43,7 @@ function handleChange(e) {
 }
 ```
 
-![warning.gif](../../assets/posts/react-synthetic-event-warning/warning.gif)
+![Typing in the input logs the value, then the console warns that target on the synthetic event is null.](../../assets/posts/react-synthetic-event-warning/warning.gif)
 
 You can also try the sandbox [here](https://codesandbox.io/s/happy-dust-x256lb?file=/src/App.js).
 
