@@ -4,10 +4,10 @@ import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import SearchBar from "@components/Search";
 import getSortedPosts from "@utils/getSortedPosts";
-import { fetchAllPosts } from "lib/clients";
+import { getAllPosts } from "lib/getAllPosts";
 
 // Retrieve all published articles
-const posts = await fetchAllPosts();
+const posts = await getAllPosts();
 const sortedPosts = getSortedPosts(posts);
 
 // List of items to search in

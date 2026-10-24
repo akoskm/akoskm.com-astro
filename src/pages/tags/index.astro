@@ -6,9 +6,9 @@ import Serie from "@components/Serie.astro";
 import getUniqueTags from "@utils/getUniqueTags";
 import getUniqueSeries from "@utils/getUniqueSeries";
 import { SITE } from "@config";
-import { fetchAllPosts } from "lib/clients";
+import { getAllPosts } from "lib/getAllPosts";
 
-const posts = await fetchAllPosts();
+const posts = await getAllPosts();
 let tags = getUniqueTags(posts);
 let series = getUniqueSeries(posts);
 ---

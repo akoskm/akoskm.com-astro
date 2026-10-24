@@ -1,6 +1,6 @@
 /**
- * Meta descriptions for Hashnode posts whose seo.description is empty.
- * Those posts have no markdown frontmatter in this repo.
+ * Meta descriptions for posts whose seo.description was empty.
+ * Frontmatter stores the resolved value; this map remains the fallback.
  */
 export const POST_DESCRIPTIONS: Record<string, string> = {
   "apollo-client-react-typescript-example":

@@ -1,27 +1,18 @@
 import { getCollection } from "astro:content";
-import { fetchAllPosts, getPost } from "./clients";
 import type { Post } from "./schema";
 import { AUTHOR_IMAGE, SITE } from "@config";
 
 export async function getAllPosts(): Promise<Post[]> {
-  let localEntries: Awaited<ReturnType<typeof getCollection<"blog">>> = [];
-  try {
-    localEntries = await getCollection("blog");
-  } catch {
-    // Collection empty or doesn't exist yet
-  }
-
-  const hashnodePosts = await fetchAllPosts();
+  const localEntries = await getCollection("blog");
 
   const localPosts: Post[] = await Promise.all(
     localEntries.map(async entry => {
       const { headings } = await entry.render();
 
-      // Calculate reading time from raw content
       const wordCount = (entry.body || "").split(/\s+/).length;
-      const readTimeInMinutes = Math.ceil(wordCount / 200);
+      const readTimeInMinutes =
+        entry.data.readTimeInMinutes || Math.ceil(wordCount / 200);
 
-      // Extract TOC from headings
       const tableOfContentsItems = headings.map(h => ({
         id: h.slug,
         level: h.depth,
@@ -29,27 +20,31 @@ export async function getAllPosts(): Promise<Post[]> {
         slug: h.slug,
       }));
 
-      // Get cover image URL - for local images, we need the src
-      const coverImageUrl =
-        typeof entry.data.coverImage === "string"
-          ? entry.data.coverImage
-          : entry.data.coverImage?.src || "";
+      const cover = entry.data.coverImage;
+      const coverImageUrl = !cover
+        ? ""
+        : typeof cover === "string"
+          ? cover
+          : cover.src || "";
+
+      const description = entry.data.description;
 
       return {
         author: {
           name: SITE.author,
           profilePicture: AUTHOR_IMAGE,
         },
-        canonicalUrl: `${SITE.website}${entry.slug}/`,
+        canonicalUrl:
+          entry.data.canonicalUrl || `${SITE.website}${entry.slug}/`,
         publishedAt: entry.data.publishedAt,
         updatedAt: entry.data.updatedAt || entry.data.publishedAt,
         title: entry.data.title,
-        subtitle: "",
-        brief: entry.data.description.slice(0, 160),
+        subtitle: entry.data.subtitle || "",
+        brief: entry.data.brief || description.slice(0, 160),
         slug: entry.slug,
         readTimeInMinutes,
         content: {
-          html: "", // Will be populated when rendering
+          html: "",
         },
         tags: entry.data.tags,
         series: entry.data.series || null,
@@ -57,7 +52,7 @@ export async function getAllPosts(): Promise<Post[]> {
           url: coverImageUrl,
         },
         seo: {
-          description: entry.data.description,
+          description,
         },
         features: {
           tableOfContents: {
@@ -66,27 +61,17 @@ export async function getAllPosts(): Promise<Post[]> {
         },
         draft: entry.data.draft,
         faq: entry.data.faq,
-        // Store render function for later use
         _localEntry: entry,
       } as Post & { _localEntry?: typeof entry };
     })
   );
 
-  // A local markdown file with the same slug replaces the Hashnode copy,
-  // including when the Hashnode API is reachable at build time.
-  const localSlugs = new Set(localPosts.map(post => post.slug));
-  const allPosts = [
-    ...hashnodePosts.filter(post => !localSlugs.has(post.slug)),
-    ...localPosts,
-  ];
-
-  // Sort by publishedAt desc
-  allPosts.sort(
+  localPosts.sort(
     (a, b) =>
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   );
 
-  return allPosts;
+  return localPosts;
 }
 
 type ContentComponent = (props?: Record<string, never>) => unknown;
@@ -106,20 +91,14 @@ export async function getPostBySlug(slug: string): Promise<PostWithContent> {
     | PostWithContent
     | undefined;
 
-  if (!post) {
+  if (!post?._localEntry) {
     throw new Error(`Post not found: ${slug}`);
   }
 
-  // If local post, render the content
-  if (post._localEntry) {
-    const { Content } = await post._localEntry.render();
+  const { Content } = await post._localEntry.render();
 
-    return {
-      ...post,
-      _ContentComponent: Content,
-    };
-  }
-
-  // For Hashnode posts, fetch full details (including tableOfContents)
-  return await getPost(slug);
+  return {
+    ...post,
+    _ContentComponent: Content,
+  };
 }
