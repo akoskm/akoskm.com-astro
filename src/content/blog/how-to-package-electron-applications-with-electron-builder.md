@@ -21,8 +21,6 @@ series:
 draft: false
 ---
 
-`npm run dist` packages the app for the OS you run it on. With electron-builder 26.18.0 and Electron 45.0.0, macOS gets a dmg and a zip, Windows gets an NSIS installer, and Linux gets an AppImage.
-
 In this post of our [Electron series](https://akoskm.com/series/electron), we'll learn how to package your Electron application with electron builder so you can distribute it.
 
 There are two ways to distribute your app. You can simply make your source code public, let users download it, package it, and run the app for themselves.
@@ -39,7 +37,7 @@ There are two main ways to package an electron app:
 - manually
 - with tooling, such as [electron-builder](https://www.electron.build/)
 
-The manual process involves downloading the Electron executable and setting up a specific directory structure. It's more complicated and includes more steps than using electron-builder; thus, it's more error-prone. However, if you want to see how to do that, check it out [here](https://www.electronjs.org/docs/latest/tutorial/application-distribution).
+The manual process involves downloading the Electron executable and setting up a specific directory structure. It's more complicated and includes more steps than using electron-builder; thus, it's more error-prone. However, if you want to see how to do that, check it out [here](https://www.electronjs.org/docs/latest/tutorial/application-distribution#manual-packaging).
 
 I recommend using a tool such as electron-builder for two reasons:
 
@@ -50,18 +48,10 @@ I recommend using a tool such as electron-builder for two reasons:
 
 We will modify the `package.json` file from our first blog post [Build a JavaScript Desktop app with Electron](https://akoskm.com/build-a-javascript-desktop-app-with-electron).
 
-That file pinned Electron `^20.0.2`. The current release is Electron 45.0.0. `npm install -D electron-builder` resolves to 26.18.0.
-
-First, you'll have to add the electron-builder package as a dev dependency:
+First, you'll have to add the electron-builder package as a dev dependency. That post was on Electron 20, so install Electron 45.0.0 and electron-builder 26.18.0:
 
 ```bash
 npm install -D electron@45.0.0 electron-builder@26.18.0
-```
-
-Auto-update needs `electron-updater` in `dependencies`. The packaged app receives `dependencies`, so that package has to be listed there.
-
-```bash
-npm install electron-updater@6.8.11
 ```
 
 After this, we will add one new script to our "scripts" section of `package.json`:
@@ -70,47 +60,38 @@ After this, we will add one new script to our "scripts" section of `package.json
 "dist": "electron-builder"
 ```
 
-Running `npm run dist` will generate operating-system-specific packages, such as dmg, AppImage, or whatever you tell the configuration to generate, depending on which platform you're running this command.
+Running `npm run dist` will generate operating-system-specific packages, such as dmg, deb, or whatever you tell the configuration to generate, depending on which platform you're running this command.
 
-For example, I'm running this on macOS, so it'll generate macOS-specific files for me.
+For example, I'm running this on macOS, so it'll generate macOS-specific files for me. The dmg target calls `sips`, which ships with macOS, so I build the dmg on a Mac.
 
-You don't have to generate a package for all OSes, but let's see how to control that with electron-builder configuration. `npx electron-builder --mac`, `--win`, or `--linux` builds that platform. `-mwl` builds all three.
+You don't have to generate a package for all OSes, but let's see how to control that with electron-builder configuration. `npx electron-builder --mac`, `--win`, or `--linux` builds that one platform. `-mwl` builds all three.
 
 ## Configuration
 
-electron-builder can be conveniently configured by adding a `build` section to the `package.json` file of the Electron app. `electron-builder.yml` is the other file it picks up, and it is the default path for `--config`.
+electron-builder can be conveniently configured by adding a `build` section to the `package.json` file of the Electron app. `electron-builder.yml` is the other file it reads, and it is the default path for `--config`.
 
 ```json
 {
   "name": "electron-blog-example",
   "version": "1.0.0",
-  "description": "A small Electron app packaged with electron-builder.",
-  "main": "main.js",
   "author": "Ákos Kőműves",
-  "desktopName": "electron-blog-example.desktop",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
   },
   "build": {
-    "appId": "com.example.electronblog",
-    "mac": {
-      "target": ["dmg", "zip"],
-      "category": "public.app-category.developer-tools"
-    },
+    "appId": "electron-blog-example",
     "dmg": {
       "title": "${productName} ${version}"
     },
     "linux": {
-      "target": ["AppImage"],
-      "syncDesktopName": true
+      "target": ["AppImage", "deb"]
     },
     "win": {
-      "target": "nsis"
+      "target": "NSIS",
+      "icon": "build/icon.ico"
     }
-  },
-  "dependencies": {
-    "electron-updater": "6.8.11"
   },
   "devDependencies": {
     "electron": "45.0.0",
@@ -119,45 +100,45 @@ electron-builder can be conveniently configured by adding a `build` section to t
 }
 ```
 
-The 2022 log warned `description is missed in the package.json`. That warning is still in 26.18.0, so the sample sets `description`.
+Let's go over the top-level keys inside `"build"`:
 
 ### appId
 
-Although you're not required to set it, I strongly recommend doing so. Leave it out and the id becomes `com.electron.${name}`.
+Although you're not required to set it, I strongly recommend doing so. If you leave it out, the id becomes `com.electron.${name}`.
 
 For example, on macOS, this key is used to associate app-specific configuration, such as notifications with the app itself or whether the app is capable of opening specific files.
 
-Windows uses this ID to associate processes, files, and windows to this particular application. For the NSIS target it is the Application User Model ID.
-
-Use a reverse-DNS id. The sample uses `com.example.electronblog`.
+Windows uses this ID to associate processes, files, and windows to this particular application. For the NSIS target it is the Application User Model ID. A reverse-DNS id is what I use when I ship the app, `com.example.electronblog`.
 
 ### Per-platform options
 
-`mac`, `linux`, and `win` are the per-platform configurations. `dmg` is the disk image. `appId` for a Mac build belongs under `mac`. A `dmg` block that includes `appId` fails validation on electron-builder 26.18.0.
+As you might have already guessed, these three keys cover the platforms. `dmg` is the macOS disk image ([options](https://www.electron.build/v26/docs/dmg)), and the others are self-explanatory.
+
+The dmg title is the default, `${productName} ${version}`. Windows defaults to NSIS. Linux defaults to snap and AppImage, so the sample names AppImage and deb. Snap wants snapcraft on the machine. With no mac target set, electron-builder also builds a zip beside the dmg.
+
+You'll find all os-specific configurations here:
+
+- macOS - https://www.electron.build/v26/docs/mac
+- Linux - https://www.electron.build/v26/docs/linux
+- Windows - https://www.electron.build/v26/docs/win
+
+Per-platform options override global options.
+
+For example, you could override the global appId only for macOS by specifying it inside the "mac" configuration. `appId` inside `dmg` fails validation on electron-builder 26.18.0:
 
 ```json
-"build": {
-  "appId": "com.example.electronblog",
-  "mac": {
-    "appId": "com.example.electronblog.mac",
-    "target": ["dmg", "zip"]
+{
+  "build": {
+    "appId": "electron-blog-example",
+    "mac": {
+      "appId": "electron-blog-example-only-for-mac"
+    },
+    "dmg": {
+      "title": "${productName} ${version}"
+    }
   }
 }
 ```
-
-Per-platform options override global options. I built that `mac.appId` with `--mac dir`, and `CFBundleIdentifier` in the app was `com.example.electronblog.mac`.
-
-`dmg.title` defaults to `${productName} ${version}`. The line in the sample is that default, so you can drop it.
-
-The mac targets in the sample are the defaults too: `zip` and `dmg`. The 2022 log built a zip even though the config only set a dmg title, and that is why. Keep the zip if you want auto-update. The mac options say a dmg update needs both files.
-
-Windows defaults to `nsis`. The icon it looks for is `build/icon.ico`. On macOS the icon is `build/icon.icns`. With neither file around, the log says `default Electron icon is used`.
-
-The Linux default in 26.18.0 is snap and AppImage. Snap wants snapcraft on the machine, so the sample names AppImage and stops there. Add `deb` when you want an apt package.
-
-`desktopName` is in `package.json` because Electron uses it as the window class. Without it, the AppImage build warns that the desktop environment may not tie the running window to the `.desktop` file. `linux.syncDesktopName` defaults to false in 26.18.0, so the sample sets it to true. The field comment says v27 will default that flag to true.
-
-`extraResources` copies files into the app's resources directory. That is `Contents/Resources` on macOS, and `resources` on Windows and Linux.
 
 ## Package the app
 
@@ -168,52 +149,82 @@ npm i
 npm run dist
 ```
 
-On Linux, `npx electron-builder --linux AppImage` printed:
+The output of the last command should look something like this, captured on my Mac with electron-builder 23.3.3 and Electron 20.0.2:
 
 ```text
-• electron-builder  version=26.18.0 os=6.12.94+
-• loaded configuration  file=package.json ("build" field)
-• writing effective config  file=dist/builder-effective-config.yaml
-• packaging       platform=linux arch=x64 electron=45.0.0 appOutDir=dist/linux-unpacked
-• default Electron icon is used  reason=application icon is not set
-• building        target=AppImage arch=x64 file=dist/electron-blog-example-1.0.0.AppImage
+% npm run dist
+
+> electron-blog-example@1.0.0 dist
+> electron-builder
+
+  • electron-builder  version=23.3.3 os=21.6.0
+  • loaded configuration  file=package.json ("build" field)
+  • description is missed in the package.json  appPackageFile=/Users/akoskm/Projects/electron-blog-example/package.json
+  • writing effective config  file=dist/builder-effective-config.yaml
+  • packaging       platform=darwin arch=x64 electron=20.0.2 appOutDir=dist/mac
+  • default Electron icon is used  reason=application icon is not set
+  • skipped macOS application code signing  reason=cannot find valid "Developer ID Application" identity or custom non-Apple code signing certificate, it could cause some undefined behaviour, e.g. macOS localized description not visible, see https://electron.build/code-signing allIdentities=     0 identities found
+                                                Valid identities only
+     0 valid identities found
+  • building        target=macOS zip arch=x64 file=dist/electron-blog-example-1.0.0-mac.zip
+  • building        target=DMG arch=x64 file=dist/electron-blog-example-1.0.0.dmg
+  • building block map  blockMapFile=dist/electron-blog-example-1.0.0.dmg.blockmap
+  • building block map  blockMapFile=dist/electron-blog-example-1.0.0-mac.zip.blockmap
 ```
-
-`dist/builder-effective-config.yaml` is the config after defaults and detection, including `electronVersion`. 26.18.0 writes it when the terminal is interactive and the build is not on CI. A `cscLink` in that file is replaced with `<hidden by builder>`. `dist/builder-debug.yml` is written when you run with `DEBUG=electron-builder`.
-
-The build also runs `@electron/rebuild` for Electron 45.0.0. `npx electron-builder install-app-deps` is the same rebuild without packaging.
 
 ### Results (macOS)
 
-If you're on macOS, typing `open .` will open the current folder where you'll see a new folder created `dist`.
+If you're on macOS, typing `open .` will open the current folder where you'll see a new folder created `dist`:
 
-The installer is `electron-blog-example-1.0.0.dmg`. Open it and you get the familiar macOS install screen, where you drag the app into Applications. After that, the packaged app shows up in your applications folder and in Launchpad.
+![image.png](../../assets/posts/how-to-package-electron-applications-with-electron-builder/dist-folder.png)
+
+This directory contains the files that `electron-builder` created during packaging:
+
+```text
+% ls -lh dist
+total 332880
+-rw-r--r--  1 akoskm  staff   678B Sep 25 08:28 builder-debug.yml
+-rw-r--r--  1 akoskm  staff   240B Sep 25 08:27 builder-effective-config.yaml
+-rw-r--r--  1 akoskm  staff    80M Sep 25 08:28 electron-blog-example-1.0.0-mac.zip
+-rw-r--r--  1 akoskm  staff    88K Sep 25 08:28 electron-blog-example-1.0.0-mac.zip.blockmap
+-rw-r--r--@ 1 akoskm  staff    82M Sep 25 08:27 electron-blog-example-1.0.0.dmg
+-rw-r--r--  1 akoskm  staff    89K Sep 25 08:27 electron-blog-example-1.0.0.dmg.blockmap
+drwxr-xr-x  3 akoskm  staff    96B Sep 25 08:27 mac
+```
+
+You'll see many files in this folder, but there are two essential things here.
+
+The first is the `electron-blog-example-1.0.0.dmg` file.
+
+It is the installer of your app that, when you open it, you will see the familiar macOS install screen:
+
+![image.png](../../assets/posts/how-to-package-electron-applications-with-electron-builder/macos-install.png)
+
+After dragging the app into Applications, your packaged app will appear in your macOS applications folder and the Launchpad.
 
 Of course, it would not be delightful to reinstall the app every time you want to test its packaged version.
 
-This is why electron-builder also creates a macOS executable version of your app inside the `mac` folder. For this sample that is `dist/mac/electron-blog-example.app`. You double-click it, and it runs as if it had already been installed.
+This is why electron-builder also created a macOS executable version of your app inside the `mac` folder - our second most important file.
 
-`npx electron-builder --mac zip` on Linux wrote that `.app` and `dist/electron-blog-example-1.0.0-mac.zip`. The dmg target did not finish there. It stopped with `spawn sips ENOENT`, and `sips` ships with macOS. Build the dmg on a Mac.
+You just double-click it, and it will run your application as it has already been installed:
 
-Signing on that Linux run was skipped, `supported only on macOS`. On a Mac with no Developer ID Application certificate in the keychain, signing is skipped as well.
+![open-executable-3.gif](../../assets/posts/how-to-package-electron-applications-with-electron-builder/open-executable-3.gif)
 
 Congratulations, you created a desktop installer and an executable for your JavaScript app!
 
 ### Results (Linux)
 
-The AppImage landed at `dist/electron-blog-example-1.0.0.AppImage`. The unpacked directory is `dist/linux-unpacked`, and the executable inside it is `electron-blog-example`. Same habit as the `mac` folder: run the unpacked app when you don't want to install.
+With the sample config, `npm run dist` on Linux writes `dist/electron-blog-example-1.0.0.AppImage` and a deb beside it. The unpacked app is `dist/linux-unpacked/electron-blog-example`. Run that binary when you want to try the packaged app without installing it.
 
 ### Results (Windows)
 
-The NSIS target is the Windows installer. The log names the file `dist/electron-blog-example Setup 1.0.0.exe`.
-
-`npx electron-builder --win nsis` on Linux wrote `dist/win-unpacked/electron-blog-example.exe`, then exited because `spawn wine ENOENT`. Wine was not installed, and the Setup file it left behind was not a finished installer. Build that target on Windows. The log also said `no code signing certificate configured, signing is skipped`.
+The NSIS target is the Windows installer, `dist/electron-blog-example Setup 1.0.0.exe`. The unpacked app is `dist/win-unpacked/electron-blog-example.exe`. Build that target on Windows. Cross-compiling it needs Wine.
 
 ## Code signing and notarization
 
-Signing proves the app came from you. Notarization is Apple's scan of that signed app, and it has been required for apps distributed outside the Mac App Store since macOS 10.15. electron-builder 26.18.0 notarizes with notarytool, through `@electron/notarize` 2.5.0. That call submits the app and staples the ticket.
+Signing proves the app came from you. Since macOS 10.15, apps you distribute outside the Mac App Store also have to be notarized. electron-builder 26.18.0 notarizes with notarytool, through `@electron/notarize` 2.5.0. That call submits the app and staples the ticket.
 
-`hardenedRuntime` defaults to true on a normal macOS build. `notarize: true` makes the notarize step explicit. `notarize: false` skips it. When the Apple variables below are missing, 26.18.0 skips notarization because it could not build the options.
+`hardenedRuntime` is on for a normal macOS build. `notarize: true` runs the notarize step. `notarize: false` skips it. When the Apple variables below are missing, the build skips notarization.
 
 ```json
 "mac": {
@@ -224,9 +235,7 @@ Signing proves the app came from you. Notarization is Apple's scan of that signe
 }
 ```
 
-The helper in 26.18.0 sets `tool` to `notarytool` and reads one of these.
-
-Apple ID, from an app-specific password at appleid.apple.com:
+Apple ID, with an app-specific password from appleid.apple.com:
 
 ```bash
 export APPLE_ID=you@example.com
@@ -242,26 +251,30 @@ export APPLE_API_KEY_ID=KEYID
 export APPLE_API_ISSUER=your-issuer-id
 ```
 
-A keychain profile already on the Mac uses `APPLE_KEYCHAIN_PROFILE`, plus `APPLE_KEYCHAIN` when the profile is not in the login keychain.
+A keychain profile already on the Mac uses `APPLE_KEYCHAIN_PROFILE`, and `APPLE_KEYCHAIN` when that profile is not in the login keychain.
 
-The certificate is either a Developer ID Application identity in the keychain, or a `.p12` you point at:
+The certificate is a Developer ID Application identity in the keychain, or a `.p12`:
 
 ```bash
 export CSC_LINK=/path/to/certificate.p12
 export CSC_KEY_PASSWORD=yourpassword
 ```
 
-`mac.identity` picks the certificate by name when the keychain has several. `null` skips signing. `"-"` is an ad-hoc signature, and ad-hoc signing together with the default hardened runtime needs `com.apple.security.cs.disable-library-validation` or the app can fail to launch.
+`mac.identity` picks the certificate by name when the keychain has several. `null` skips signing. `"-"` is an ad-hoc signature. Ad-hoc signing with the hardened runtime needs `com.apple.security.cs.disable-library-validation` in the entitlements, or the app can fail to launch. The built-in template already has that key.
 
-Skip `build/entitlements.mac.plist` and 26.18.0 uses its template. The template enables `com.apple.security.cs.allow-jit`, `com.apple.security.cs.allow-unsigned-executable-memory`, and `com.apple.security.cs.disable-library-validation`. Your own file at `build/entitlements.mac.plist` replaces the app entitlements, so keep `allow-jit` in it. The option text says an arm64 app can crash without that entitlement, from Electron 20 onward.
-
-The docs site nests `hardenedRuntime` under `mac.sign`. That object is the v27 shape. On 24 Oct 2026, `npm view electron-builder dist-tags` showed `latest` at 26.18.0 and `next` at 27.0.0-alpha.12. In 26.18.0, `mac.sign` is a custom signing function. `hardenedRuntime`, `entitlements`, and `identity` belong on `mac`.
+If you don't add `build/entitlements.mac.plist`, electron-builder signs with its template. That file enables `com.apple.security.cs.allow-jit`, `com.apple.security.cs.allow-unsigned-executable-memory`, and `com.apple.security.cs.disable-library-validation`. Your own file replaces the app entitlements, so keep `allow-jit` in it. An arm64 app can crash without that entitlement, from Electron 20 onward.
 
 Windows looks at `WIN_CSC_LINK`, then `CSC_LINK`. The password is `CSC_KEY_PASSWORD`. Since June 2023, Windows treats a non-EV certificate like an unsigned app. [Electron's code signing page](https://www.electronjs.org/docs/latest/tutorial/code-signing) is the write-up of that rule.
 
 ## Auto-update
 
-`electron-updater` checks a server you publish to. The `publish` block tells electron-builder where that server is. Leave `owner` and `repo` out and 26.18.0 fills them from the `repository` field, or from `.git/config`. Set them when neither of those points at the repo you want.
+`electron-updater` checks a server you publish to. Add it as a dependency, because the packaged app receives `dependencies`:
+
+```bash
+npm install electron-updater@6.8.11
+```
+
+The `publish` block tells electron-builder where that server is. If you leave `owner` and `repo` out, electron-builder fills them from the `repository` field, or from `.git/config`.
 
 ```json
 "publish": {
@@ -289,6 +302,6 @@ app.whenReady().then(() => {
 });
 ```
 
-electron-builder writes `app-update.yml` into the packaged app's resources, and that file is the feed. Leave `setFeedURL` out. A run from `npm start` looks for `dev-app-update.yml` instead, so the check is for the packaged app.
+electron-builder writes `app-update.yml` into the packaged app's resources, and that file is the feed. A run from `npm start` looks for `dev-app-update.yml` instead, so check for updates from the packaged app.
 
-On macOS the signed app is what auto-update requires, and the zip target has to stay. The updater downloads that zip.
+On macOS, auto-update wants the signed app, and the zip target has to stay. The updater downloads that zip.

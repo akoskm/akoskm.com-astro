@@ -64,7 +64,7 @@ Accept the default path. Set a passphrase.
 
 Here's a spoiler: I'm using VS Code. When you're done generating the key and you open VS Code to pull a repo, this dialog shows up:
 
-![macOS asking for the SSH key passphrase](https://cdn.hashnode.com/res/hashnode/image/upload/v1690012397548/0b74d89b-8c1d-4dd1-b3df-af68e3de5d0d.png)
+![macOS asking for the SSH key passphrase](../../assets/posts/a-full-stack-developers-guide-to-setting-up-a-new-macbook-pro/ssh-key-passphrase.png)
 
 `ssh-add ~/.ssh/id_ed25519` clears it until the next restart. I used to redo that whenever the Mac had actually been shut down. The keychain can hold the passphrase, which is the part I was missing when I first wrote this.
 
@@ -204,11 +204,11 @@ I couldn't run IntelliJ IDEA on the previous project I worked on (it's an 8GB Gi
 
 IntelliJ IDEA is a much more professional IDE in many respects, but since I couldn't run it, I gradually discovered alternatives to my IntelliJ workflows in VS Code. VS Code is still what I install on day one. Sign in with GitHub and Settings Sync puts the extensions back:
 
-![VS Code settings sync turned on](https://cdn.hashnode.com/res/hashnode/image/upload/v1690006933319/c5344352-14a2-41ab-9436-7cb602fb51bd.png)
+![VS Code settings sync turned on](../../assets/posts/a-full-stack-developers-guide-to-setting-up-a-new-macbook-pro/vscode-settings-sync.png)
 
 The command palette is still ⌘⇧P. Type `sync configure` and tick what should sync. The checkboxes have moved around since this screenshot. The command name still finds them.
 
-![VS Code sync configuration](https://cdn.hashnode.com/res/hashnode/image/upload/v1690007225160/32fed1fb-9d51-4d67-bcf8-5197c9566e09.png)
+![VS Code sync configuration](../../assets/posts/a-full-stack-developers-guide-to-setting-up-a-new-macbook-pro/vscode-sync-configuration.png)
 
 When the editor needs an agent, I open Cursor. The palette shortcut is the same. One workflow I use there is written up in [How to Use Cursor Commands to Write JIRA Ticket Descriptions](/how-to-use-cursor-commands-to-write-jira-ticket-descriptions/).
 

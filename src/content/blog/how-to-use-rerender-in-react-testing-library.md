@@ -99,7 +99,7 @@ expect(screen.getAllByLabelText("Message:")).toHaveLength(2);
 
 That length check passed. `getByLabelText("Message:")` (the one that expects a single node) still throws `TestingLibraryElementError: Found multiple elements with the text of: Message:`.
 
-![Two message inputs after a second render](https://cdn.hashnode.com/res/hashnode/image/upload/v1705055547507/55b940b8-aae7-4015-9e7f-30c537a35ad1.png)
+![Two message inputs after a second render](../../assets/posts/how-to-use-rerender-in-react-testing-library/two-message-inputs.png)
 
 The first input can hold what you typed. The second one is empty. Queries that assume one field stop there.
 
@@ -138,7 +138,7 @@ test("keeps the typed message when the error prop changes", async () => {
 
 `screen.debug()` before and after `rerender` is still the fastest way to see that you have one form.
 
-![One message input after rerender](https://cdn.hashnode.com/res/hashnode/image/upload/v1705055936521/b2c55ffb-3e84-493a-b081-3ea2a260fb40.png)
+![One message input after rerender](../../assets/posts/how-to-use-rerender-in-react-testing-library/one-message-input.png)
 
 The label query works because the input sits inside `<label>Message:`. That part has not changed.
 

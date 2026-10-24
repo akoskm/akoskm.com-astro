@@ -48,7 +48,7 @@ Since I’ve built some apps on top of OpenAI’s API, I knew I could top up my 
 
 So I topped up $5, grabbed my API key, and opened VSCode.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1763014038600/35da8cc6-1dfd-47de-9d7f-245d2ca9fc7b.png)
+![](../../assets/posts/try-openai-codex-no-subscription/vscode-opened.png)
 
 Two chat rounds later: feature shipped.
 
@@ -72,11 +72,11 @@ If you are unsure whether to go with Codex or not, I suggest you do the same exp
 
 2. Create a separate project for this so it doesn’t interfere with other spending.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1763015641085/8365df59-c350-4933-9613-d24ee56764f9.png)
+![](../../assets/posts/try-openai-codex-no-subscription/openai-project.png)
 
 3. In the sidebar, select Billing, which is where you can top up your balance
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1763015756069/05cfc89f-9ce7-430a-ab7c-46938bc4b3ce.png)
+![](../../assets/posts/try-openai-codex-no-subscription/billing.png)
 
 4. Now go to [https://platform.openai.com/settings/organization/api-keys](https://platform.openai.com/settings/organization/api-keys) and generate a key
 
@@ -86,7 +86,7 @@ If you are unsure whether to go with Codex or not, I suggest you do the same exp
 
 7. **Start coding**
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1763014314469/98ab74a9-0398-4301-b1d9-67b56596d68f.png)
+![](../../assets/posts/try-openai-codex-no-subscription/codex-sidebar.png)
 
 **You’re live**. No Plus. No proxy. Full Codex in your editor.
 
