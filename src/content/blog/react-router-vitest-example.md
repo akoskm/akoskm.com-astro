@@ -50,7 +50,7 @@ Remix is the newer one. In 2022 [Shopify acquired the team](https://en.wikipedia
 
 If I had to visualize React Router, Vite, and Remix, I'd go with some incredibly talented ninja foxes who have many years of experience and have the power and tools (open source) to disrupt a market that Webpack, Next.js, and Jest have so far owned.
 
-![Ninja foxes, which is how I picture this stack](https://cdn.hashnode.com/res/hashnode/image/upload/v1735478036417/3bdb37bc-890b-4860-ad34-8ad589c63933.png)
+![Ninja foxes, which is how I picture this stack](../../assets/posts/react-router-vitest-example/ninja-foxes.png)
 
 ## How do you create the app?
 

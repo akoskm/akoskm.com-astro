@@ -99,7 +99,7 @@ function renderWelcome() {
 
 Even though we check that `players` is defined before entering `renderWelcome`, TypeScript still warns us.
 
-![TypeScript error: players is possibly undefined](https://cdn.hashnode.com/res/hashnode/image/upload/v1680359362863/b176909b-1cba-4a4a-bbb2-f01d12aebbea.png)
+![TypeScript error: players is possibly undefined](../../assets/posts/how-to-solve-variable-is-possibly-undefined-in-typescript-even-when-its-defined/players-possibly-undefined.png)
 
 The behavior makes sense to me because nothing prevents `renderWelcome` from being called without wrapping it with a check. That path throws at runtime.
 
@@ -167,7 +167,7 @@ function PlayerWelcome({ players }: PlayerWelcomeProps) {
 
 TypeScript will be happy with this code because `players` is guaranteed to be there. The check on `players[0]` is for the flag in the next section. Without that flag, `players[0].name` type-checks on its own.
 
-![PlayerWelcome type-checks once players is required](https://cdn.hashnode.com/res/hashnode/image/upload/v1680359574461/4f948c42-a8d5-41a1-8e74-5a4e87e2346e.png)
+![PlayerWelcome type-checks once players is required](../../assets/posts/how-to-solve-variable-is-possibly-undefined-in-typescript-even-when-its-defined/player-welcome.png)
 
 The parent keeps the optional prop and renders the child only when the array exists:
 

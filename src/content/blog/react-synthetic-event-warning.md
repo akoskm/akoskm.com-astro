@@ -43,7 +43,7 @@ function handleChange(e) {
 }
 ```
 
-![warning.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1665403497259/mZMi-tYbP.gif)
+![warning.gif](../../assets/posts/react-synthetic-event-warning/warning.gif)
 
 You can also try the sandbox [here](https://codesandbox.io/s/happy-dust-x256lb?file=/src/App.js).
 
