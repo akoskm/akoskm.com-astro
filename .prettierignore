@@ -3,6 +3,9 @@
 
 # Except these files & folders
 !/src
+
+# Original post markdown. Prettier rewrites code fences and list markers.
+src/content/blog
 !/public
 !/.github
 !tsconfig.json
@@ -11,6 +14,3 @@
 !.prettierrc
 !eslint.config.mjs
 !README.md
-
-# Snapshot of Hashnode posts. Kept compact on purpose.
-src/data/hashnode-posts.json

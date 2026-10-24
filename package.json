@@ -21,7 +21,6 @@
     "astro": "^4.15.4",
     "fuse.js": "^7.0.0",
     "geist": "^1.8.2",
-    "graphql-request": "^7.1.0",
     "highlight.js": "^11.10.0",
     "lodash.kebabcase": "^4.1.1",
     "openai": "^6.17.0",

@@ -1,10 +1,10 @@
 import type { APIRoute } from "astro";
 import { generateOgImageForPost } from "@utils/generateOgImages";
-import { fetchAllPosts } from "lib/clients";
+import { getAllPosts } from "lib/getAllPosts";
 import type { Post } from "lib/schema";
 
 export async function getStaticPaths() {
-  const posts = await fetchAllPosts().then(p =>
+  const posts = await getAllPosts().then(p =>
     p.filter(post => !post.coverImage?.url)
   );
 

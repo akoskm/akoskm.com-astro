@@ -4,6 +4,10 @@ import react from "@astrojs/react";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
+import { remarkHeadingId } from "./src/lib/remarkHeadingId";
+import { remarkLiteralText } from "./src/lib/remarkLiteralText";
+import { remarkNoAutolink } from "./src/lib/remarkNoAutolink";
+import { rehypeTrimBreak } from "./src/lib/rehypeTrimBreak";
 import fs from "node:fs";
 import path from "node:path";
 import { SITE, THIN_TAGS_FILE } from "./src/config";
@@ -38,7 +42,10 @@ export default defineConfig({
   ],
   markdown: {
     remarkPlugins: [
-      remarkToc,
+      remarkLiteralText,
+      remarkNoAutolink,
+      remarkHeadingId,
+      [remarkToc, { heading: "table of contents" }],
       [
         remarkCollapse,
         {
@@ -46,6 +53,7 @@ export default defineConfig({
         },
       ],
     ],
+    rehypePlugins: [rehypeTrimBreak],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "github-light", dark: "github-dark-default" },

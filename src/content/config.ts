@@ -20,7 +20,11 @@ const blog = defineCollection({
       publishedAt: z.string(),
       updatedAt: z.string().optional(),
       description: z.string(),
-      coverImage: image(),
+      brief: z.string().optional(),
+      subtitle: z.string().optional(),
+      canonicalUrl: z.string().optional(),
+      readTimeInMinutes: z.number().optional(),
+      coverImage: image().optional(),
       faq: z
         .array(
           z.object({

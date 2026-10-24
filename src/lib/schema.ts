@@ -61,30 +61,7 @@ export const PageInfo = z.object({
   endCursor: z.string(),
 });
 
-export const AllPostsDataSchema = z.object({
-  publication: z.object({
-    title: z.string(),
-    posts: z.object({
-      pageInfo: PageInfo,
-      edges: z.array(
-        z.object({
-          node: PostSchema,
-        })
-      ),
-    }),
-  }),
-});
-
-export const PostDataSchema = z.object({
-  publication: z.object({
-    title: z.string(),
-    post: PostSchema,
-  }),
-});
-
 export type PageInfo = z.infer<typeof PageInfo>;
 export type Post = z.infer<typeof PostSchema>;
-export type AllPostsData = z.infer<typeof AllPostsDataSchema>;
-export type PostData = z.infer<typeof PostDataSchema>;
 export type Tag = z.infer<typeof TagSchema>;
 export type Serie = z.infer<typeof SerieSchema>;

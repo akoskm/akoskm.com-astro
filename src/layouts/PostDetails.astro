@@ -14,13 +14,7 @@ import { splitPostHtml } from "lib/promoPlacement";
 import { getAllPosts, type PostWithContent } from "lib/getAllPosts";
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 
-import hljs from "highlight.js/lib/core";
-import javascript from "highlight.js/lib/languages/javascript";
-import typescript from "highlight.js/lib/languages/typescript";
 import "highlight.js/styles/base16/material-darker.min.css";
-
-hljs.registerLanguage("javascript", javascript);
-hljs.registerLanguage("typescript", typescript);
 
 export interface Props {
   post: PostWithContent;
@@ -37,7 +31,6 @@ const {
   publishedAt,
   updatedAt,
   tags,
-  content,
   slug,
   features,
 } = post;
@@ -59,12 +52,9 @@ const ogUrl = ogImageUrl.startsWith("http")
 const promos = promosForSlug(slug);
 let beforeHtml = "";
 let afterHtml = "";
-if (promos.length > 0) {
-  let html = content.html || "";
-  if (!html && ContentComponent) {
-    const container = await AstroContainer.create();
-    html = await container.renderToString(ContentComponent);
-  }
+if (promos.length > 0 && ContentComponent) {
+  const container = await AstroContainer.create();
+  const html = await container.renderToString(ContentComponent);
   const split = splitPostHtml(html);
   beforeHtml = split.before;
   afterHtml = split.after;
@@ -139,14 +129,7 @@ const layoutProps = {
                     heading.level === 4 ? "ml-8" : "",
                   ].join(" ")}
                 >
-                  <a
-                    href={
-                      ContentComponent
-                        ? `#${heading.slug}`
-                        : `#heading-${heading.slug}`
-                    }
-                    class="hover:underline"
-                  >
+                  <a href={`#${heading.slug}`} class="hover:underline">
                     {heading.title}
                   </a>
                 </li>
@@ -168,9 +151,7 @@ const layoutProps = {
           <div class="prose max-w-none">
             <ContentComponent />
           </div>
-        ) : (
-          <div class="prose max-w-none" set:html={content.html} />
-        )
+        ) : null
       }
     </article>
     <ProductOffer tags={tags} slug={slug} />
