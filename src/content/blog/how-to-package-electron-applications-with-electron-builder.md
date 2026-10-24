@@ -176,7 +176,7 @@ The output of the last command should look something like this, captured on my M
 
 If you're on macOS, typing `open .` will open the current folder where you'll see a new folder created `dist`:
 
-![image.png](../../assets/posts/how-to-package-electron-applications-with-electron-builder/dist-folder.png)
+![Finder showing the dist folder: the dmg, zip, blockmaps, and the packaged mac app.](../../assets/posts/how-to-package-electron-applications-with-electron-builder/dist-folder.png)
 
 This directory contains the files that `electron-builder` created during packaging:
 
@@ -198,7 +198,7 @@ The first is the `electron-blog-example-1.0.0.dmg` file.
 
 It is the installer of your app that, when you open it, you will see the familiar macOS install screen:
 
-![image.png](../../assets/posts/how-to-package-electron-applications-with-electron-builder/macos-install.png)
+![The dmg window with the app icon and a shortcut into the Applications folder.](../../assets/posts/how-to-package-electron-applications-with-electron-builder/macos-install.png)
 
 After dragging the app into Applications, your packaged app will appear in your macOS applications folder and the Launchpad.
 
@@ -208,7 +208,7 @@ This is why electron-builder also created a macOS executable version of your app
 
 You just double-click it, and it will run your application as it has already been installed:
 
-![open-executable-3.gif](../../assets/posts/how-to-package-electron-applications-with-electron-builder/open-executable-3.gif)
+![Double-clicking the app in the mac folder opens a window that says Hello from Electron blog example.](../../assets/posts/how-to-package-electron-applications-with-electron-builder/open-executable-3.gif)
 
 Congratulations, you created a desktop installer and an executable for your JavaScript app!
 
