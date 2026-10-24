@@ -61,7 +61,4 @@ export default defineConfig({
   experimental: {
     contentLayer: true,
   },
-  redirects: {
-    "/all-series": "/series",
-  },
 });

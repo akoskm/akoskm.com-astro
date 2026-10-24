@@ -102,6 +102,25 @@ type RawPost = {
   draft?: boolean | null;
 };
 
+/** Hashnode minted a second slug for the same tag. Keep the canonical one. */
+const TAG_ALIASES: Record<string, { slug: string; name: string }> = {
+  "github-actions-1": { slug: "github-actions", name: "GitHub Actions" },
+};
+
+function canonicalTags(tags: Post["tags"] | null | undefined): Post["tags"] {
+  const seen = new Set<string>();
+  const result: Post["tags"] = [];
+  for (const tag of tags ?? []) {
+    const alias = TAG_ALIASES[tag.slug];
+    const slug = alias?.slug ?? tag.slug;
+    const name = alias?.name ?? tag.name;
+    if (seen.has(slug)) continue;
+    seen.add(slug);
+    result.push({ name, slug });
+  }
+  return result;
+}
+
 export function normalizePost(raw: RawPost): Post {
   const slug = raw.slug || "";
   const html = raw.content?.html || "";
@@ -124,7 +143,7 @@ export function normalizePost(raw: RawPost): Post {
     slug,
     readTimeInMinutes: raw.readTimeInMinutes || 1,
     content: { html },
-    tags: raw.tags || [],
+    tags: canonicalTags(raw.tags),
     series: raw.series ?? null,
     coverImage: { url: raw.coverImage?.url || "" },
     seo: { description },
