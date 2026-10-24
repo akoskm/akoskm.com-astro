@@ -1,8 +1,8 @@
 ---
-title: "MCP, Model Context Protocol: A Simple Guide to the Message Format"
+title: "MCP, Model Context Protocol: A Simple Guide"
 publishedAt: "2025-04-27T07:27:32.693Z"
 updatedAt: "2026-10-24T14:00:00.000Z"
-description: "Discover the basics of MCP, Model Context Protocol: the message format that links AI assistants with tools and content repositories."
+description: "What MCP is, how it connects AI assistants to tools, and what its messages look like, with real JSON examples."
 brief: "If you've been following the MCP hype and thinking all this time, \"this isn't anything new\", you were right.\nMCPs provide a standardized way to expose resources or capabilities to LLMs. It’s more like a standard than a technology breakthrough. And no..."
 readTimeInMinutes: 12
 coverImage: "../../assets/posts/mcp-model-context-protocol-a-simple-guide/cover.png"
