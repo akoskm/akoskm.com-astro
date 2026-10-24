@@ -1,8 +1,8 @@
 ---
-title: "How to solve ”variable is possibly undefined” in TypeScript - even when it’s defined"
+title: "TypeScript: object is possibly 'undefined'"
 publishedAt: "2023-04-01T15:08:04.644Z"
-updatedAt: "2026-10-23T12:00:00.000Z"
-description: "Guard an optional value, or pass a required argument. TypeScript 7 still reports possibly undefined. The ! operator only hides it."
+updatedAt: "2026-10-23T20:30:00.000Z"
+description: "TS2532: Object is possibly 'undefined'. TS18048: 'players' is possibly 'undefined'. Guard the value before you read it. The ! operator only hides the error."
 coverImage: "../../assets/covers/typescript-possibly-undefined.png"
 tags:
   - name: "React"
@@ -28,19 +28,11 @@ faq:
     answer: "Map.get returns V or undefined because the key might be missing. array.find does the same when no element matches. Check the result before you read a property."
 ---
 
-TypeScript reports `'players' is possibly 'undefined'` when the type still includes `undefined` and you use the value anyway. Guard it before you read it, or pass a required argument into the function that needs it.
+`Object is possibly 'undefined'` is TS2532. `'players' is possibly 'undefined'` is TS18048. The type still includes `undefined`, so guard it before you read it.
 
 ```ts
-interface Player {
-  id: number;
-  name: string;
-}
-
-function welcome(players: Player[] | undefined) {
-  if (!players || players.length === 0) return "No players";
-  const names = players.map(player => player.name).join(", ");
-  return `Welcome ${names}`;
-}
+if (!players) return "No players";
+return players.map(player => player.name).join(", ");
 ```
 
 `players!` does not fix the bug. It tells the compiler to stop looking.
