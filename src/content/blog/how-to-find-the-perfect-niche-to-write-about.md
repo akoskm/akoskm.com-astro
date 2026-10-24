@@ -2,7 +2,7 @@
 title: "How to Find the Perfect Niche to Write About"
 publishedAt: "2023-04-21T07:27:25.315Z"
 updatedAt: "2026-10-24T20:30:00.000Z"
-description: "How to find a niche to write about, and what to write about once you have one. I check fun, potential, revenue, and how often the topic needs an update."
+description: "What to write about in your niche is a problem you already got stuck on. I pick the niche by fun, potential, revenue, and how often the posts go stale."
 brief: "If you feel you’re spread too thin with your content creation and writing for too many platforms or niches, maybe it’s time to reevaluate who you write for.\nIt’s never too late to switch things up, so here are the key factors I evaluate before I make..."
 readTimeInMinutes: 5
 coverImage: "../../assets/posts/how-to-find-the-perfect-niche-to-write-about/cover.png"
