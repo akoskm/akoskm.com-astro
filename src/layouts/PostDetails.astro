@@ -147,11 +147,11 @@ const layoutProps = {
             <PostPromos slug={slug} />
             <div class="prose max-w-none" set:html={afterHtml} />
           </>
-        ) : (
+        ) : ContentComponent ? (
           <div class="prose max-w-none">
             <ContentComponent />
           </div>
-        )
+        ) : null
       }
     </article>
     <ProductOffer tags={tags} slug={slug} />
