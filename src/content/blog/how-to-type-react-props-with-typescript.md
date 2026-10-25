@@ -1,9 +1,8 @@
 ---
 title: "How to type React Props with TypeScript"
 publishedAt: "2023-01-06T06:39:01.015Z"
-description: "Two ways to type React component props in TypeScript, and which one stays safe when noImplicitAny is on."
-brief: "Typing React Props with TypeScript can be done in different ways, but not each way will provide you with an equal level of type safety.\nFirst, let's take a look at a simple component we'll use to demonstrate the two methods, but without typing the pr..."
-readTimeInMinutes: 2
+updatedAt: "2026-10-25T06:30:00.000Z"
+description: "Type React props in TypeScript with an interface or a props type: optional defaults, children, event handlers, HTML attributes, and unions. React 19 types."
 coverImage: "../../assets/posts/how-to-type-react-props-with-typescript/cover.png"
 tags:
   - name: "React"
@@ -18,58 +17,301 @@ series: null
 draft: false
 ---
 
-Typing React Props with TypeScript can be done in different ways, but not each way will provide you with an equal level of type safety.
+Type the props with an interface, then put that type on the function argument.
 
-First, let's take a look at a simple component we'll use to demonstrate the two methods, but without typing the props first:
+```tsx
+interface Props {
+  name: string;
+  age: number;
+}
 
-![](../../assets/posts/how-to-type-react-props-with-typescript/6499dde6-cd19-463a-8002-d6639cdd22fd.png)
+function ProfileCard({ name, age }: Props) {
+  return (
+    <p>
+      {name} is {age}
+    </p>
+  );
+}
+```
 
-I always set `"noImplicitAny": true,` so my editor warns me about the untyped props.
+`<ProfileCard name="Ada" age={36} />` matches `Props`. Drop `name`, or pass `age="36"`, and TypeScript reports it on the call.
 
-Let's type them with React's `FC` interface.
+One field can stay inline, `function MyButton({ title }: { title: string })`. I name the object `Props` once there is a second field. Export it when another file extends it, and call that export `ProfileCardProps`.
 
-## React.FC {#heading-reactfc}
+I always set `"noImplicitAny": true`. Without `Props`, the function above is already an error. `name` and `age` are implicit `any`.
 
-`React.FC` is a generic type in the React module that defines a functional component in TypeScript. It is a shorthand for describing a functional component that has a prop type.
+The samples here type-check on TypeScript 7.0.2 and `@types/react` 19.3.0, with React 19.3.1.
 
-In our example, `ProfileCard` is a functional component that expects to receive props with a `name` string and an `age` number. These props are typed using the `Props` interface, and the component is typed as `React.FC<Props>`, which specifies that it is a functional component with the specified prop types:
+A `type` alias describes the same object.
 
-![](../../assets/posts/how-to-type-react-props-with-typescript/aedf5c32-fe73-4d12-8835-bffefdde4ba4.png)
+```tsx
+type Props = {
+  name: string;
+  age: number;
+};
 
-As we see, the errors disappeared because through `React.FC<Props>`, we specified the types for both the `name` and `age` props.
+function ProfileCard({ name, age }: Props) {
+  return (
+    <p>
+      {name} is {age}
+    </p>
+  );
+}
+```
 
-## props: Prop {#heading-props-prop}
+Both describe one props object. Extend an `interface` when you add fields to an existing props type. Use a `type` for a union of shapes.
 
-Another, even more straightforward way to type React props is to specify the object type inside the function's signature.
+## Optional props and defaults
 
-Below we're simply telling react that this object has a specific type:
+```tsx
+interface Props {
+  name: string;
+  age?: number;
+}
 
-![](../../assets/posts/how-to-type-react-props-with-typescript/ac40ceed-b110-46b1-9e84-e56b3edc0794.png)
+function ProfileCard({ name, age = 0 }: Props) {
+  return (
+    <p>
+      {name} is {age}
+    </p>
+  );
+}
+```
 
-Now let's see the differences between the two regarding type safety.
+`age?` lets the caller skip `age`. `<ProfileCard name="Ada" />` typechecks. Inside the function `age` is `number`, because `= 0` fills the gap.
 
-# Differences in type safety {#heading-differences-in-type-safety}
+The default has to fit the prop. `age = "unknown"` fails on that parameter:
 
-When using `React.FC`, if you define a default value with a different type than the type in `Props`, it'll merge the two types and assign that as the new type for the prop.
+`Type 'string' is not assignable to type 'number'.`
 
-You might expect the below code to fail the TypeScript compilation, but it won't.
+React 19 removed `defaultProps` from function components and points you at this parameter default. Class components still support `defaultProps`. The note is in the [React 19 upgrade guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide#removed-proptypes-and-defaultprops).
 
-Here's the new type `React.FC` created for `name`:
+## React.FC
 
-![](../../assets/posts/how-to-type-react-props-with-typescript/ab7a5b6a-014d-4b59-bca2-ccf01c5d82ef.png)
+You can type React props in a few ways. Not each way will provide you with an equal level of type safety.
 
-However, if you use the `props: Prop` method to type your props, you get an error right away:
+`React.FC<Props>` types the props too.
 
-![](../../assets/posts/how-to-type-react-props-with-typescript/fd4917de-77b9-4493-a940-a4446f8943c0.png)
+```tsx
+import React from "react";
 
-# Conclusion {#heading-conclusion}
+interface Props {
+  name: string;
+  age: number;
+}
 
-Because of this difference, I always prefer the `props: Prop` way to define props in React.
+const ProfileCard: React.FC<Props> = ({ name, age }) => {
+  return (
+    <p>
+      {name} is {age}
+    </p>
+  );
+};
+```
 
-But keep in mind, if you are using TypeScript in your entire codebase, a wrongly typed default value might pop up an error in the component that ends up using it.
+Destructure `children` from `React.FC<{ title: string }>` and the compiler says `Property 'children' does not exist on type '{ title: string; }'`. You declare `children` on the props type yourself.
 
-Here's an example of that:
+The gap around a bad default is still there.
 
-![](../../assets/posts/how-to-type-react-props-with-typescript/5b5308fb-49f7-404e-a04a-95f4f6238141.png)
+```tsx
+interface Props {
+  name: string;
+}
 
-The TypeScript compiler warns us that `ProfileName` expects a name with the type of `string` and not with the type of `string | boolean`.
+const ProfileCard: React.FC<Props> = ({ name = false }) => {
+  return <ProfileName name={name} />;
+};
+
+function ProfileName({ name }: { name: string }) {
+  return <span>{name}</span>;
+}
+```
+
+You might expect `name = false` to fail the TypeScript compilation, but it won't. Inside `ProfileCard`, `name` is `string | boolean`. `ProfileName` asks for a `string`, so the error shows up on `<ProfileName name={name} />`:
+
+`Type 'string | boolean' is not assignable to type 'string'.`
+
+Put the type on the argument and the bad default fails on its own line:
+
+```tsx
+function ProfileCard({ name = false }: Props) {
+  return <ProfileName name={name} />;
+}
+```
+
+`Type 'boolean' is not assignable to type 'string'.`
+
+I always prefer `props: Props`.
+
+## The children prop
+
+```tsx
+import type { PropsWithChildren, ReactNode } from "react";
+
+interface Props {
+  title: string;
+  children: ReactNode;
+}
+
+function Card({ title, children }: Props) {
+  return (
+    <section>
+      <h2>{title}</h2>
+      {children}
+    </section>
+  );
+}
+```
+
+`ReactNode` is what you can put between the tags. Text, numbers, elements, fragments, arrays of those, and `null` all fit. `<Card title="Hi">Ada</Card>` typechecks.
+
+`ReactElement` is only an element. The same string child fails, because `"Ada"` is text.
+
+`PropsWithChildren` adds an optional `children` onto a props type you already have:
+
+```tsx
+type PanelProps = PropsWithChildren<{
+  title: string;
+}>;
+
+function Panel({ title, children }: PanelProps) {
+  return (
+    <section>
+      <h2>{title}</h2>
+      {children}
+    </section>
+  );
+}
+```
+
+`<Panel title="Hi" />` typechecks. `children` on `PanelProps` is `ReactNode | undefined`. When the component always renders a child, write `children: ReactNode` on the interface. The call with no child then fails.
+
+## Event handler props
+
+```tsx
+import type { ChangeEvent, MouseEventHandler } from "react";
+
+interface Props {
+  value: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClear: MouseEventHandler<HTMLButtonElement>;
+}
+
+function SearchBox({ value, onChange, onClear }: Props) {
+  return (
+    <>
+      <input value={value} onChange={onChange} />
+      <button type="button" onClick={onClear}>
+        Clear
+      </button>
+    </>
+  );
+}
+```
+
+On `onChange`, `event.currentTarget.value` is a `string`. `MouseEventHandler<HTMLButtonElement>` is the function type React already uses for a button's `onClick`.
+
+## HTML element props
+
+`Button` adds a `loading` flag and keeps the attributes of `<button>`.
+
+```tsx
+import type { ComponentPropsWithoutRef } from "react";
+
+interface Props extends ComponentPropsWithoutRef<"button"> {
+  loading?: boolean;
+}
+
+function Button({ loading = false, children, disabled, ...rest }: Props) {
+  return (
+    <button {...rest} disabled={loading || disabled}>
+      {loading ? "Working" : children}
+    </button>
+  );
+}
+```
+
+`ComponentPropsWithoutRef<"button">` is the button attributes. `<Button ref={null}>` fails with `Property 'ref' does not exist on type 'IntrinsicAttributes & Props'`. `ref` lives on `ComponentProps<"button">`. React 19 passes `ref` as a normal prop, so extend that type when `Button` forwards the ref to the DOM node.
+
+`<Button loading type="submit" onClick={() => undefined}>Save</Button>` typechecks. `loading` is pulled out before `...rest`, and the DOM button receives the remaining attributes.
+
+`ComponentProps<typeof Card>` reads the props off a component that never exported an interface.
+
+## Passing a component as a prop
+
+```tsx
+import type { ComponentType, ReactNode } from "react";
+
+interface IconProps {
+  size: number;
+}
+
+interface Props {
+  icon: ComponentType<IconProps>;
+  label: string;
+}
+
+function IconButton({ icon: Icon, label }: Props) {
+  return (
+    <button type="button">
+      <Icon size={16} />
+      {label}
+    </button>
+  );
+}
+```
+
+`ComponentType<IconProps>` is a component that accepts `size`. The parent passes `icon={CheckIcon}`, and `IconButton` creates the element. When the parent already has an element, the prop type is `ReactNode`.
+
+## Generic props
+
+```tsx
+import type { ReactNode } from "react";
+
+interface Props<T extends { id: string }> {
+  items: T[];
+  renderItem: (item: T) => ReactNode;
+}
+
+function List<T extends { id: string }>({ items, renderItem }: Props<T>) {
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id}>{renderItem(item)}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+```tsx
+<List
+  items={[{ id: "1", name: "Ada" }]}
+  renderItem={person => person.name}
+/>
+```
+
+`T` comes from `items`. `person.name` typechecks, and `person.missing` is an error.
+
+## When the props have more than one shape
+
+```tsx
+type Props =
+  | { status: "loading" }
+  | { status: "error"; message: string }
+  | { status: "ready"; name: string; age: number };
+
+function Profile(props: Props) {
+  if (props.status === "error") return <p>{props.message}</p>;
+  if (props.status === "ready") {
+    return (
+      <p>
+        {props.name} is {props.age}
+      </p>
+    );
+  }
+  return <p>Loading</p>;
+}
+```
+
+`<Profile status="error" />` fails, because that branch requires `message`. `<Profile status="ready" name="Ada" age={36} />` is the ready branch. Make every field optional and that error call typechecks. The union above keeps `message` required on the error branch. A union like this is a `type`.
