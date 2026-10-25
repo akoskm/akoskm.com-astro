@@ -25,6 +25,7 @@ const blog = defineCollection({
       canonicalUrl: z.string().optional(),
       readTimeInMinutes: z.number().optional(),
       coverImage: image().optional(),
+      coverAlt: z.string().optional(),
       faq: z
         .array(
           z.object({

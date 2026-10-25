@@ -106,7 +106,7 @@ const layoutProps = {
     </button>
   </div>
   <main id="main-content">
-    <img src={displayImageUrl} alt={title} />
+    <img src={displayImageUrl} alt={post.coverAlt || title} />
     <h1 transition:name={post.slug} class="post-title">{title}</h1>
     <Datetime
       pubDatetime={publishedAt}
