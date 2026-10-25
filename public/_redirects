@@ -4,6 +4,9 @@
 # A rule matches with or without a trailing slash. Page targets keep the slash.
 # Specific paths come before the /blog/* and /tag/* catch-alls.
 
+# Previous default share image.
+/og_image.png  /og.png  301
+
 # Existing post and section redirects.
 /blog/twitter-sign-in-for-web-apps                         /twitter-sign-in-for-web-apps/              301
 /blog/twitter-sign-in-for-web-apps/                        /twitter-sign-in-for-web-apps/              301
