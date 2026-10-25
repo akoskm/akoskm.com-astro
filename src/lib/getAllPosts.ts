@@ -51,6 +51,7 @@ export async function getAllPosts(): Promise<Post[]> {
         coverImage: {
           url: coverImageUrl,
         },
+        coverAlt: entry.data.coverAlt,
         seo: {
           description,
         },

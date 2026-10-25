@@ -30,6 +30,7 @@ export const PostSchema = z.object({
   coverImage: z.object({
     url: z.string(),
   }),
+  coverAlt: z.string().optional(),
   seo: z.object({
     description: z.string(),
   }),
