@@ -27,7 +27,7 @@ function font(file: string): ArrayBuffer {
   ) as ArrayBuffer;
 }
 
-/** Default share card. Copy comes from the newsletter tagline on the site. */
+/** Default share card. The line is the site tagline. */
 export default async () => {
   const fonts: FontOptions[] = [
     {
@@ -89,21 +89,7 @@ export default async () => {
           <div
             style={{
               display: "flex",
-              fontFamily: "Geist Sans",
-              fontWeight: 600,
-              fontSize: 28,
-              letterSpacing: 3.4,
-              color: "#C23D00",
-              textTransform: "uppercase",
-            }}
-          >
-            Newsletter
-          </div>
-          <div
-            style={{
-              display: "flex",
               flexDirection: "column",
-              marginTop: 24,
               gap: 8,
               fontFamily: "Source Serif 4",
               fontSize: 72,

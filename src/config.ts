@@ -8,7 +8,7 @@ export const SITE: Site = {
   website: "https://akoskm.com/",
   author: "Ákos Kőműves",
   profile: "https://akoskm.com/",
-  desc: `Newsletter. ${BITSY_TAGLINE}`,
+  desc: `Ákos Kőműves writes ${BITSY_TAGLINE.replace(/^For/, "for")}`,
   title: "Ákos Kőműves",
   ogImage: "og.png",
   lightAndDarkMode: true,
