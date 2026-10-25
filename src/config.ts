@@ -22,6 +22,9 @@ export const LOCALE = {
   langTag: ["en-EN"], // BCP 47 Language Tags. Set this empty [] to use the environment default
 } as const;
 
+/** @id for the sitewide Person node. App pages reference this. */
+export const PERSON_ID = "https://akoskm.com/#person";
+
 /** Profiles linked from Person structured data. */
 export const SAME_AS = [
   "https://x.com/akoskm",

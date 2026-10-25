@@ -59,8 +59,7 @@ export const APPS: AppInfo[] = [
       "No bank login and no account",
     ],
     icon: "/assets/apps/subsub.jpg",
-    appStore:
-      "https://apps.apple.com/us/app/subscription-tracker-subsub/id6788995702",
+    appStore: "https://apps.apple.com/us/app/subsub-app/id6788995702",
     site: "https://subsub.app/",
     siteLabel: "subsub.app",
     category: "FinanceApplication",
@@ -92,7 +91,7 @@ export const LISTED_APPS: ListedApp[] = [
     name: "Geordi Scan",
     summary:
       "See what your contracts hide, with every claim linked to the PDF.",
-    href: "https://geordiscan.com",
+    href: "https://www.geordiscan.com/",
     icon: "/assets/apps/geordi.png",
     external: true,
   },

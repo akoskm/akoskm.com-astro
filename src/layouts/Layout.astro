@@ -1,5 +1,5 @@
 ---
-import { AUTHOR_IMAGE, LOCALE, SAME_AS, SITE } from "@config";
+import { AUTHOR_IMAGE, LOCALE, PERSON_ID, SAME_AS, SITE } from "@config";
 import { toIso } from "lib/postMeta";
 import SiteSidebar from "@components/SiteSidebar.astro";
 import SiteTopbar from "@components/SiteTopbar.astro";
@@ -57,6 +57,7 @@ const modified = toIso(modDatetime) || published;
 
 const person = {
   "@type": "Person",
+  "@id": PERSON_ID,
   name: SITE.author,
   url: SITE.profile,
   image: new URL(AUTHOR_IMAGE, SITE.website).href,

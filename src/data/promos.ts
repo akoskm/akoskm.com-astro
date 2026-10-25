@@ -28,7 +28,7 @@ const subsub: Promo = {
   body: "Subscription tracker for iPhone and Mac. Add each charge yourself. No bank login. It stays on the device. $3.99 once, with a 7-day trial.",
   links: [
     {
-      href: "https://apps.apple.com/us/app/subscription-tracker-subsub/id6788995702",
+      href: "https://apps.apple.com/us/app/subsub-app/id6788995702",
       label: "App Store",
       destination: "app-store",
     },

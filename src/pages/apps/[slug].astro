@@ -1,7 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Icon from "@components/Icon.astro";
-import { AUTHOR_IMAGE, SITE } from "@config";
+import { PERSON_ID, SITE } from "@config";
 import { APPS, type AppInfo } from "@data/apps";
 
 export function getStaticPaths() {
@@ -27,12 +27,8 @@ const schema = {
   image: new URL(app.icon, SITE.website).href,
   url: pageUrl,
   installUrl: app.appStore,
-  author: {
-    "@type": "Person",
-    name: SITE.author,
-    url: SITE.website,
-    image: new URL(AUTHOR_IMAGE, SITE.website).href,
-  },
+  sameAs: [app.site, app.appStore],
+  author: { "@id": PERSON_ID },
   offers: {
     "@type": "Offer",
     price: app.price,
@@ -73,10 +69,10 @@ const schema = {
         <a
           class="with-icon"
           href={app.site}
-          rel="noopener noreferrer"
+          rel="noopener"
           target="_blank"
         >
-          {app.siteLabel}
+          Official site: {app.siteLabel}
           <Icon name="arrow-up-right" size={16} />
         </a>
       </p>
