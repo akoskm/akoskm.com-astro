@@ -1,9 +1,10 @@
 ---
 title: "How to Find the Perfect Niche to Write About"
 publishedAt: "2023-04-21T07:27:25.315Z"
-description: "Find your perfect writing niche: Boost fun, potential, and earnings with low-maintenance, captivating content in health, wealth, or relationship"
+updatedAt: "2026-10-24T20:30:00.000Z"
+description: "What to write about in your niche is a problem you already got stuck on. I pick the niche by fun, potential, revenue, and how often the posts go stale."
 brief: "If you feel you’re spread too thin with your content creation and writing for too many platforms or niches, maybe it’s time to reevaluate who you write for.\nIt’s never too late to switch things up, so here are the key factors I evaluate before I make..."
-readTimeInMinutes: 4
+readTimeInMinutes: 5
 coverImage: "../../assets/posts/how-to-find-the-perfect-niche-to-write-about/cover.png"
 tags:
   - name: "writing"
@@ -17,6 +18,8 @@ tags:
 series: null
 draft: false
 ---
+
+I find a niche to write about with four checks: fun, potential, revenue, and maintenance. Once I have the niche, what I write about is a problem I already got stuck on.
 
 If you feel you’re spread too thin with your content creation and writing for too many platforms or niches, maybe it’s time to reevaluate who you write for.
 
@@ -51,7 +54,7 @@ The potential is highly related to the fun factor. If you have fun doing somethi
 
 But if you still have doubts, here are a few questions to ask yourself.
 
-Do you see yourself writing to this audience in a year or two? Your audience involves with you, so it’s hard to tell these things, but your niche - to me, writing, not exclusive to tech - stays, and this is what people will remember about you.
+Do you see yourself writing to this audience in a year or two? Your audience evolves with you, so it’s hard to tell these things, but your niche - to me, writing, not exclusive to tech - stays, and this is what people will remember about you.
 
 Can you turn your niche into a business? Did you get any new clients from what you’re writing about recently? If you’re relatively new to the niche and don’t have authority, can you see your writing becoming a new income stream or enhancing an existing one?
 
@@ -68,7 +71,7 @@ You can take it to the next level if you write in any of these niches.
 
 I’m in the Wealth category. I write about tech or principles that, if you learn, can multiply your salary, help you get new jobs and clients, or build a new business.
 
-Recently I have written more and more about *writing*. It’s a much broader topic, but what it offers doesn’t apply only to software or tech - so why restrict who I can help?
+I have written more and more about *writing*. It’s a much broader topic, but what it offers doesn’t apply only to software or tech - so why restrict who I can help?
 
 # Revenue {#heading-revenue}
 
@@ -85,7 +88,7 @@ To me, both of my series were profitable:
 * [https://akoskm.com/series/electron](https://akoskm.com/series/electron)
     
 
-I usually include them at the bottom of a proposal I’m sending through Upwork, but a [CTA at the end of your blog](https://akoskm.com/easy-steps-to-add-an-attractive-cta-on-your-hashnode-blog) will do just fine. In March, a company contacted me and wanted to build a browser plugin with me because they liked [my writing about it](https://akoskm.com/building-a-cross-browser-extension).
+I usually include them at the bottom of a proposal I’m sending through Upwork, but a [CTA at the end of your blog](https://akoskm.com/easy-steps-to-add-an-attractive-cta-on-your-hashnode-blog) will do just fine. In March 2023, a company contacted me and wanted to build a browser plugin with me because they liked [my writing about it](https://akoskm.com/building-a-cross-browser-extension).
 
 # Maintenance {#heading-maintenance}
 
@@ -95,7 +98,15 @@ Timeless writing advice is plenty, but it never gets outdated.
 
 Tech advice is more likely so.
 
-Today, I discovered that a guide I created in 2022 about building plugins is no longer accurate, so I need to update it. Generally, the more your topics are tech-focused, the more likely they’ll become outdated.
+In April 2023 I discovered that a [guide I created in 2022](https://akoskm.com/building-a-cross-browser-extension) about building plugins was no longer accurate, and it needed an update. Generally, the more your topics are tech-focused, the more likely they’ll become outdated.
+
+# What to write {#heading-what-to-write}
+
+The checks above decide whether you stay with a subject. The next post is a problem you already had inside it.
+
+I wanted a user object on an express session. TypeScript said that property didn’t exist, and the articles I found skipped the step I was stuck on. I wrote those steps in [express-session with a custom SessionData](https://akoskm.com/how-to-use-express-session-with-custom-sessiondata-typescript). The plugin series came from the same place. I had built one that had to run in Chrome and Firefox, and I wrote down what broke.
+
+If you already have a niche and the page is blank, remember the last time you got stuck in it and write that. If nothing comes to mind, go do the work until something breaks, then write it down.
 
 # Conclusion {#heading-conclusion}
 
