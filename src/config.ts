@@ -1,4 +1,5 @@
 import type { Site, SocialObjects } from "./types";
+import { BITSY_TAGLINE } from "./data/promos";
 
 /** JPEG of the X profile photo. Pages display an optimized copy; this URL is for JSON-LD. */
 export const AUTHOR_IMAGE = "/assets/akoskm.jpg";
@@ -7,9 +8,9 @@ export const SITE: Site = {
   website: "https://akoskm.com/",
   author: "Ákos Kőműves",
   profile: "https://akoskm.com/",
-  desc: "Ákos Kőműves writes about React, TypeScript, testing, and shipping AI-powered software. Developer, author, and writer of the Bitsy newsletter.",
+  desc: `Ákos Kőműves writes ${BITSY_TAGLINE.replace(/^For/, "for")}`,
   title: "Ákos Kőműves",
-  ogImage: "og_image.png",
+  ogImage: "og.png",
   lightAndDarkMode: true,
   postPerIndex: 3,
   postPerPage: 6,
