@@ -1,6 +1,12 @@
 {
-  "fetchedAt": "2026-10-23T06:05:55.282Z",
+  "fetchedAt": "2026-10-26T16:07:39.596Z",
   "items": [
+    {
+      "title": "How to Create Your Own Software Factory",
+      "url": "https://akoskm.substack.com/p/how-to-create-your-own-software-factory",
+      "publishedAt": "2026-10-25T07:03:56.000Z",
+      "summary": "A couple of years ago when people when people thought software engineering is solved, I bet they weren’t aware that we just created new problems."
+    },
     {
       "title": "Why do we even have loops?",
       "url": "https://akoskm.substack.com/p/why-do-we-even-have-loops",
@@ -114,12 +120,6 @@
       "url": "https://akoskm.substack.com/p/nothing-failed-thats-the-problem",
       "publishedAt": "2026-04-11T09:57:48.000Z",
       "summary": "Your agent optimizes for green, not for truth."
-    },
-    {
-      "title": "Your AI Tests Are Probably Useless",
-      "url": "https://akoskm.substack.com/p/your-ai-tests-are-probably-useless",
-      "publishedAt": "2026-04-04T06:22:31.000Z",
-      "summary": "How to write better tests with coding agents"
     }
   ]
 }
