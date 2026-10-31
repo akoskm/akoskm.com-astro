@@ -3,7 +3,7 @@ title: "gh Says My Token Is Invalid Inside My AI Agent. One security Command Fix
 publishedAt: "2026-10-31"
 description: "gh returned 401 only when my local-model agent ran it. My login was fine. One security unlock-keychain command inside the agent fixed it, no password asked."
 coverImage: "../../assets/covers/gh-token-invalid-ai-agent-macos-keychain.png"
-coverAlt: "GitHub and Apple logos beside a locked keyhole. The title reads gh Says My Token Is Invalid, one security command."
+coverAlt: "GitHub, Apple, Hermes, and Qwen logos beside a locked keyhole. The title reads gh Says My Token Is Invalid, one security command."
 tags:
   - name: "AI"
     slug: "ai"
